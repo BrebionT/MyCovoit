@@ -1,0 +1,84 @@
+
+  <ion-header [translucent]="true">
+    <ion-toolbar color="dark">
+      <ion-title>
+        Historique
+      </ion-title>
+    </ion-toolbar>
+        <ion-searchbar></ion-searchbar>
+  </ion-header>
+
+  <ion-content [fullscreen]="false">
+    <ion-list>
+      <ion-list-header>
+        Trajets
+      </ion-list-header>
+
+      <style>
+        h2,h3,p {
+          display: inline;
+        }
+        .prix {
+          float: right;
+        }
+        .date {
+          float: right;
+        }
+        .emplacement {
+          float: right;
+        }
+      </style>
+      
+      <ion-item *ngFor="let trajet of trajets | async">
+        <ion-label>
+          <h2>13/04/2020</h2><h2 class="prix">0,00€</h2><br/>
+          <label for="Départ">🏃🏻‍♂️<h3 id="Départ">{{ Trajets.villeDepart }}</h3></label> <h3 class="date">15/04/2020</h3> <br/>
+          <label for="Fin">🏁<h3 id=" Fin">{{ Trajets.villeArrive }}</h3></label> <p class="emplacement">Conducteur</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>30/03/2020</h2><h2 class="prix">5,00€</h2><br/>
+          <label for="Départ">🏃🏻‍♂️<h3 id="Départ">Granville</h3></label> <h3 class="date">01/04/2020</h3> <br/>
+          <label for="Fin">🏁<h3 id=" Fin">Saint-Lô</h3></label> <p class="emplacement">Passager</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>26/02/2020</h2><h2 class="prix">0,00€</h2><br/>
+          <label for="Départ">🏃🏻‍♂️<h3 id="Départ">Caen</h3></label> <h3 class="date">27/02/2020</h3> <br/>
+          <label for="Fin">🏁<h3 id=" Fin">Granville</h3></label> <p class="emplacement">Conducteur</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>17/02/2020</h2><h2 class="prix">0,00€</h2><br/>
+          <label for="Départ">🏃🏻‍♂️<h3 id="Départ">Paris</h3></label> <h3 class="date">19/02/2020</h3> <br/>
+          <label for="Fin">🏁<h3 id=" Fin">Saint-Lô</h3></label> <p class="emplacement">Conducteur</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>24/01/2020</h2><h2 class="prix">17,00€</h2><br/>
+          <label for="Départ">🏃🏻‍♂️<h3 id="Départ">Caen</h3></label> <h3 class="date">25/01/2020</h3> <br/>
+          <label for="Fin">🏁<h3 id=" Fin">Paris</h3></label> <p class="emplacement">Passager</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>12/01/2020</h2><h2 class="prix">0,00€</h2><br/>
+          <label for="Départ">🏃🏻‍♂️<h3 id=" Départ">Saint-Lô</h3></label> <h3 class="date">13/01/2020</h3> <br/>
+          <label for="Fin">🏁<h3 id=" Fin">Ifs</h3></label>  <p class="emplacement">Conducteur</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-item *ngFor="let user of user | async">
+      <ion-label>{{ user.pseudo }}</ion-label>
+    </ion-item>
+  </ion-content>
+

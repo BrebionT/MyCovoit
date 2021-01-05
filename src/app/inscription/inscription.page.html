@@ -1,0 +1,117 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+    <ion-title>
+    MyCovoit
+    </ion-title>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Accueil</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-header>
+<ion-card class="bg-white" no margin>
+<ion-card-content>
+<h1 margin-bottom>
+  <ion-text color="primary"><strong>Inscription</strong></ion-text>
+</h1>
+<p margin-bottom>
+
+</p>
+</ion-card-content>
+
+<ion-list margin-content>
+
+
+<ion-item>
+  <div>
+    <ion-label color="dark" position="floatting">Nom</ion-label>
+    <ion-input type="text" placeholder="DUPONT" name="nom"></ion-input>
+  </div>
+</ion-item><br>
+
+<ion-item>
+  <div>
+    <ion-label color="dark" position="floatting">Prénom</ion-label>
+    <ion-input type="text" placeholder="Jean" name="prenom"></ion-input>
+  </div>
+</ion-item><br>
+
+<ion-item>
+  <div>
+    <ion-label color="dark" position="floatting">Date de naissance</ion-label>
+    <ion-input type="date" name="dateNaiss"></ion-input>
+  </div>
+</ion-item><br>
+
+<ion-item>
+  <div>
+    <ion-label color="dark" position="floatting">Adresse</ion-label>
+    <ion-input type="text" placeholder="21 rue de la paix" name="adresse"></ion-input>
+  </div>
+</ion-item><br>
+
+<ion-item>
+  <div>
+    <ion-label color="dark" position="floatting">Ville</ion-label>
+    <ion-input type="text" placeholder="Paris" name="ville"></ion-input>
+  </div>
+</ion-item><br>
+
+<ion-item>
+  <div>
+    <ion-label color="dark" position="floatting">Code postal</ion-label>
+    <ion-input type="text" placeholder="75000" name="codePost"></ion-input>
+  </div>
+</ion-item><br>
+
+<ion-item>
+  <div>
+  <ion-label color="dark" position="floatting">Genre</ion-label>
+  <ion-select name="genre">
+    <ion-select-option value="femme">Femme</ion-select-option>
+    <ion-select-option value="homme">Homme</ion-select-option>
+    <ion-select-option value="autres">Autres</ion-select-option>
+  </ion-select>
+  </div>
+</ion-item><br>
+
+<ion-item>
+  <div>
+    <ion-label color="dark" position="floatting">Téléphone</ion-label>
+    <ion-input type="text" placeholder="0123456789" name="tel"></ion-input>
+  </div>
+</ion-item><br>
+
+<ion-item>
+  <div>
+    <ion-label color="dark" position="floatting">E-mail</ion-label>
+    <ion-input type="text" placeholder="dupont.jean@mail.fr" name="mail"></ion-input>
+  </div>
+</ion-item><br>
+
+<ion-item>
+  <div>
+  <ion-label color="dark" position="floatting">Classe</ion-label>
+  <ion-select name="classe">
+    <ion-select-option selected="selected" value="sio">BTS SIO</ion-select-option>
+    <ion-select-option value="gpme">BTS GPME</ion-select-option>
+    <ion-select-option value="dcg">BTS DCG</ion-select-option>
+  </ion-select>
+  </div>
+</ion-item><br>
+
+<ion-item>
+  <div>
+    <ion-button (click)="add()">S'inscrire</ion-button>
+  </div>
+</ion-item><br>
+</ion-list>
+</ion-card>
+  </ion-header>

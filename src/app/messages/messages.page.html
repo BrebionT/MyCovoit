@@ -1,0 +1,48 @@
+<ion-header>
+  <!-- <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-button>
+        Retour
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="create"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar> -->
+  
+  <ion-toolbar>
+      <ion-title size="large">Messages</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-button (click)="add()">Ajouter</ion-button> -->
+  <ion-list >
+    <ion-item (click)="convers()">
+      <ion-avatar slot="start" >
+        <img src="../../assets/profil.png">
+      </ion-avatar>
+      <ion-label>
+        <div class="flex_box">
+          <h3>Lisa Liard</h3>
+          <ion-note slot="end">12:00</ion-note>
+        </div>
+        <p><ion-icon class="text-icon" color="primary" name="checkmark"></ion-icon> Salut, voici mon premier message de test et je fais un long message pour voir si cela dépasse.</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+
+  <!-- <ion-button (click)="add()">Ajouter</ion-button> -->
+  
+
+</ion-content>

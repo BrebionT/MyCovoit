@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+</ion-header>
+
+<ion-content>
+
+      <h1 class="MyCovoit"><strong><center>MYCOVOIT</center></strong></h1>
+
+<div class ="container"> 
+      <ion-item class="champ">   
+            <ion-label position="floating" color="light">Mail</ion-label>
+            <ion-input type="email" color="light" [(ngModel)]="dataUser.email"></ion-input>
+      </ion-item>
+      <ion-item class="champ">
+            <ion-label position="floating" color="light">Mot de passe</ion-label>
+            <ion-input type="password" color="light" [(ngModel)]="dataUser.password"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button color="light" slot="end" fill="clear">Mot de passe oublié ?</ion-button>
+      </ion-item>
+            <center> <ion-button tab='tab1' shape="round" color="primary" (click)="login()">Connexion</ion-button></center>
+            <center> <ion-button color="light"  shape="round" style="margin-top:5%" (click)="Inscript()">Inscription</ion-button></center>
+            
+  </div>
+
+ 
+</ion-content>
