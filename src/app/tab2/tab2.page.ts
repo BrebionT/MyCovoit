@@ -66,16 +66,15 @@ connected: boolean;
        password: ''
      };
   }*/
+
   
-
-
 
   
   login() {
     this.afAuth.signInWithEmailAndPassword(this.dataUser.email, this.dataUser.password)
     .then(auth => {
       console.log('utilisateur connecté');
-      this.router.navigateByUrl('/tabs/tab1');
+      this.router.navigateByUrl('/tabs/tableaubord');
     })
     .catch(err => {
       console.log('Erreur: ' + err);
@@ -94,6 +93,7 @@ connected: boolean;
     this.router.navigateByUrl('/tabs/inscription');
   }
  
+  
 
 }
 

@@ -1,9 +1,47 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>profil</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <div class="header">
+    <div *ngFor='let item of utilisateurs | async'>
+      <div class="top">
+        <p style="color:#ffffff"  *ngIf='item.id == userid'>{{item.prenom}} </p>
+      </div >
+      <div class="space-between" *ngIf='item.id == userid'>
+        <div class="followings">
+          <ion-badge color="primary" mode="ios">4.5</ion-badge>
+          <p>Note</p>
+        </div>
+        <div class="followings" >
+          <ion-badge *ngIf='item.id == userid && item.sexe == "homme"' color="primary" mode="ios" >M</ion-badge>
+          <ion-badge *ngIf='item.id == userid && item.sexe == "femme"' color="primary" mode="ios" >F</ion-badge>
+          <p>Genre</p>
+        </div>
+      </div>
+      </div>
+  </div>
 
+<div class="flex">
+  <div class="box-border">
+    <div class="border-white">
+      <div class="img-box">
+        <img src="../../assets/bernardtapie.jpg">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ion-card>
+<div class="corp" *ngFor='let item of utilisateurs | async'>
+    <p *ngIf='item.id == userid'>Nom : {{item.nom}}</p>
+    <p *ngIf='item.id == userid'>Date de naissance : {{item.date_naiss}}</p>
+    <p *ngIf='item.id == userid'>Ville : {{item.ville}}</p>
+    <p *ngIf='item.id == userid'>Code Postal : {{item.cp}}</p>
+    <p *ngIf='item.id == userid'>Mail : {{item.mail}}</p>
+    <p *ngIf='item.id == userid'>Téléphone : {{item.tel}}</p>
+    <p *ngIf='item.id == userid'>Classe : {{item.classe}}</p>
+    <p *ngIf='item.id == userid'>Bio : {{item.bio}}</p>
+</div>
+</ion-card>
 </ion-content>
+<!--<ion-toolbar>
+  <ion-title>profil</ion-title>
+</ion-toolbar>-->
