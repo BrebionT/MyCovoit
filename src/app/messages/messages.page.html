@@ -26,18 +26,20 @@
 
 <ion-content>
   <!-- <ion-button (click)="add()">Ajouter</ion-button> -->
-  <ion-list >
-    <ion-item (click)="convers()">
-      <ion-avatar slot="start" >
-        <img src="../../assets/profil.png">
-      </ion-avatar>
-      <ion-label>
-        <div class="flex_box">
-          <h3>Lisa Liard</h3>
-          <ion-note slot="end">12:00</ion-note>
-        </div>
-        <p><ion-icon class="text-icon" color="primary" name="checkmark"></ion-icon> Salut, voici mon premier message de test et je fais un long message pour voir si cela dépasse.</p>
-      </ion-label>
+  <ion-list>
+    <ion-item detail [routerLink]="['/conversation']" id={{message.dest}} *ngFor="let message of messages | async"  fragment={{message.userDestId}}>
+        <ion-avatar slot="start" >
+          <img src="../../assets/profil.png">
+        </ion-avatar>
+        <ion-label>
+          <div class="flex_box" *ngFor="let user of users | async">
+              <ion-label *ngIf="user.id!=userId && (user.id==message.destinataire || user.id==message.utilisateur)">{{ user.nom}} {{ user.prenom}}</ion-label>
+              <!--<ion-label *ngIf="message.user==user.id">{{ message.dest}}</ion-label>-->
+              <!--<ion-label *ngIf="message.dest==user.id">{{ message.dest}} et {{user.nom}}</ion-label>-->
+              <!--<ion-datetime slot="end" value={{message.date}} disabled display-format="H:mm"></ion-datetime>-->
+          </div>
+          <p><ion-icon class="text-icon" color="primary" name="checkmark"></ion-icon> {{ message.message }}</p>
+        </ion-label>
     </ion-item>
   </ion-list>
 

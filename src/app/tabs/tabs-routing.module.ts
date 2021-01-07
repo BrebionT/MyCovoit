@@ -39,6 +39,10 @@ const routes: Routes = [
         path: 'inscription',
         loadChildren: () => import('../inscription/inscription.module').then(m => m.InscriptionPageModule)
       },
+      {
+        path: 'infos-perso',
+        loadChildren: () => import('../infos-perso/infos-perso.module').then( m => m.InfosPersoPageModule)
+      },
 
       {
 

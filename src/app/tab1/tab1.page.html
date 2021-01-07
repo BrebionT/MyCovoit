@@ -1,5 +1,5 @@
 
-  <ion-header [translucent]="true">
+  <ion-header [translucent]="true" *ngIf="returnConnected()">
     <ion-toolbar color="dark">
       <ion-title>
         Historique
@@ -8,7 +8,7 @@
         <ion-searchbar></ion-searchbar>
   </ion-header>
 
-  <ion-content [fullscreen]="false">
+  <ion-content [fullscreen]="false" *ngIf="returnConnected()">
     <ion-list>
       <ion-list-header>
         Trajets
