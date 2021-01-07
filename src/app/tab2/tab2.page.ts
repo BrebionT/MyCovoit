@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -12,28 +12,26 @@ import { AngularFireAuth } from '@angular/fire/auth';
 
 import { Router } from '@angular/router';
 
+import { Platform, LoadingController } from '@ionic/angular';
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
+
 })
 
 
 
-export class Tab2Page {
+export class Tab2Page implements OnInit{
   
-  /*loginData = {
-  email: '',
-  password: ''
-  
-};*/
 
 dataUser = {
   email: '',
   password: ''
 };
 
-connected: boolean;
+public connected: boolean = false;
 
 
   constructor(
@@ -41,40 +39,49 @@ connected: boolean;
     public toastController: ToastController,
     public afAuth: AngularFireAuth,
     public afDB: AngularFireDatabase,
-    public firestore: AngularFirestore
+    public firestore: AngularFirestore,
+    public platform: Platform,
+    public loadingController: LoadingController
   ) {
-    this.afAuth.authState.subscribe(auth => {
-    if (!auth) {
-      console.log('non connecté');
-      this.connected = false;
-    } else {
-      console.log('connecté: ' + auth.uid);
-      this.connected = true;
+    
     }
-  });}
 
- /* add() {
-    this.firestore.collection('User').add({
-      pseudo: 'jeje'
+  ngOnInit(){
+    this.afAuth.authState.subscribe(auth => {
+      if (!auth) {
+        //console.log('non connecté');
+        this.connected = false;
+      } else {
+        //console.log('connecté: ' + auth.uid);
+        this.connected = true;
+      }
     });
-  }*/
+  }
 
-  /*login() {
-    this.afAuth.signInWithEmailAndPassword(this.dataUser.email, this.dataUser.password);
-     this.dataUser = {
-       email: '',
-       password: ''
-     };
-  }*/
+
 
   
 
   
   login() {
+    var route = this.router;
     this.afAuth.signInWithEmailAndPassword(this.dataUser.email, this.dataUser.password)
     .then(auth => {
-      console.log('utilisateur connecté');
-      this.router.navigateByUrl('/tabs/tableaubord');
+      //console.log('utilisateur connecté');
+      this.connected=true;
+
+      this.platform.ready().then(()=>{        //Creation d'une plateforme d'attente pour la connexion
+        this.loadingController.create({
+          message:"🚗 En route..."
+        }).then((loadingElement)=>{
+          loadingElement.present();
+          var ref = this;
+          setTimeout(function(){
+            ref.loadingController.dismiss();
+            route.navigateByUrl('/tabs/accueil');
+          },1000)
+        })  
+      })
     })
     .catch(err => {
       console.log('Erreur: ' + err);
@@ -92,8 +99,5 @@ connected: boolean;
   Inscript(){
     this.router.navigateByUrl('/tabs/inscription');
   }
- 
-  
-
 }
 

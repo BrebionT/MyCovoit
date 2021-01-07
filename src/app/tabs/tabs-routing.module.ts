@@ -40,9 +40,16 @@ const routes: Routes = [
         loadChildren: () => import('../inscription/inscription.module').then(m => m.InscriptionPageModule)
       },
       {
+
         path: 'tableaubord',
         loadChildren: () => import('../tableaubord/tableaubord.module').then(m => m.TableaubordPageModule)
       },
+      {
+        path: 'infos-perso',
+        loadChildren: () => import('../infos-perso/infos-perso.module').then( m => m.InfosPersoPageModule)
+      },
+
+
       {
 
         path: '',
