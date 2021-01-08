@@ -1,8 +1,9 @@
+
 <ion-content>
   <div class="header">
     <div *ngFor='let item of utilisateurs | async'>
       <div class="top">
-        <p style="color:#ffffff"  *ngIf='item.id == userid'>{{item.prenom}} </p>
+        <p style="color:#ffffff; margin:0; padding:10px 0px;"  *ngIf='item.id == userid'>{{item.prenom}}</p>
       </div >
       <div class="space-between" *ngIf='item.id == userid'>
         <div class="followings">
@@ -32,7 +33,7 @@
 <ion-card>
 <div class="corp" *ngFor='let item of utilisateurs | async'>
     <p *ngIf='item.id == userid'>Nom : {{item.nom}}</p>
-    <p *ngIf='item.id == userid'>Date de naissance : {{item.date_naiss}}</p>
+    <p *ngIf='item.id == userid'>Date de naissance : {{item.date_naiss | date: 'dd/MM/yyyy'}}</p>
     <p *ngIf='item.id == userid'>Ville : {{item.ville}}</p>
     <p *ngIf='item.id == userid'>Code Postal : {{item.cp}}</p>
     <p *ngIf='item.id == userid'>Mail : {{item.mail}}</p>

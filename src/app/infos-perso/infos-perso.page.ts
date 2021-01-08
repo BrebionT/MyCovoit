@@ -102,7 +102,7 @@ export class InfosPersoPage{
                       bio: this.user.bio,
                       mail: this.user.mail
                     });
-                    this.router.navigateByUrl('/tabs/accueil');
+                    this.router.navigateByUrl('/tabs/tableaubord');
                   }else{
                     this.errorValue("Hey t'as pas un 06 ? ")
                   }
