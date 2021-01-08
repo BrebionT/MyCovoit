@@ -15,6 +15,8 @@ export class MessagesPage implements OnInit {
   messages: Observable<any[]>;
   users: Observable<any[]>;
 
+  public connected = false;
+
   public userId = '4hpdIrlr6NPobPmgPy1Bayf7Qkw1';
   public length = 0;
 

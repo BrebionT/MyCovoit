@@ -6,9 +6,9 @@
   <!--Contenu de la page-->
   <section>
     <div class="entete">
-      <h1 class="presentation-util">
+      <h1 class="presentation-util" style="color:#ffffff; margin:0;">
         <span class="insert-photo">
-          <a href="#">Photo</a>
+          <a (click)="goProfil()">Photo</a>
         </span>
         <div *ngFor='let item of utilisateurs | async'>
           <p style="color:#ffffff"  *ngIf='item.id == userid'>Bonjour {{item.prenom}} !</p>
@@ -33,9 +33,24 @@
     <!-- Trajets disponibles -->
     <div class="accueil_trajet">
       <h3 class="titre1">Liste des trajets prévus</h3>
-      <ion-item >
-        <ion-label *ngFor='let item of trajets | async'>Départ : {{item.tra_lieuDepart}} {{item.tra_heureDepart}} | Arrivée : {{item.tra_lieuArrivee}} {{item.tra_heureArrivee}}</ion-label>
+      <ion-list>
+      <ion-item *ngFor='let item of trajets | async' style="width:100%; display:block; margin-bottom:20px;">
+        <ion-list style="width:100%" class="force-black-font">
+          <ion-item><div class="dateDepart">
+            <ion-datetime style="display:inline-block" class="force-black-font" display-format="DD MMM YYYY" monthShortNames='Jan, Fév, Mar, Avr, Mai, Jun, Jul, Aoû, Sep, Oct, Nov, Déc' value={{item.tra_dateDepart}} disabled></ion-datetime>
+            </div></ion-item>
+        <ion-item>
+          <p> 🚘 Départ : {{item.tra_lieuDepart}} à</p>
+          <p style="margin-top: 19px;"><ion-datetime class="force-black-font" display-format="H:mm" value={{item.tra_heureDepart}} disabled></ion-datetime></p>
+        </ion-item>
+        <ion-item>
+          <p> 🏁 Arrivée : {{item.tra_lieuArrivee}} à</p>
+          <p style="margin-top: 19px;"><ion-datetime class="force-black-font" display-format="H:mm" picker-format="H:mm" value={{item.tra_heureArrivee}} disabled></ion-datetime></p>
+        </ion-item>
+      </ion-list>
+    
       </ion-item>
+    </ion-list>
     </div>
   </section>
 </ion-content>

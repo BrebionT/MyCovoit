@@ -21,13 +21,38 @@
     height:70px
 }
 
+.dateDepart{
+    width:100%;
+    background-color: rgba(17,10,59,0.4);
+    padding:15px 0px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.input-wrapper, .item-inner, .item-native{
+    display:block;
+}
+
 .presentation-util{
     padding:2%;
-    background-color: #787CE4;
+    background-color: #110A3B;
 }
 
 .titre1 {
     font-size:20px;
     color:#2f32a0;
     padding-top:5%;
+}
+
+.datetime-text {
+    color: black !important;
+    opacity:1;
+  }
+
+.datetime-disabled{
+    color: black !important;
+    opacity:1;
+    margin:0;
+    padding :2px 5px;
+    width:auto;
 }

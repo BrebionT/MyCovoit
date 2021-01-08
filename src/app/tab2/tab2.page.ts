@@ -47,6 +47,7 @@ public connected: boolean = false;
     }
 
   ngOnInit(){
+    var route = this.router;
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
         //console.log('non connecté');
@@ -54,12 +55,46 @@ public connected: boolean = false;
       } else {
         //console.log('connecté: ' + auth.uid);
         this.connected = true;
+        route.navigateByUrl('/tabs/tableaubord');
+        /*
+        this.platform.ready().then(()=>{        //Creation d'une plateforme d'attente pour la connexion
+        this.loadingController.create({
+          message:"🚗 En route..."
+        }).then((loadingElement)=>{
+          loadingElement.present();
+          var ref = this;
+          setTimeout(function(){
+            ref.loadingController.dismiss();
+            route.navigateByUrl('/tabs/tableaubord');
+          },1000)
+        })  
+      })*/
       }
     });
   }
 
 
+  returnConnected(){
+    return this.connected;
+  }
+  
 
+  logout() {
+    this.afAuth.signOut();
+    this.connected=false;
+    this.afAuth.authState.subscribe(auth => {
+      if (!auth) {
+        this.connected = false;
+      } else {
+        this.connected = true;
+      }});
+
+    this.dataUser = {
+      email: '',
+      password: ''
+    };
+    //console.log(this.connected, this.dataUser)
+  }
   
 
   
@@ -78,7 +113,7 @@ public connected: boolean = false;
           var ref = this;
           setTimeout(function(){
             ref.loadingController.dismiss();
-            route.navigateByUrl('/tabs/accueil');
+            route.navigateByUrl('/tabs/tableaubord');
           },1000)
         })  
       })
@@ -87,6 +122,7 @@ public connected: boolean = false;
       console.log('Erreur: ' + err);
       this.errorMail();
     });
+
   }async errorMail() {
     const toast = await this.toastController.create({
       message: 'Email ou mot de passe incorrect',

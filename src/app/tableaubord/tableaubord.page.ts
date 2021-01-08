@@ -15,6 +15,7 @@ export class TableaubordPage {
   public userid;
 
   constructor(
+    private router: Router,
     public firestore: AngularFirestore,
     public afAuth: AngularFireAuth
     ) 
@@ -24,6 +25,10 @@ export class TableaubordPage {
     this.trajets = this.firestore.collection('trajets').valueChanges();
   }
 
+  goProfil(){
+    var route = this.router;
+    route.navigateByUrl('/tabs/profil');
+  }
   connecter(){
     this.afAuth.authState.subscribe(auth => {
       if (auth) {
@@ -43,4 +48,3 @@ export class TableaubordPage {
   }*/
   
 }
- 
