@@ -57,6 +57,29 @@ public connected: boolean = false;
       }
     });
   }
+  
+  
+    returnConnected(){
+    return this.connected;
+  }
+  
+
+  logout() {
+    this.afAuth.signOut();
+    this.connected=false;
+    this.afAuth.authState.subscribe(auth => {
+      if (!auth) {
+        this.connected = false;
+      } else {
+        this.connected = true;
+      }});
+
+    this.dataUser = {
+      email: '',
+      password: ''
+    };
+    //console.log(this.connected, this.dataUser)
+  }
 
 
 
@@ -78,7 +101,7 @@ public connected: boolean = false;
           var ref = this;
           setTimeout(function(){
             ref.loadingController.dismiss();
-            route.navigateByUrl('/tabs/accueil');
+            route.navigateByUrl('/tabs/tableaubord');
           },1000)
         })  
       })
