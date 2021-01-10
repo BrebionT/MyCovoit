@@ -13,6 +13,7 @@
         <div class="followings" >
           <ion-badge *ngIf='item.id == userid && item.sexe == "homme"' color="primary" mode="ios" >M</ion-badge>
           <ion-badge *ngIf='item.id == userid && item.sexe == "femme"' color="primary" mode="ios" >F</ion-badge>
+          <ion-badge *ngIf='item.id == userid && item.sexe == "autres"' color="primary" mode="ios" >A</ion-badge>
           <p>Genre</p>
         </div>
       </div>
@@ -32,14 +33,14 @@
 
 <ion-card>
 <div class="corp" *ngFor='let item of utilisateurs | async'>
-    <p *ngIf='item.id == userid'>Nom : {{item.nom}}</p>
-    <p *ngIf='item.id == userid'>Date de naissance : {{item.date_naiss | date: 'dd/MM/yyyy'}}</p>
-    <p *ngIf='item.id == userid'>Ville : {{item.ville}}</p>
-    <p *ngIf='item.id == userid'>Code Postal : {{item.cp}}</p>
-    <p *ngIf='item.id == userid'>Mail : {{item.mail}}</p>
-    <p *ngIf='item.id == userid'>Téléphone : {{item.tel}}</p>
-    <p *ngIf='item.id == userid'>Classe : {{item.classe}}</p>
-    <p *ngIf='item.id == userid'>Bio : {{item.bio}}</p>
+    <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Nom :</span> {{item.nom}}</p>
+    <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Date de naissance :</span> {{item.date_naiss | date: 'dd/MM/yyyy'}}</p>
+    <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Ville :</span> {{item.ville}}</p>
+    <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Code Postal :</span> {{item.cp}}</p>
+    <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Mail :</span> {{item.mail}}</p>
+    <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Téléphone :</span> {{item.tel}}</p>
+    <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Classe :</span> {{item.classe}}</p>
+    <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Bio :</span> {{item.bio}}</p>
 </div>
 </ion-card>
 </ion-content>

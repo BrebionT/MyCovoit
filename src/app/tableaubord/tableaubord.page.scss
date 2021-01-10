@@ -4,10 +4,10 @@
     border-radius:50%;
     float:left;
     font-weight:bold;
-    margin:0 10px 10px 0;
+    margin:8px;
     text-align:center;
-    width:70px;
-    height:70px;
+    width:60px;
+    height:60px;
    }
 
 .insert-photo a {
@@ -17,8 +17,8 @@
     line-height:13px;
     vertical-align:middle;
     text-align:center;
-    width:70px;
-    height:70px
+    width:60px;
+    height:60px
 }
 
 .dateDepart{
@@ -39,7 +39,7 @@
 }
 
 .titre1 {
-    font-size:20px;
+    font-size:19px;
     color:#2f32a0;
     padding-top:5%;
 }
@@ -55,4 +55,8 @@
     margin:0;
     padding :2px 5px;
     width:auto;
+}
+
+.accueil_trajet{
+    margin:0px 15px;
 }

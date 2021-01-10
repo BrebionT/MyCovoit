@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 
 
 
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -22,7 +23,6 @@ import { Router } from '@angular/router';
 })
 export class Tab1Page implements OnInit{
 
-  trajets: Observable<any[]>;
   conducteur: string;
   heureArrive: string;
   heureDepart: string;
@@ -30,9 +30,18 @@ export class Tab1Page implements OnInit{
   villeArrive: string;
   villedepart: string;
 
-  user: Observable<any[]>;
+  utilisateurs: Observable<any[]>;
+  trajets: Observable<any[]>;
+  uti_tra: Observable<any[]>;
+
+  utilisateur: Observable<any[]>;
+  public trajet= Array();
+  public uti_tras=Array();
 
   public connected: boolean = false;
+
+  public util;
+  public userid;
   
   
 
@@ -48,37 +57,72 @@ export class Tab1Page implements OnInit{
     public afDB: AngularFireDatabase,
     public firestore: AngularFirestore
   ) {
-  
-}
 
-ngOnInit(){
+    this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
+    this.trajets = this.firestore.collection('trajets').valueChanges();
+    this.uti_tra = this.firestore.collection('utilisateur_trajet').valueChanges();
+
+    this.getAuth();
+    this.getUtilisateur();
+    this.getUtiTrajetByUti();
+    
+
+  }
+
+getAuth(){
   this.afAuth.authState.subscribe(auth => {
     if (!auth) {
       this.connected=false;
       this.router.navigateByUrl('/tabs/tab2');
     } else {
       this.connected=true;
-
+      this.userid = auth.uid;
     }
   });
 }
+
+
+getUtilisateur(){
+  var that = this;
+  this.utilisateurs.subscribe(uti =>{
+    uti.forEach(value => {
+      if(value['id']==that.userid){
+        that.utilisateur = value;
+      }
+    })
+  });
+  
+}
+
+getUtiTrajetByUti(){
+  var that = this;
+  this.uti_tra.subscribe(uti =>{
+    uti.forEach(value2=> {
+      if(value2['uti_tra_idUti']==that.userid){
+        that.uti_tras.push(value2);
+        this.getTrajet(value2['uti_tra_idTra']);
+      }
+    })    
+  });
+}
+
+getTrajet(idUtiTra){
+  var that = this;
+  this.trajets.subscribe(tra =>{
+    tra.forEach(value3 => {
+      if(value3['id']==idUtiTra){
+        that.trajet.push(value3);
+      }
+    })    
+  });
+}
+
+ngOnInit(){
+
+}
+      
 
 returnConnected(){
   return this.connected;
 }
-
-ionViewWillEnter(){ //Fonction qui se lance dès qu'on arrive sur la page !
-  this.afAuth.authState.subscribe(auth => {
-    if (!auth) {
-      this.connected=false;
-      this.router.navigateByUrl('/tabs/tab2');
-    } else {
-      this.connected=true;
-      this.user = this.firestore.collection('user').valueChanges();
-      this.trajets = this.firestore.collection('Trajets').valueChanges();
-
-    }
-  });
-}
-  
 }

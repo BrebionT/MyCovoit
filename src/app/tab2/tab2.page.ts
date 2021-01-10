@@ -31,6 +31,9 @@ dataUser = {
   password: ''
 };
 
+passwordType: string = 'password';
+ passwordIcon: string = 'eye-off';
+
 public connected: boolean = false;
 
 
@@ -77,6 +80,11 @@ public connected: boolean = false;
   returnConnected(){
     return this.connected;
   }
+
+  hideShowPassword() {
+    this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+    this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
+}
   
 
   logout() {

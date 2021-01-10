@@ -11,7 +11,7 @@
           <a (click)="goProfil()">Photo</a>
         </span>
         <div *ngFor='let item of utilisateurs | async'>
-          <p style="color:#ffffff"  *ngIf='item.id == userid'>Bonjour {{item.prenom}} !</p>
+          <p style="color:#ffffff; font-size:22px"  *ngIf='item.id == userid'>Bonjour {{item.prenom}} !</p>
         </div >
         
        
@@ -25,9 +25,9 @@
     
     <!-- Proposer un trajet ? -->
    <div class="accueil_trajet">
-      <h3 class="titre1">Vous n'avez aucun trajet de prévu ...</h3>
-      <p>Voulez-vous en proposer un ? Cliquez <a href="../tabs/tab3">ici</a> !</p> 
-      <p>Voulez préférez rechercher un trajet ? Alors cliquez <a href="../tabs/tab1">là</a> !</p>
+      <center><h3 class="titre1">Vous n'avez aucun trajet de prévu ...</h3></center>
+      <center><p>Voulez-vous en proposer un ? Cliquez <a href="../tabs/tab3">ici</a> !</p> </center>
+      <center><p>Voulez préférez rechercher un trajet ? Alors cliquez <a href="../tabs/tab1">là</a> !</p></center>
     </div>
 
     <!-- Trajets disponibles -->
