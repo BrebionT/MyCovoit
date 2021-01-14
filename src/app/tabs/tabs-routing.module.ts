@@ -53,7 +53,18 @@ const routes: Routes = [
         loadChildren: () => import('../motdepasseoublie/motdepasseoublie.module').then( m => m.MotdepasseoubliePageModule)
       },
 
-
+      {
+        path: 'modifProfil',
+        loadChildren: () => import('../modifProfil/modifProfil.module').then( m => m.ModifProfilPageModule)
+      },
+      {
+        path: 'deconnexion',
+        loadChildren: () => import('../deconnexion/deconnexion.module').then( m => m.DeconnexionPageModule)
+      },
+      {
+        path: 'conditionGen',
+        loadChildren: () => import('../conditionGen/conditionGen.module').then( m => m.ConditionGenPageModule)
+      },
       {
 
         path: '',

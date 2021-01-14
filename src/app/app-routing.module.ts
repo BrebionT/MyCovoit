@@ -27,7 +27,6 @@ const routes: Routes = [
     loadChildren: () => import('./motdepasseoublie/motdepasseoublie.module').then( m => m.MotdepasseoubliePageModule)
   }
 
-
 ];
 @NgModule({
   imports: [

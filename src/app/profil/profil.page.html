@@ -1,9 +1,11 @@
-
 <ion-content>
   <div class="header">
+    <ion-buttons>
+      <ion-menu-button id="bouton" side="end"></ion-menu-button>
+      </ion-buttons>
     <div *ngFor='let item of utilisateurs | async'>
       <div class="top">
-        <p style="color:#ffffff; margin:0; padding:10px 0px;"  *ngIf='item.id == userid'>{{item.prenom}}</p>
+        <p style="color:#ffffff; margin:0; padding:10px 0px;"  *ngIf='item.id == userid'>{{item.prenom}}&nbsp;{{item.nom}}</p>
       </div >
       <div class="space-between" *ngIf='item.id == userid'>
         <div class="followings">
@@ -47,3 +49,4 @@
 <!--<ion-toolbar>
   <ion-title>profil</ion-title>
 </ion-toolbar>-->
+
