@@ -15,15 +15,15 @@ import { Router } from '@angular/router';
 import { Platform, LoadingController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  selector: 'app-deconnexion',
+  templateUrl: 'deconnexion.page.html',
+  styleUrls: ['deconnexion.page.scss']
 
 })
 
 
 
-export class Tab2Page implements OnInit{
+export class DeconnexionPage implements OnInit{
   
 
 dataUser = {
@@ -55,7 +55,7 @@ public connected: boolean = false;
       } else {
         //console.log('connecté: ' + auth.uid);
         this.connected = true;
-        route.navigateByUrl('/tabs/tableaubord');
+        route.navigateByUrl('/tabs/deconnexion');
         /*
         this.platform.ready().then(()=>{        //Creation d'une plateforme d'attente pour la connexion
         this.loadingController.create({
@@ -136,4 +136,3 @@ public connected: boolean = false;
     this.router.navigateByUrl('/tabs/inscription');
   }
 }
-

@@ -10,8 +10,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
   styleUrls: ['./profil.page.scss'],
 })
 export class ProfilPage implements OnInit {
+  dataUser = {
+    email: '',
+    password: ''
+  };
   utilisateurs: Observable<any[]>;
   public userid;
+  public connected: boolean = false;
 
   constructor(public firestore: AngularFirestore,
     public afAuth: AngularFireAuth
@@ -31,5 +36,27 @@ export class ProfilPage implements OnInit {
 
   ngOnInit() {
   }
+ 
+  returnConnected(){
+    return this.connected;
+  }
+  
+  logout() {
+    this.afAuth.signOut();
+    this.connected=false;
+    this.afAuth.authState.subscribe(auth => {
+      if (!auth) {
+        this.connected = false;
+      } else {
+        this.connected = true;
+      }});
+
+    this.dataUser = {
+      email: '',
+      password: ''
+    };
+    //console.log(this.connected, this.dataUser)
+  }
+  
 
 }

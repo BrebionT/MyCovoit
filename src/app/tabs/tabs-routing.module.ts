@@ -48,8 +48,18 @@ const routes: Routes = [
         path: 'infos-perso',
         loadChildren: () => import('../infos-perso/infos-perso.module').then( m => m.InfosPersoPageModule)
       },
-
-
+      {
+        path: 'modifProfil',
+        loadChildren: () => import('../modifProfil/modifProfil.module').then( m => m.ModifProfilPageModule)
+      },
+      {
+        path: 'deconnexion',
+        loadChildren: () => import('../deconnexion/deconnexion.module').then( m => m.DeconnexionPageModule)
+      },
+      {
+        path: 'conditionGen',
+        loadChildren: () => import('../conditionGen/conditionGen.module').then( m => m.ConditionGenPageModule)
+      },
       {
 
         path: '',
