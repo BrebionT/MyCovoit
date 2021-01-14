@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/messages" text="Conv."></ion-back-button>
+    <ion-buttons slot="start" style="width: 44px;">
+      <ion-button [routerLink]="['/messages']" text="" style="width: 44px;"></ion-button>
     </ion-buttons>
-    <ion-title>Lisa Liard<br><div class="status">En ligne</div></ion-title>
+    <ion-title style="padding-left:0; text-align:center;">{{destView.prenom}} {{destView.nom}}</ion-title>
     <ion-avatar slot="end">
       <img src="../../assets/profil.png">
     </ion-avatar>
@@ -13,22 +13,17 @@
 <ion-content>
   <div class="bg"></div>
 
-  <!-- <ion-item lines="none">
-    <ion-badge color="warning" slot="end">Hey Lisouille comment ça va ?! <ion-note color="medium">21:16</ion-note></ion-badge>
-  </ion-item>
-  
-  <ion-item lines="none">
-    <ion-badge color="light" slot="start">Plutôt bien merci <ion-note color="medium">21:17</ion-note></ion-badge>
-  </ion-item> -->
-
   <div class="stream">
-    <ion-item lines="none" *ngFor="let message of messages">
-      <ion-badge text-wrap slot="start" color="light" *ngIf="message.userId != userId">{{ message.text }}</ion-badge>
-      <ion-badge text-wrap slot="end" color="primary" *ngIf="message.userId == userId">{{ message.text }}</ion-badge>
+    <ion-item lines="none" *ngFor="let message of messagesView">
+      <ion-badge style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.userId != userId && message.text.length>15"><p color="primary">{{ message.text }}</p><ion-note color="primary">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge>
+      <ion-badge style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.userId != userId && message.text.length<15"><p color="primary">{{ message.text }}<ion-note color="primary"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
+      <ion-badge style="text-align: left; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.userId == userId && message.text.length>15"><p>{{ message.text }}</p><ion-note color="light">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge>
+      <ion-badge style="text-align: left; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.userId == userId && message.text.length<15"><p>{{ message.text }}<ion-note color="light"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
     </ion-item>
   </div>
 
  </ion-content>
+ 
 
  <ion-footer>
   <ion-toolbar>

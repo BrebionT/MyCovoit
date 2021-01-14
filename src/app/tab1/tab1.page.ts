@@ -40,6 +40,8 @@ export class Tab1Page implements OnInit{
 
   public connected: boolean = false;
 
+  subscri : any;
+
   public util;
   public userid;
   
@@ -79,6 +81,8 @@ getAuth(){
       this.userid = auth.uid;
     }
   });
+
+  
 }
 
 

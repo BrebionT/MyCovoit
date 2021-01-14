@@ -68,8 +68,8 @@ export class InfosPersoPage{
       } else {
         this.user.mail = auth.email;
         this.user.id = auth.uid;
-        console.log("email :"+auth.email);
-        console.log("uid :"+auth.uid);
+        //console.log("email :"+auth.email);
+        //console.log("uid :"+auth.uid);
 
       }
     });

@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+</ion-header>
+
+<ion-content>
+
+      <h1 class="MyCovoit"><strong><center>MYCOVOIT</center></strong></h1>
+
+<div class ="container"> 
+      <ion-item class="champ" lines="none">   
+            <ion-label floating color="light">Mail :</ion-label>
+            <ion-input (keyup.enter)="resetEmail()" placeholder="Adresse mail" no-lines type="email" color="light" [(ngModel)]="email"></ion-input>
+      </ion-item>
+      <ion-item class="ligne"></ion-item>
+      
+      
+      <center> <ion-button color="light"  shape="round" style="margin-top:5%" (click)="resetEmail()">Réinitialiser</ion-button></center>
+            
+  </div>
+
+ 
+</ion-content>

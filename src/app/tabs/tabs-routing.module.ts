@@ -48,6 +48,10 @@ const routes: Routes = [
         path: 'infos-perso',
         loadChildren: () => import('../infos-perso/infos-perso.module').then( m => m.InfosPersoPageModule)
       },
+      {
+        path: 'motdepasseoublie',
+        loadChildren: () => import('../motdepasseoublie/motdepasseoublie.module').then( m => m.MotdepasseoubliePageModule)
+      },
 
 
       {

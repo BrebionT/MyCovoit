@@ -1,6 +1,4 @@
-p{
-    color:white;
-}
+
 
 .status {
     color: grey;
@@ -20,7 +18,6 @@ ion-content{
     position: fixed;
 }
 
-
 ion-footer ion-button {
     font-weight: 600;
 }
@@ -38,7 +35,7 @@ ion-input {
 
 ion-item {
     --background: transparent;
-    color:white;
+    //color:white;
 }
 ion-badge {
     padding: 6px 9px;
@@ -46,10 +43,21 @@ ion-badge {
     font-weight: 400;
     font-size: 15px;
     box-shadow: 1px 1px 3px #00000029;
+    word-wrap: break-word;
+    
 }
+
+ion-badge p {
+    white-space: pre-wrap;
+    margin:0;
+    padding:0;
+}
+
+
 ion-item ion-note {
     font-size: 10px;
-    margin-left: 8px;
+    margin: 5px 0px 0px 0px;
+    float: right;
 }
 ion-item ion-note ion-icon{
     font-size: 20px;

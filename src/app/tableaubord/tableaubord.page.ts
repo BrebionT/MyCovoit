@@ -33,7 +33,7 @@ export class TableaubordPage {
     this.afAuth.authState.subscribe(auth => {
       if (auth) {
         this.userid = auth.uid;
-        console.log(this.userid);
+        //console.log(this.userid);
       }
     });
   }
