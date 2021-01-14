@@ -35,7 +35,6 @@ export class TableaubordPage implements OnInit{
     public afDB: AngularFireDatabase
     ) 
   {
-    this.connecter();
     this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
     this.trajets = this.firestore.collection('trajets').valueChanges();
     this.uti_tra = this.firestore.collection('utilisateur_trajet').valueChanges();
@@ -117,14 +116,6 @@ export class TableaubordPage implements OnInit{
   goProfil(){
     var route = this.router;
     route.navigateByUrl('/tabs/profil');
-  }
-  connecter(){
-    this.afAuth.authState.subscribe(auth => {
-      if (auth) {
-        this.userid = auth.uid;
-        console.log(this.userid);
-      }
-    });
   }
 
      
