@@ -1,0 +1,16 @@
+.datetime-text {
+    color: black !important;
+    opacity:1;
+  }
+
+.datetime-disabled{
+    color: black !important;
+    opacity:1;
+    margin:0;
+    padding :2px 5px;
+    width:auto;
+}
+
+.item-interactive-disabled.sc-ion-label-md-h:not(.item-multiple-inputs), .item-interactive-disabled:not(.item-multiple-inputs) .sc-ion-label-md-h{
+    opacity:1;
+}

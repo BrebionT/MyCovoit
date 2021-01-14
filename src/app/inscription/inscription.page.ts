@@ -25,8 +25,12 @@ export class InscriptionPage {
 
 dataUser = {
   email: '',
-  password: ''
+  password: '',
+  password2: ''
 };
+
+passwordType: string = 'password';
+passwordIcon: string = 'eye-off';
 
 connected: boolean;
 
@@ -60,24 +64,74 @@ connected: boolean;
     });
     toast.present();
   }
+
+  hideShowPassword() {
+    this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+    this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
+}
   
   signUp() {
-    if(this.dataUser.email!="" && this.dataUser.password!=""){
-      this.afAuth.createUserWithEmailAndPassword(this.dataUser.email, this.dataUser.password).then(auth =>{
+    if(this.dataUser.password == this.dataUser.password2){
+      if(this.dataUser.email!="" && this.dataUser.password!=""){
+        let chiffre = /\d/.test(this.dataUser.password);
+        //console.log(chiffre);
+        let majuscule = /[A-Z]/.test(this.dataUser.password);
+        //console.log(majuscule);
+        let minuscule = /[a-z]/.test(this.dataUser.password);
+        //console.log(minuscule);
+        const valide = chiffre && majuscule && minuscule;
+        if (valide) {
+          this.afAuth.createUserWithEmailAndPassword(this.dataUser.email, this.dataUser.password).then(auth =>{
+            this.dataUser = {
+              email: '',
+              password: '',
+              password2: ''
+            };
+            this.afAuth.signInWithEmailAndPassword(this.dataUser.email, this.dataUser.password)
+            .then(auth => {
+              this.connected=true;
+            });
+            this.router.navigateByUrl('/tabs/infos-perso');
+          })
+          .catch(err => {
+            //console.log(err.message);
+            if(err.message.substring(0,27)=="Password should be at least"){
+              this.errorMail("Le mot de passe doit contenir au moins 8 caractères");
+            }
+            else{
+              this.errorMail("Mail déjà existant");
+            }
+            this.dataUser = {
+              email: '',
+              password: '',
+              password2: ''
+            };
+          });
+      }else{
+        this.errorMail("Il faut minimum une majuscule, une minuscule et un chiffre.");
         this.dataUser = {
           email: '',
-          password: ''
+          password: '',
+          password2: ''
         };
-        this.router.navigateByUrl('/tabs/infos-perso');
-      })
-      .catch(err => {
-        console.log('Erreur: ' + err);
-        this.errorMail("Mail déjà existant");
-      });
+      }
+        
+      }else{
+        this.errorMail("Un des champs est vide");
+        this.dataUser = {
+          email: '',
+          password: '',
+          password2: ''
+        };
+      }
     }else{
-      this.errorMail("Un des champs est vide");
-    }
-    
+      this.errorMail("Vous n'avez pas mis les même mot de passe.");
+      this.dataUser = {
+        email: '',
+        password: '',
+        password2: ''
+      };
+    }    
     
   }
  

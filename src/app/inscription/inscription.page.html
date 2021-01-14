@@ -6,14 +6,23 @@
       <h1 class="MyCovoit"><strong><center>MYCOVOIT</center></strong></h1>
 
 <div class ="container"> 
-      <ion-item class="champ">   
-            <ion-label position="floating" color="light">Mail</ion-label>
-            <ion-input type="email" color="light" [(ngModel)]="dataUser.email"></ion-input>
+      <ion-item class="champ" lines="none">   
+            <ion-label floating color="light">Mail :</ion-label>
+            <ion-input placeholder="Adresse mail" no-lines type="email" color="light" [(ngModel)]="dataUser.email"></ion-input>
       </ion-item>
-      <ion-item class="champ">
-            <ion-label position="floating" color="light">Mot de passe</ion-label>
-            <ion-input type="password" color="light" [(ngModel)]="dataUser.password"></ion-input>
+      <ion-item class="ligne"></ion-item>
+      <ion-item class="champ" lines="none">
+            <ion-label floating color="light">Mot de passe :</ion-label>
+            <ion-input placeholder="Mot de passe" no-lines [type]="passwordType" color="light" minlength="8" [(ngModel)]="dataUser.password"></ion-input>
+            <ion-icon color="light" item-end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>  
       </ion-item>
+      <ion-item class="ligne"></ion-item>
+      <ion-item class="champ" lines="none">
+            <ion-label floating color="light">Confirmer :</ion-label>
+            <ion-input (keyup.enter)="signUp()" placeholder="Saisir à nouveau" no-lines [type]="passwordType" color="light" [(ngModel)]="dataUser.password2"></ion-input>
+            <ion-icon color="light" item-end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>  
+      </ion-item>
+      <ion-item class="ligne"></ion-item>
       <ion-item lines="none">
       </ion-item>
             <center> <ion-button shape="round" color="primary" (click)="signUp()">S'inscrire</ion-button></center>
