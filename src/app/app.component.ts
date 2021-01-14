@@ -25,7 +25,6 @@ export class AppComponent {
     private router: Router,
     
   ) {
-    this.connecter();
     this.sideMenu();
     this.initializeApp();
     this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
@@ -61,12 +60,5 @@ sideMenu()
       },
     ]
   }
-  connecter(){
-    this.afAuth.authState.subscribe(auth => {
-      if (auth) {
-        this.userid = auth.uid;
-        console.log(this.userid);
-      }
-    });
-  }
+  
 }

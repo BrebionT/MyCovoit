@@ -109,9 +109,7 @@ export class TableaubordPage implements OnInit{
     });
   }
    
- 
 
-  
 
   goProfil(){
     var route = this.router;

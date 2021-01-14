@@ -13,6 +13,18 @@ const routes: Routes = [
   {
     path: 'infos-perso',
     loadChildren: () => import('./infos-perso/infos-perso.module').then( m => m.InfosPersoPageModule)
+  },
+  {
+    path: 'conversation',
+    loadChildren: () => import('./conversation/conversation.module').then( m => m.ConversationPageModule)
+  },
+  {
+    path: 'messages',
+    loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
+  },
+  {
+    path: 'motdepasseoublie',
+    loadChildren: () => import('./motdepasseoublie/motdepasseoublie.module').then( m => m.MotdepasseoubliePageModule)
   }
 
 ];

@@ -143,5 +143,13 @@ public connected: boolean = false;
   Inscript(){
     this.router.navigateByUrl('/tabs/inscription');
   }
+
+  motDePasseOublie(){
+    this.router.navigateByUrl('/tabs/motdepasseoublie');
+  }
+
+  /* sendPasswordResetEmail(email){
+    this.afAuth.sendPasswordResetEmail(email);
+  } */
 }
 
