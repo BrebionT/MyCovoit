@@ -44,7 +44,7 @@
           <ion-text>
             <h4><ion-label color="dark" position="floating">Etapes :</ion-label></h4>
           </ion-text>
-            <ion-input placeholder="Caen" [(ngModel)]="trajet.Tra_Peage"></ion-input>
+            <ion-input placeholder="Caen" [(ngModel)]="trajet.tra_etape"></ion-input>
         </div>
       </ion-item>
     </ion-list>
@@ -54,10 +54,7 @@
     <ion-list margin-bottom>
       <ion-list-header color="light">
         <h4><ion-label class="fw700">Date et horaire</ion-label></h4>
-          <ion-item>
-            <ion-label color="dark">Aller-retour</ion-label>
-            <ion-checkbox color="dark" checked="true"></ion-checkbox>
-          </ion-item>
+          
         
       </ion-list-header>
       <br>
@@ -66,14 +63,14 @@
         <ion-row>
           <ion-col size="7" className="ion-align-self-center">
             <div>
-              <ion-label color="dark" position="stacked">Date de l'aller :</ion-label>
-              <input type="date" value="" name="date" size="12" id="champ_date" maxlength="30" [(ngModel)]="trajet.Tra_Date_Depart">
+              <ion-label color="dark" position="stacked">Date de départ :</ion-label>
+              <input type="date" value="" name="date" size="12" id="champ_date" maxlength="30" [(ngModel)]="trajet.tra_dateDepart">
             </div>
           </ion-col>
           <ion-col size="5" className="ion-align-self-center">
             <div>
               <ion-label color="dark" position="stacked"> Heure de départ </ion-label>
-              <ion-datetime class="encadrer-un-contenu" display-format = "HH:mm" [(ngModel)]="trajet.Tra_Heure_Depart"> </ion-datetime>
+              <ion-datetime class="encadrer-un-contenu" display-format = "HH:mm" [(ngModel)]="trajet.tra_heureDepart"> </ion-datetime>
             </div>
 
             </ion-col>
@@ -84,19 +81,19 @@
         <ion-row>
           <ion-col size="7" className="ion-align-self-center">
             <div>
-              <ion-label color="dark" position="stacked">Date du retour :</ion-label>
-              <input type="date" value="" name="date2" id="champ_date2" size="12" maxlength="30" [(ngModel)]="trajet.Tra_Date_Arrivee">
+              <ion-label color="dark" position="stacked">Date d'arrivée :</ion-label>
+              <input type="date" value="" name="date2" id="champ_date2" size="12" maxlength="30" [(ngModel)]="trajet.tra_dateArrivee">
             </div>
           </ion-col>
           <ion-col size="5" className="ion-align-self-center">
             <div>
-              <ion-label color="dark" position="stacked"> Heure du retour </ion-label>
-                <ion-datetime class="encadrer-un-contenu" display-format = "HH:mm" [(ngModel)]="trajet.Tra_Heure_Arrivee"> </ion-datetime>
+              <ion-label color="dark" position="stacked"> Heure d'arrivée </ion-label>
+                <ion-datetime class="encadrer-un-contenu" display-format = "HH:mm" [(ngModel)]="trajet.tra_heureArrivee"> </ion-datetime>
               </div>
             </ion-col>
         </ion-row>
       </ion-grid>
     </ion-list>
   </ion-card>
-  <center><ion-button id="bouton-envoyer" (click)="createTrajets(trajet)">Envoyer</ion-button></center>
+  <center><ion-button id="bouton-envoyer" (click)="presentAlertConfirm(utilisateurTrajet,trajet)">Proposer</ion-button></center>
 </ion-content>
