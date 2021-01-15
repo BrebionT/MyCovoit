@@ -136,7 +136,7 @@ connected: boolean;
   }
  
   Inscript(){
-    this.router.navigateByUrl('/tabs/tab2');
+    this.router.navigateByUrl('/connexion');
   }
  
 

@@ -64,7 +64,7 @@ export class InfosPersoPage{
   connecter(){
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
-        this.router.navigateByUrl('/tabs/tab2');
+        this.router.navigateByUrl('/connexion');
       } else {
         this.user.mail = auth.email;
         this.user.id = auth.uid;

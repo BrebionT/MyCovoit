@@ -65,7 +65,7 @@ export class TableaubordPage implements OnInit{
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
         this.connected=false;
-        this.router.navigateByUrl('/tabs/tab2');
+        this.router.navigateByUrl('/connexion');
       } else {
         this.connected=true;
         this.userid = auth.uid;

@@ -15,15 +15,15 @@ import { Router } from '@angular/router';
 import { Platform, LoadingController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  selector: 'app-connexion',
+  templateUrl: 'connexion.page.html',
+  styleUrls: ['connexion.page.scss']
 
 })
 
 
 
-export class Tab2Page implements OnInit{
+export class ConnexionPage implements OnInit{
   
 
 dataUser = {

@@ -19,7 +19,7 @@
       <ion-item lines="none" *ngIf="!connected">
         <ion-button (click)="motDePasseOublie()" style="font-size:12px;" color="light" slot="end" fill="clear">Mot de passe oublié ?</ion-button>
       </ion-item>
-            <center> <ion-button *ngIf="!connected" tab='tab1' shape="round" color="primary" (click)="login()">Connexion</ion-button></center>
+            <center> <ion-button *ngIf="!connected" tab='historique' shape="round" color="primary" (click)="login()">Connexion</ion-button></center>
             <div *ngIf="!connected" style="margin-top:31%;">
                   <p style="margin:2px;text-align: center;color:white; display:block">Vous n'êtes pas inscrit ?</p>
                   <p style="margin:2px;text-align: center; color:white; display:block">Cliquez sur le bouton ci-dessous.</p>
