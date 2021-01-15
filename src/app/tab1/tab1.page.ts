@@ -75,7 +75,7 @@ getAuth(){
   this.afAuth.authState.subscribe(auth => {
     if (!auth) {
       this.connected=false;
-      this.router.navigateByUrl('/tabs/tab2');
+      this.router.navigateByUrl('/tab2');
     } else {
       this.connected=true;
       this.userid = auth.uid;

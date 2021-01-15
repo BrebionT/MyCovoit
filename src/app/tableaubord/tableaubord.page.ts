@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import { Router } from '@angular/router';
@@ -14,18 +14,22 @@ import { AngularFireDatabase } from '@angular/fire/database';
 export class TableaubordPage implements OnInit{
 
   today = new Date();
+
   utilisateurs: Observable<any[]>;
   trajets: Observable<any[]>;
   uti_tra: Observable<any[]>;
+
   utilisateur: Observable<any[]>;
-  public trajet= Array();
-  public uti_tras=Array();
+
+
+  public trajet_a_venir : [] = [];
+  public trajet_a_venir2 : []= [];
+  liste_dates = [];
   
   public connected: boolean = false;
 
-  public util;
   public userid;
-  public trajetprevus :boolean;
+  public trajetprevus :boolean = false;
 
   constructor(
     
@@ -35,37 +39,41 @@ export class TableaubordPage implements OnInit{
     public afDB: AngularFireDatabase
     ) 
   {
+    
+    
+  }
+
+  ionViewWillEnter(){
+    console.log("enter")
     this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
     this.trajets = this.firestore.collection('trajets').valueChanges();
     this.uti_tra = this.firestore.collection('utilisateur_trajet').valueChanges();
 
     this.getAuth();
     this.getUtilisateur();
-    this.getUtiTrajetByUti();
+    this.liste_dates = [];
+    this.trajet_a_venir = [];
+    this.getTrajet();
+  }
 
-    /*var utiTrajetRef = firestore.collection('this.uti_tra');
-    var query = //this.firestore.collection('utiTrajetRef', ref => ref.where('uti_tra_idUti', '==', this.userid))
-                utiTrajetRef.where("uti_tra_idUti", "==", "userid")
-    .get()
-    .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-        });
-    })
-    .catch(function(error) {
-        console.log("Error getting documents: ", error);
-    });*/
+  ionViewWillLeave(){
+    console.log("quitter")
+    this.liste_dates = [];
+    this.trajet_a_venir = [];
+    this.utilisateurs=null;
+    this.trajets=null;
+    this.uti_tra=null;
+
   }
 
 
-
-
   getAuth(){
+    this.trajet_a_venir = [];
+    this.liste_dates = [];
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
         this.connected=false;
-        this.router.navigateByUrl('/tabs/tab2');
+        this.router.navigateByUrl('/tab2');
       } else {
         this.connected=true;
         this.userid = auth.uid;
@@ -78,82 +86,68 @@ export class TableaubordPage implements OnInit{
     var that = this;
     this.utilisateurs.subscribe(uti =>{
       uti.forEach(value => {
-        if(value['id']==that.userid){
+        if(value['tra_id']==that.userid){
           that.utilisateur = value;
         }
       })
     });
     
   }
-  
-  getUtiTrajetByUti(){
+
+  ngOnDestroy(){
+    console.log("detruit");
+    this.liste_dates=[];
+    this.trajet_a_venir = [];
+  }
+
+
+  getTrajet(){
     var that = this;
+    this.trajet_a_venir = [];
+    this.liste_dates = [];
+  
+
     this.uti_tra.subscribe(uti =>{
       uti.forEach(value2=> {
         if(value2['uti_tra_idUti']==that.userid){
-          that.uti_tras.push(value2);
-          this.getTrajet(value2['uti_tra_idTra']);
+          this.trajets.subscribe(tra =>{
+            tra.forEach(value3=> {
+              if(value3['tra_id']==value2['uti_tra_idTra']){
+                var date = new Date (value3['tra_dateDepart']);
+                var newDate = date ;
+                if(newDate>=this.today){
+                  that.trajetprevus=true;
+                 // this.trajet_a_venir.push([value2, value3]);
+                  this.liste_dates.push({date:newDate, trajet:value3, role:value2['uti_tra_role']});
+                  this.liste_dates.sort(function(a,b){
+                    return a.date - b.date;
+                  });
+                  //console.log(this.liste_dates)
+                }
+              }
+            })
+          })
         }
-      })    
-    });
-  }
-  
-  getTrajet(idUtiTra){
-    var that = this;
-    this.trajets.subscribe(tra =>{
-      tra.forEach(value3 => {
-        if(value3['id']==idUtiTra){
-          that.trajet.push(value3);
-        }
-      })    
-    });
-  }
+      })
+    })
    
+    
+  }
 
 
   goProfil(){
     var route = this.router;
     route.navigateByUrl('/tabs/profil');
   }
-
-
-     
-  trajetprevus2(){
-    //console.log(this.today)
-    var that = this;
-    this.trajets.subscribe(date =>{
-    date.forEach(value =>{
-    //console.log(value['tra_dateDepart'] +" "+ this.today);
-    var newDate = new Date (value['tra_dateDepart']);
-    if( newDate > this.today){
-      console.log(value['tra_dateDepart'] +"   ////   "+ this.today);
-      console.log("plus grand");
-    that.trajetprevus=true;
-    }else{
-    that.trajetprevus=false;
-    console.log(value['tra_dateDepart'] +"   ////   "+ this.today);
-    console.log("plus petit");
-    }})
-  })
-  }
   
   
   ngOnInit(){
-   // this.trajetprevus2();
   } 
   
 
-returnConnected(){
-  return this.connected;
-}
-     /* if (Date > trajets.tra_dateDepart()) {
-        console.log("trajet");
-      }
-      else{
-        console.log("pas trajets")
-      }
-      }*/
-     
+  returnConnected(){
+    return this.connected;
+  } 
      
       
-    }   
+}   

@@ -33,7 +33,7 @@ export class MessagesPage{
   ) {
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
-        this.router.navigateByUrl('/tabs/tab2');
+        this.router.navigateByUrl('/tab2');
         this.connected = false;
       } else {
         this.userId = auth.uid;
@@ -48,6 +48,8 @@ export class MessagesPage{
   }
 
   ngOnDestroy(){
+    this.userList2=[];
+    this.messagesView=undefined;
     console.log("détruit")
   }
 

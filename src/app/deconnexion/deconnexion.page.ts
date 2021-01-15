@@ -47,30 +47,13 @@ public connected: boolean = false;
     }
 
   ngOnInit(){
-    var route = this.router;
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
-        //console.log('non connecté');
         this.connected = false;
       } else {
-        //console.log('connecté: ' + auth.uid);
         this.connected = true;
-        route.navigateByUrl('/tabs/deconnexion');
-        /*
-        this.platform.ready().then(()=>{        //Creation d'une plateforme d'attente pour la connexion
-        this.loadingController.create({
-          message:"🚗 En route..."
-        }).then((loadingElement)=>{
-          loadingElement.present();
-          var ref = this;
-          setTimeout(function(){
-            ref.loadingController.dismiss();
-            route.navigateByUrl('/tabs/tableaubord');
-          },1000)
-        })  
-      })*/
       }
-    });
+    })
   }
 
 
@@ -82,57 +65,15 @@ public connected: boolean = false;
   logout() {
     this.afAuth.signOut();
     this.connected=false;
-    this.afAuth.authState.subscribe(auth => {
-      if (!auth) {
-        this.connected = false;
-      } else {
-        this.connected = true;
-      }});
-
+    
     this.dataUser = {
       email: '',
       password: ''
     };
+    this.router.navigateByUrl('/tab2',{
+      replaceUrl : true
+     });
     //console.log(this.connected, this.dataUser)
   }
-  
 
-  
-  login() {
-    var route = this.router;
-    this.afAuth.signInWithEmailAndPassword(this.dataUser.email, this.dataUser.password)
-    .then(auth => {
-      //console.log('utilisateur connecté');
-      this.connected=true;
-
-      this.platform.ready().then(()=>{        //Creation d'une plateforme d'attente pour la connexion
-        this.loadingController.create({
-          message:"🚗 En route..."
-        }).then((loadingElement)=>{
-          loadingElement.present();
-          var ref = this;
-          setTimeout(function(){
-            ref.loadingController.dismiss();
-            route.navigateByUrl('/tabs/tableaubord');
-          },1000)
-        })  
-      })
-    })
-    .catch(err => {
-      console.log('Erreur: ' + err);
-      this.errorMail();
-    });
-
-  }async errorMail() {
-    const toast = await this.toastController.create({
-      message: 'Email ou mot de passe incorrect',
-      duration: 1500,
-      position: 'middle'
-    });
-    toast.present();
-  }
- 
-  Inscript(){
-    this.router.navigateByUrl('/tabs/inscription');
-  }
 }
