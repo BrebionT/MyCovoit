@@ -5,20 +5,7 @@
       <h1 class="MyCovoit"><strong><center>MYCOVOIT</center></strong></h1>
       
 
-<div class ="container"> 
-      <ion-item class="champ" *ngIf="!connected">   
-            <ion-label position="floating" color="light">Mail</ion-label>
-            <ion-input type="email" color="light" [(ngModel)]="dataUser.email"></ion-input>
-      </ion-item>
-      <ion-item class="champ" *ngIf="!connected">
-            <ion-label position="floating" color="light">Mot de passe</ion-label>
-            <ion-input type="password" color="light" [(ngModel)]="dataUser.password"></ion-input>
-      </ion-item>
-      <ion-item lines="none" *ngIf="!connected">
-        <ion-button color="light" slot="end" fill="clear">Mot de passe oublié ?</ion-button>
-      </ion-item>
-            <center> <ion-button *ngIf="!connected" tab='historique' shape="round" color="primary" (click)="login()">Connexion</ion-button></center>
-            <center> <ion-button *ngIf="!connected" color="light"  shape="round" style="margin-top:5%" (click)="Inscript()">Inscription</ion-button></center>
+<div class ="container">   
             <center> <ion-button *ngIf="connected" shape="round" color="danger" style="margin-top:33%" (click)="logout()">Déconnexion</ion-button></center>
   </div>
 
