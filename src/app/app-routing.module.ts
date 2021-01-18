@@ -7,8 +7,8 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
-    path: 'tab2',
-    loadChildren: () => import('./tab2/tab2.module').then(m => m.Tab2PageModule)
+    path: 'connexion',
+    loadChildren: () => import('./connexion/connexion.module').then(m => m.ConnexionPageModule)
   },
   {
     path: 'inscription',
@@ -25,6 +25,10 @@ const routes: Routes = [
   {
     path: 'messages',
     loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
+  },
+  {
+    path: 'motdepasseoublie',
+    loadChildren: () => import('./motdepasseoublie/motdepasseoublie.module').then( m => m.MotdepasseoubliePageModule)
   },
   {
     path: 'motdepasseoublie',

@@ -70,7 +70,7 @@ public connected: boolean = false;
       email: '',
       password: ''
     };
-    this.router.navigateByUrl('/tab2',{
+    this.router.navigateByUrl('/connexion',{
       replaceUrl : true
      });
     //console.log(this.connected, this.dataUser)

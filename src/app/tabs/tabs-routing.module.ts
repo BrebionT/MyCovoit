@@ -8,12 +8,13 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+        path: 'historique',
+        loadChildren: () => import('../historique/historique.module').then(m => m.HistoriquePageModule)
       },
+      
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'proposer',
+        loadChildren: () => import('../proposer/proposer.module').then(m => m.ProposerPageModule)
       },
       {
         path: 'accueil',
@@ -31,24 +32,13 @@ const routes: Routes = [
         path: 'messages',
         loadChildren: () => import('../messages/messages.module').then(m => m.MessagesPageModule)
       },
-      {
-        path: 'inscription',
-        loadChildren: () => import('../inscription/inscription.module').then(m => m.InscriptionPageModule)
-      },
+      
       {
 
         path: 'tableaubord',
         loadChildren: () => import('../tableaubord/tableaubord.module').then(m => m.TableaubordPageModule)
       },
-      {
-        path: 'infos-perso',
-        loadChildren: () => import('../infos-perso/infos-perso.module').then( m => m.InfosPersoPageModule)
-      },
-      {
-        path: 'motdepasseoublie',
-        loadChildren: () => import('../motdepasseoublie/motdepasseoublie.module').then( m => m.MotdepasseoubliePageModule)
-      },
-
+      
       {
         path: 'modifProfil',
         loadChildren: () => import('../modifProfil/modifProfil.module').then( m => m.ModifProfilPageModule)
@@ -61,17 +51,22 @@ const routes: Routes = [
         path: 'conditionGen',
         loadChildren: () => import('../conditionGen/conditionGen.module').then( m => m.ConditionGenPageModule)
       },
+      
+      {
+        path: 'rechercher',
+        loadChildren: () => import('../rechercher/rechercher.module').then( m => m.RechercherPageModule)
+      },
       {
 
         path: '',
-        redirectTo: '/tab2',
+        redirectTo: '/connexion',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tab2',
+    redirectTo: '/connexion',
     pathMatch: 'full'
   }
 ];

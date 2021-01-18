@@ -1,0 +1,16 @@
+:host {
+    ion-content {
+        --background: linear-gradient(-135deg, var(--ion-color-medium), var(--ion-color-light))
+
+        
+    }
+    .encadrer-un-contenu{ 
+        border: 1px solid black; padding: 4px; 
+    }
+
+    #bouton-envoyer{
+       display: flex;
+       //align-items: center;
+    }
+
+}

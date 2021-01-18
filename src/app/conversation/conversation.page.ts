@@ -41,7 +41,7 @@ export class ConversationPage implements OnInit{
 
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
-        this.router.navigateByUrl('/tab2');
+        this.router.navigateByUrl('/connexion');
         this.connected = false;
       } else {
         this.userId = auth.uid;
@@ -55,7 +55,6 @@ export class ConversationPage implements OnInit{
         this.scrollToBottom();
       }
     });
-    //
   }
 
   

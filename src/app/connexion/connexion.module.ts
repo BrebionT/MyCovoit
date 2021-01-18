@@ -4,13 +4,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';  
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { Tab2Page } from './tab2.page';
+import { ConnexionPage } from './connexion.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-import { Tab2PageRoutingModule } from './tab2-routing.module';
+import { ConnexionPageRoutingModule } from './connexion-routing.module';
 
 
 
@@ -19,14 +19,14 @@ import { Tab2PageRoutingModule } from './tab2-routing.module';
   imports: [
     CommonModule,
     ExploreContainerComponentModule,
-    Tab2PageRoutingModule,
+    ConnexionPageRoutingModule,
     RouterModule,
      IonicModule.forRoot(),
-     Tab2PageRoutingModule,
+     ConnexionPageRoutingModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab2PageRoutingModule
+    ConnexionPageRoutingModule
   ],
-  declarations: [Tab2Page]
+  declarations: [ConnexionPage]
 })
-export class Tab2PageModule {}
+export class ConnexionPageModule {}

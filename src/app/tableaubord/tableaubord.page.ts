@@ -73,7 +73,7 @@ export class TableaubordPage implements OnInit{
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
         this.connected=false;
-        this.router.navigateByUrl('/tab2');
+        this.router.navigateByUrl('/connexion');
       } else {
         this.connected=true;
         this.userid = auth.uid;
@@ -98,6 +98,7 @@ export class TableaubordPage implements OnInit{
     console.log("detruit");
     this.liste_dates=[];
     this.trajet_a_venir = [];
+    this.trajetprevus=false;
   }
 
 

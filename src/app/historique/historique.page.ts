@@ -17,11 +17,11 @@ import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-historique',
+  templateUrl: 'historique.page.html',
+  styleUrls: ['historique.page.scss']
 })
-export class Tab1Page implements OnInit{
+export class HistoriquePage implements OnInit{
 
   conducteur: string;
   heureArrive: string;
@@ -75,7 +75,7 @@ getAuth(){
   this.afAuth.authState.subscribe(auth => {
     if (!auth) {
       this.connected=false;
-      this.router.navigateByUrl('/tab2');
+      this.router.navigateByUrl('/connexion');
     } else {
       this.connected=true;
       this.userid = auth.uid;

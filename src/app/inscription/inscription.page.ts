@@ -91,7 +91,7 @@ connected: boolean;
             .then(auth => {
               this.connected=true;
             });
-            this.router.navigateByUrl('/tabs/infos-perso');
+            this.router.navigateByUrl('/infos-perso');
           })
           .catch(err => {
             //console.log(err.message);
@@ -136,7 +136,7 @@ connected: boolean;
   }
  
   Inscript(){
-    this.router.navigateByUrl('/tab2');
+    this.router.navigateByUrl('/connexion');
   }
  
 
