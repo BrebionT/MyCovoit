@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title style="padding-left:0; text-align:center;">{{destView.prenom}} {{destView.nom}}</ion-title>
     <ion-avatar slot="end">
-      <img src="../../assets/profil.png">
+      <img [src]="images">
     </ion-avatar>
   </ion-toolbar>
 </ion-header>
@@ -16,9 +16,9 @@
   <div class="stream">
     <ion-item lines="none" *ngFor="let message of messagesView">
       <ion-badge style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.userId != userId && message.text.length>15"><p color="primary">{{ message.text }}</p><ion-note color="primary">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge>
-      <ion-badge style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.userId != userId && message.text.length<15"><p color="primary">{{ message.text }}<ion-note color="primary"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
+      <ion-badge style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.userId != userId && message.text.length<=15"><p color="primary">{{ message.text }}<ion-note color="primary"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
       <ion-badge style="text-align: left; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.userId == userId && message.text.length>15"><p>{{ message.text }}</p><ion-note color="light">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge>
-      <ion-badge style="text-align: left; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.userId == userId && message.text.length<15"><p>{{ message.text }}<ion-note color="light"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
+      <ion-badge style="text-align: left; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.userId == userId && message.text.length<=15"><p>{{ message.text }}<ion-note color="light"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
     </ion-item>
   </div>
 

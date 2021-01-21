@@ -1,13 +1,86 @@
-<ion-header [translucent]="true">
-    <ion-toolbar color="dark">
-      <ion-title>
-        Modification du profil
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
 <ion-content>
+  <div class="header">
+    <ion-buttons>
+      <ion-menu-button id="bouton" side="end"></ion-menu-button>
+    </ion-buttons>
+  </div>
+    
 
-      <h1 class="MyCovoit"><strong><center>MYCOVOIT</center></strong></h1>
-      
- 
+<div class="flex">
+  <div class="box-border">
+    <div class="border-white">
+      <div class="img-box">
+        <img id="imgProfil" (click)="addPhoto('library')" [src]="image">
+      </div>
+    </div>
+    <ion-badge (click)="addPhoto('library')" style="padding:5px; color:white; width:100%">Changer la photo</ion-badge>
+  </div>
+  
+</div>
+
+<div class="corp" *ngFor='let item of utilisateurs | async'>
+<ion-grid *ngIf='item.id == userid' style="padding-right:20px">
+  <ion-row>
+    <ion-col><label class="important">Prénom : </label></ion-col>
+    <ion-col><input [(ngModel)]="user.prenom" type="text" id="prenom" name="prenom" [value]=item.prenom size=20 required></ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col><label class="important">Nom : </label></ion-col>
+    <ion-col><input [(ngModel)]="user.nom" type="text" id="nom" name="nom" [value]=item.nom size=20 required></ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col><label class="important">Naissance : </label></ion-col>
+    <ion-col><input [(ngModel)]="user.date_naiss" style="float: right;" size=20 type="date" id="date_naiss" name="date_naiss" [value]=item.date_naiss min="1950-01-01" max="2003-12-31" required></ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col><label class="important">Genre : </label></ion-col>
+    <ion-col><select [(ngModel)]="user.sexe" name="genre" value="item.sexe" style="float: right;">
+      <option *ngIf="item.sexe == 'homme'" value="homme" selected>Homme</option>
+      <option *ngIf="item.sexe != 'homme'" value="homme" >Homme</option>
+      <option *ngIf="item.sexe == 'femme'" value="femme" selected>Femme</option>
+      <option *ngIf="item.sexe != 'femme'" value="femme" >Femme</option>
+      <option *ngIf="item.sexe == 'autres'" value="autres" selected>Autres</option>
+      <option *ngIf="item.sexe != 'autres'" value="autres" >Autres</option>
+  </select></ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col><label class="important">Adresse : </label></ion-col>
+    <ion-col><input [(ngModel)]="user.adresse" type="text" id="adresse" size=20 name="adresse" [value]=item.adresse required></ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col><label class="important">Ville : </label></ion-col>
+    <ion-col><input [(ngModel)]="user.ville" type="text" id="ville" size=20 name="ville" [value]=item.ville required></ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col><label class="important">Code Postal : </label></ion-col>
+    <ion-col><input [(ngModel)]="user.cp" type="text" id="cp" size=20 name="cp" [value]=item.cp maxlength="5" required></ion-col>
+  </ion-row>
+  
+  <ion-row>
+    <ion-col><label class="important">Téléphone : </label></ion-col>
+    <ion-col><input [(ngModel)]="user.tel" type="text" id="tel" size=20 name="tel" [value]=item.tel maxlength="10" required></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col><label class="important" style="display:block; width:100%; margin-left: -10px; text-align: center;">Bio : </label></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col><textarea [(ngModel)]="user.bio" id="bio" name="bio" rows="4" style="width:100%">{{item.bio}}</textarea></ion-col>
+  </ion-row>
+</ion-grid>
+
+
+
+</div>
+
+<ion-button style="margin: -30px 35% 0px 35%; width: 30%;" (click)="modifier()">Modifier</ion-button>
 </ion-content>
+<!--<ion-toolbar>
+  <ion-title>profil</ion-title>
+</ion-toolbar>-->
+

@@ -11,6 +11,10 @@ padding-top:1 px;
     font-size: 150%;
 }
 
+.top p{
+    padding:0;
+}
+
 .corp{     
     margin-left: 20px;
        
@@ -39,6 +43,7 @@ padding-top:1 px;
     overflow: hidden;
     height: 130px;
     width: 130px;
+    background-color: white;
 }
 
 .followings p {
@@ -57,11 +62,18 @@ padding-top:1 px;
 .space-between {
     display: flex;
     justify-content: space-between;
-    padding: 10px 10px 0px 10px;
+    padding: 0px 10px 0px 10px;
 }
 
 img {
     max-width: 140%;
+    background-color: white;
+    height: 130px !important;
+    width: 130px !important;
+    margin: auto !important;
+    align-items: center;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
 }
 
 .ion-card{
@@ -78,3 +90,4 @@ margin:auto;
     color:black;
     font-weight: bold;
 }
+

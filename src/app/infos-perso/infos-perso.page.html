@@ -1,30 +1,13 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
+  <ion-toolbar color="dark">
     <ion-title>
-    MyCovoit
+      Informations personnelles
     </ion-title>
-  </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Accueil</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <ion-header>
-<ion-card class="bg-white" no margin>
-<ion-card-content>
-<h1 margin-bottom>
-  <ion-text color="primary"><strong>Inscription</strong></ion-text>
-</h1>
-<p margin-bottom>
-
-</p>
-</ion-card-content>
 
 <ion-list margin-content>
 
@@ -46,7 +29,8 @@
 <ion-item>
   <div>
     <ion-label color="dark" position="floatting">Date de naissance</ion-label>
-    <ion-input [(ngModel)]="user.date_naiss" type="date" name="dateNaiss"></ion-input>
+    <!--<ion-input [(ngModel)]="user.date_naiss" type="date" inputmode="none" name="dateNaiss" ></ion-input>-->
+    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="user.date_naiss" [min]="minDate" [max]="maxDate"></ion-datetime>.
   </div>
 </ion-item><br>
 
@@ -73,12 +57,24 @@
 
 <ion-item>
   <div>
-  <ion-label color="dark" position="floatting">Genre</ion-label>
-  <ion-select [(ngModel)]="user.sexe" name="genre">
-    <ion-select-option value="femme">Femme</ion-select-option>
-    <ion-select-option value="homme">Homme</ion-select-option>
-    <ion-select-option value="autres">Autres</ion-select-option>
-  </ion-select>
+    <ion-label>Genre</ion-label>
+    <ion-radio-group [(ngModel)]="user.sexe" name="genre" value="homme">
+      <ion-item>
+        <ion-label>Homme</ion-label>
+        <ion-radio slot="start" color="success" value="homme"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Femme</ion-label>
+        <ion-radio slot="start" color="tertiary" value="femme"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Autre</ion-label>
+        <ion-radio slot="start" color="danger" value="autres"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  
   </div>
 </ion-item><br>
 
@@ -87,24 +83,26 @@
     <ion-label color="dark" position="floatting">Téléphone</ion-label>
     <ion-input [(ngModel)]="user.tel" type="text"  name="tel"></ion-input>
   </div>
-</ion-item><br>
-
-
+</ion-item>
 <ion-item>
-  <div>
-  <ion-label color="dark" position="floatting">Classe</ion-label>
-  <ion-select [(ngModel)]="user.classe" name="classe">
-    <ion-select-option selected="selected" value="sio">BTS SIO</ion-select-option>
-    <ion-select-option value="gpme">BTS GPME</ion-select-option>
-    <ion-select-option value="dcg">BTS DCG</ion-select-option>
-  </ion-select>
+  <div style="margin:auto">
+    <ion-button (click)="addPhoto('library')" color="primary" expand="block">
+      <ion-icon name="image" slot="start"></ion-icon>
+      Ouvrir la bibliothèque
+    </ion-button>
+    
+    <ion-button (click)="addPhoto('camera')" color="primary" expand="block">
+      <ion-icon name="camera" slot="start"></ion-icon>
+      Prendre une photo
+    </ion-button>
+
   </div>
 </ion-item><br>
+
 
     <center><ion-button (click)="envoyerUtilisateur()">S'inscrire</ion-button></center>
 
 
 <br>
 </ion-list>
-</ion-card>
-  </ion-header>
+</ion-content>

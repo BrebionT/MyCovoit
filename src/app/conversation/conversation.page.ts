@@ -4,6 +4,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import {AngularFirestore} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AngularFireStorage } from '@angular/fire/storage';
+
 
 @Component({
   selector: 'app-conversation',
@@ -15,6 +17,8 @@ export class ConversationPage implements OnInit{
   connected= true;
   public userId;
   public destId;
+
+  public images = "";
 
   messageText: any;
   
@@ -36,6 +40,7 @@ export class ConversationPage implements OnInit{
     public afDB: AngularFireDatabase,
     public firestore: AngularFirestore,
     private router: Router,
+    public afSG: AngularFireStorage
   ) {
     
 
@@ -153,9 +158,19 @@ export class ConversationPage implements OnInit{
       user.forEach(value =>{
         if(value['id']==destId){
           that.destView = value;
+          that.getImagesStorage(value['photo'])
         }
       });
     })
+  }
+
+  getImagesStorage(image: any) {
+    console.log(image)
+    this.afSG.ref('users/'+image).getDownloadURL().subscribe(imgUrl => {
+      console.log(imgUrl);
+      this.images= imgUrl;
+    });
+    console.log(this.images)
   }
 
   envoyerMessage(){

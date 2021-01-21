@@ -5,31 +5,37 @@ import { of } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { NgForOf } from '@angular/common';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.page.html',
   styleUrls: ['./messages.page.scss'],
 })
-export class MessagesPage{
+export class MessagesPage implements OnInit{
 
   messages: Observable<any[]>;
   users: Observable<any[]>;
 
   public messagesView : Observable<any[]>;
+  public photoView : Observable<any[]>;
   public userList = Array();
   public userList2 = Array();
+  public photoList = Array();
 
   public connected= false;
   public userId;
   public destId;
 
+  public update;
+  
+
   constructor(
     public afAuth: AngularFireAuth,
     public firestore: AngularFirestore,
     public afDB: AngularFireDatabase,
-    private router: Router
+    private router: Router,
+    public afSG: AngularFireStorage
   ) {
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
@@ -44,6 +50,17 @@ export class MessagesPage{
         
       }});
 
+    
+  }
+
+  ngOnInit(){
+    this.firestore.collection("messages").valueChanges().subscribe(message =>{
+      console.log("update ?")
+      this.update = message;
+    })
+  }
+
+  ionViewWillEnter(){
     
   }
 
@@ -73,7 +90,7 @@ export class MessagesPage{
 
   messageVu(id,message){
     if(message['utilisateur']!=this.userId && message['destinataire']==this.userId && message['vu']==false){ //le message était pour moi, alors je l'ai vu 
-    this.changeMessageVu(id)
+    this.changeMessageVu(id,message['utilisateur'],message['destinataire'],message["message"])
     console.log( "changement")
       //return true;
     }else if(message['utilisateur']==this.userId && message['vu']==false){ //le message n'était pas pour moi et il ne l'a pas vu
@@ -86,20 +103,61 @@ export class MessagesPage{
   }
 
 
-  changeMessageVu(id){
+  changeMessageVu(id,iduser,iddest,message){
     this.firestore.collection("messages").doc(id).update({
       vu:true
     })
+    this.firestore.collection("messages").doc("tempo").set({
+      utilisateur:iduser,
+      destinataire:iddest,
+      message: message,
+      date: new Date(),
+      vu: true
+    })
+  
+    this.firestore.collection("messages").doc("tempo").delete()
   }
 
   convers(){
     this.router.navigateByUrl('/tabs/conversation');
   }
 
+  trierMessage(messages){
+    var newMessageList = Array();
+
+    messages.sort(function(a,b){
+      return b[1]-a[1];
+    })
+    //console.log(messages);
+  }
+
+  
+
   getUsers(userId){
+
+    function getImagesStorage(that,image: any,id) {
+      var images;
+      //console.log("getImagesStorage")
+      that.afSG.ref('users/'+image).getDownloadURL().subscribe(imgUrl => {
+        images= imgUrl;
+
+        for(var j=0;j<that.photoList.length;j++){
+          if(that.photoList[j].user==id){
+            that.photoList[j].user=undefined;
+          }
+        }
+
+        that.photoList.push({photo:images, user:id})
+
+      });
+      return images;
+    }
+
     var that = this;
     this.userList = [];
     this.userList2 = [];
+    this.photoList = []; /// on aura : [{photo:......, user:......}]
+    var userSub = this.users;
     this.messages.subscribe(message =>{
       message.forEach(value =>{
 
@@ -108,6 +166,15 @@ export class MessagesPage{
           const found = that.userList.find(element => element == value['destinataire']); //Est ce que l'autre personne est déjà enregistrée.
 
           if(found == undefined){ // Il n'est pas enregistré
+
+
+            userSub.subscribe(uti =>{ 
+
+              uti.forEach(user => {
+                if(user['id']==value['destinataire']){
+                  getImagesStorage(that,user['photo'],user['id'])
+                }
+              })})
 
             /// On l'enregistre ///
             that.userList.push(value['destinataire']);
@@ -118,8 +185,20 @@ export class MessagesPage{
               if(that.userList2[i][0]==value['destinataire']){ //Il s'agit de lui
                 if(that.userList2[i][1]<value['date']){ //Le message a été envoyé plus tard que celui qui est enregistré
                   that.userList2[i][0]=undefined;
+
+                  userSub.subscribe(uti =>{ 
+
+                    uti.forEach(user => {
+                      if(user['id']==value['destinataire']){
+
+                        getImagesStorage(that,user['photo'],user['id'])
+                      }
+                    })})
+
                   that.userList.push(value['destinataire']);
                   that.userList2.push([value['destinataire'],value['date'],value["message"],value["vu"],value["destinataire"]]);
+                  
+                  
 
                 }
               }
@@ -132,6 +211,14 @@ export class MessagesPage{
 
           if(found == undefined){ // Il n'est pas enregistré
 
+            userSub.subscribe(uti =>{ 
+
+              uti.forEach(user => {
+                if(user['id']==value['utilisateur']){
+                  getImagesStorage(that,user['photo'],user['id'])
+                }
+              })})
+
             /// On l'enregistre ///
             that.userList.push(value['utilisateur']);
             that.userList2.push([value['utilisateur'],value['date'],value["message"],value["vu"],value['destinataire']]);
@@ -141,20 +228,35 @@ export class MessagesPage{
               if(that.userList2[i][0]==value['utilisateur']){ //Il s'agit de lui
                 if(that.userList2[i][1]<value['date']){ //Le message a été envoyé plus tard que celui qui est enregistré
                   that.userList2[i][0]=undefined;
+
+                  userSub.subscribe(uti =>{ 
+
+                    uti.forEach(user => {
+                      if(user['id']==value['utilisateur']){
+                        
+                        getImagesStorage(that,user['photo'],user['id'])
+                      }
+                    })})
+
                   that.userList.push(value['utilisateur']);
                   that.userList2.push([value['utilisateur'],value['date'],value["message"],value["vu"],value['destinataire']]);
+                
+                  
 
                 }
               }
             }
           }
+          that.trierMessage(that.userList2)
 
         }
 
       });
     //console.log(that.userList);
-    console.log(that.userList2);
-    that.messagesView = of(that.userList2.reverse());
+    console.log(that.photoList);
+    
+    that.messagesView = of(that.userList2);
+    that.photoView = of(that.photoList);
       })
     return true;
     

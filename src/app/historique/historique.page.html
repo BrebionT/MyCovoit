@@ -27,32 +27,41 @@
       
       </style>
 
-<ng-container *ngFor='let trajets of trajet'>
-    <ng-container *ngFor='let uti_tra of uti_tras'>
-      <ion-item *ngIf="trajets.id==uti_tra.uti_tra_idTra && utilisateur.id==uti_tra.uti_tra_idUti && uti_tra.uti_tra_role=='Conducteur'">
-      <ion-label>
-        <center><p class="emplacement">{{uti_tra.uti_tra_role}}</p></center>
-        <label for="Départ">🏃🏻‍♂️<h3 id="Départ">{{ trajets.tra_lieuDepart }}</h3></label> <h3 class="date"><ion-datetime style="display:inline-block; margin-top:10px;" class="force-black-font" display-format="DD/MM/YYYY" value={{trajets.tra_dateDepart}} disabled></ion-datetime></h3> <br/>
-        <label for="Fin">🏁<h3 id=" Fin">{{ trajets.tra_lieuArrivee }}</h3></label>
-      </ion-label>
-      </ion-item>
+  <ng-container *ngIf="trajetfait">
+
+    <ng-container *ngFor='let trajets of trajet'>
+        <ng-container *ngFor='let uti_tra of uti_tras'>
+          <ion-item *ngIf="trajets.id==uti_tra.uti_tra_idTra && utilisateur.id==uti_tra.uti_tra_idUti && uti_tra.uti_tra_role=='Conducteur'">
+          <ion-label>
+            <center><p class="emplacement">{{uti_tra.uti_tra_role}}</p></center>
+            <label for="Départ">🏃🏻‍♂️<h3 id="Départ">{{ trajets.tra_lieuDepart }}</h3></label> <h3 class="date"><ion-datetime style="display:inline-block; margin-top:10px;" class="force-black-font" display-format="DD/MM/YYYY" value={{trajets.tra_dateDepart}} disabled></ion-datetime></h3> <br/>
+            <label for="Fin">🏁<h3 id=" Fin">{{ trajets.tra_lieuArrivee }}</h3></label>
+          </ion-label>
+          </ion-item>
+        </ng-container>
     </ng-container>
-</ng-container>
 
-<div style="margin-top:20px"></div>
+    <div style="margin-top:20px"></div>
 
-<ng-container *ngFor='let trajets of trajet'>
-  <ng-container *ngFor='let uti_tra of uti_tras'>
-    <ion-item *ngIf="trajets.id==uti_tra.uti_tra_idTra && utilisateur.id==uti_tra.uti_tra_idUti && uti_tra.uti_tra_role=='Passager'">
-    <ion-label>
-      <center><p class="emplacement">{{uti_tra.uti_tra_role}}</p></center>
-      <label for="Départ">🏃🏻‍♂️<h3 id="Départ">{{ trajets.tra_lieuDepart }}</h3></label> <h3 class="date"><ion-datetime style="display:inline-block; margin-top:10px;" class="force-black-font" display-format="DD/MM/YYYY" value={{trajets.tra_dateDepart}} disabled></ion-datetime></h3> <br/>
-      <label for="Fin">🏁<h3 id=" Fin">{{ trajets.tra_lieuArrivee }}</h3></label>
-    </ion-label>
-    </ion-item>
+    <ng-container *ngFor='let trajets of trajet'>
+      <ng-container *ngFor='let uti_tra of uti_tras'>
+        <ion-item *ngIf="trajets.id==uti_tra.uti_tra_idTra && utilisateur.id==uti_tra.uti_tra_idUti && uti_tra.uti_tra_role=='Passager'">
+        <ion-label>
+          <center><p class="emplacement">{{uti_tra.uti_tra_role}}</p></center>
+          <label for="Départ">🏃🏻‍♂️<h3 id="Départ">{{ trajets.tra_lieuDepart }}</h3></label> <h3 class="date"><ion-datetime style="display:inline-block; margin-top:10px;" class="force-black-font" display-format="DD/MM/YYYY" value={{trajets.tra_dateDepart}} disabled></ion-datetime></h3> <br/>
+          <label for="Fin">🏁<h3 id=" Fin">{{ trajets.tra_lieuArrivee }}</h3></label>
+        </ion-label>
+        </ion-item>
+      </ng-container>
+    </ng-container>
+
   </ng-container>
-</ng-container>
+  <ng-container *ngIf="!trajetfait">
+    <p>Vous n'avez pas encore fait de trajet.</p>
+  </ng-container>
 
   </ion-list>
-  </ion-content>
+    
+
+</ion-content>
 

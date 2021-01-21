@@ -5,7 +5,7 @@
       </ion-buttons>
     <div *ngFor='let item of utilisateurs | async'>
       <div class="top">
-        <p style="color:#ffffff; margin:0; padding:10px 0px;"  *ngIf='item.id == userid'>{{item.prenom}}&nbsp;{{item.nom}}</p>
+        <p style="color:#ffffff; margin:0; padding:0px 0px;"  *ngIf='item.id == userid'>{{item.prenom}}&nbsp;{{item.nom}}</p>
       </div >
       <div class="space-between" *ngIf='item.id == userid'>
         <div class="followings">
@@ -26,7 +26,7 @@
   <div class="box-border">
     <div class="border-white">
       <div class="img-box">
-        <img src="../../assets/bernardtapie.jpg">
+        <img id="imgProfil" [src]="images">
       </div>
     </div>
   </div>
@@ -37,11 +37,11 @@
 <div class="corp" *ngFor='let item of utilisateurs | async'>
     <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Nom :</span> {{item.nom}}</p>
     <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Date de naissance :</span> {{item.date_naiss | date: 'dd/MM/yyyy'}}</p>
+    <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Adresse :</span> {{item.adresse}}</p>
     <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Ville :</span> {{item.ville}}</p>
     <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Code Postal :</span> {{item.cp}}</p>
     <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Mail :</span> {{item.mail}}</p>
     <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Téléphone :</span> {{item.tel}}</p>
-    <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Classe :</span> {{item.classe}}</p>
     <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Bio :</span> {{item.bio}}</p>
 </div>
 </ion-card>

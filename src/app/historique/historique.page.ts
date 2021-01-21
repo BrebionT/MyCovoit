@@ -40,11 +40,18 @@ export class HistoriquePage implements OnInit{
 
   public connected: boolean = false;
 
-  subscri : any;
-
   public util;
   public userid;
   
+
+  today = new Date();
+
+
+  public trajet_fait : [] = [];
+  public trajet_fait2 : []= [];
+  liste_dates = [];
+  
+  public trajetfait :boolean = false;
   
 
   dataUser = {

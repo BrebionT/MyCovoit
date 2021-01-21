@@ -10,27 +10,18 @@
  
 
 <ion-content>
-  <!-- <ion-button (click)="add()">Ajouter</ion-button> -->
-  <!--<ion-list>
-    <ion-item detail [routerLink]="['/conversation']" *ngFor="let message of messagesView"  fragment="{{message.destinataire}}">
-        <ion-avatar slot="start" >
-          <img src="../../assets/profil.png">
-        </ion-avatar>
-        <ion-label>
-          <div class="flex_box" *ngFor="let user of users | async">
-              <ion-label *ngIf="user.id!=userId && (user.id==message.destinataire || user.id==message.utilisateur)">{{ user.nom}} {{ user.prenom}}</ion-label>
-          </div>
-          <p><ion-icon class="text-icon" color="primary" name="checkmark"></ion-icon> {{ message.message }}</p>
-        </ion-label>
-    </ion-item>
-  </ion-list>-->
 
+  
   <ion-list>
     <div *ngFor="let userShow of messagesView | async" >
     <ion-item detail [routerLink]="['/conversation']" *ngIf="userShow[0]!=undefined" fragment="{{userShow[0]}}" (click)="changerVu(userShow[0])">
       
         <ion-avatar slot="start" >
-          <img src="../../assets/profil.png">
+          <ng-container *ngFor="let userPhoto of photoView | async">
+            <span *ngIf="userPhoto.user==userShow[0]">
+              <img class="imgProfil" [src]="userPhoto.photo">
+            </span>
+          </ng-container>
         </ion-avatar>
         <ion-label>
           <div class="flex_box" *ngFor="let user of users | async">
@@ -70,5 +61,5 @@
 
   <!-- <ion-button (click)="add()">Ajouter</ion-button> -->
   
-
+  
 </ion-content>
