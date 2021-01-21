@@ -20,7 +20,9 @@ margin-top: 20%;
 
 .MyCovoit{
     color:#ffffff;
-    margin-top:30%;
+    margin-top:50%;
+    transition-property: margin-top;
+    transition-duration: 0.5s;
     font-size:40px;
 }
 

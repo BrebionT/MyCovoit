@@ -5,9 +5,48 @@
       </ion-title>
     </ion-toolbar>
   </ion-header>
-<ion-content>
-
-      <h1 class="MyCovoit"><strong><center>MYCOVOIT</center></strong></h1>
-      
- 
-</ion-content>
+  
+  <ion-content [fullscreen]="true">
+    <ion-card>
+      <ion-toolbar>
+        <ion-title >
+          Où allez-vous ?
+        </ion-title>
+      </ion-toolbar>
+    <ion-item>
+      <ion-label color="dark" position="stacked">Lieu de départ :</ion-label>
+      <ion-input id="test" placeholder="Hôtel du Moulin" [(ngModel)]="Tra_lieuDepart" type="string" ></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label color="dark" position="stacked">Lieu d'arrivée :</ion-label>
+      <ion-input placeholder="Caen" [(ngModel)]="Tra_lieuArrivee" type="string" ></ion-input>
+    </ion-item>
+   
+    <ion-item>
+      <ion-label color="dark" position="stacked">Date de départ :</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" min="1994-03-14" max="2999-12-31" value="2002-09-23" [(ngModel)]="Tra_dateDepart"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label color="dark" position="stacked">Heure d'arrivée : </ion-label>
+      <ion-datetime class="encadrer-un-contenu" display-format = "HH:mm" [(ngModel)]="trajet.Tra_heureArrivee"> </ion-datetime>
+    </ion-item>
+  
+   <!-- <ion-item>
+      <ion-label position="floating">Nombres de passagers</ion-label>
+      <ion-input [(ngModel)]="tra_nbPassager" placeholder="Nombres de passagers" type="number" min="1" id="nbPassa"></ion-input>
+    </ion-item>
+  -->
+</ion-card>
+    <ion-content class="padding">  
+      <ion-grid>
+        <ion-row>
+          <ion-col class ="case">   
+            <ion-button id="bouton" (click)="fonctionstrouvertrajets()" type="submit">Rechercher</ion-button>
+            </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
+  
+  </ion-content>
+  

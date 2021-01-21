@@ -29,6 +29,10 @@ const routes: Routes = [
   {
     path: 'motdepasseoublie',
     loadChildren: () => import('./motdepasseoublie/motdepasseoublie.module').then( m => m.MotdepasseoubliePageModule)
+  },
+  {
+    path: 'motdepasseoublie',
+    loadChildren: () => import('./motdepasseoublie/motdepasseoublie.module').then( m => m.MotdepasseoubliePageModule)
   }
 
 ];

@@ -23,7 +23,7 @@ import { Platform, LoadingController } from '@ionic/angular';
 
 
 
-export class ConnexionPage implements OnInit{
+export class ConnexionPage{
   
 
 dataUser = {
@@ -35,6 +35,7 @@ passwordType: string = 'password';
  passwordIcon: string = 'eye-off';
 
 public connected: boolean = false;
+public charge: boolean = false;
 
 
   constructor(
@@ -49,32 +50,7 @@ public connected: boolean = false;
     
     }
 
-  ngOnInit(){
-    var route = this.router;
-    this.afAuth.authState.subscribe(auth => {
-      if (!auth) {
-        //console.log('non connecté');
-        this.connected = false;
-      } else {
-        //console.log('connecté: ' + auth.uid);
-        this.connected = true;
-        route.navigateByUrl('/tabs/tableaubord');
-        /*
-        this.platform.ready().then(()=>{        //Creation d'une plateforme d'attente pour la connexion
-        this.loadingController.create({
-          message:"🚗 En route..."
-        }).then((loadingElement)=>{
-          loadingElement.present();
-          var ref = this;
-          setTimeout(function(){
-            ref.loadingController.dismiss();
-            route.navigateByUrl('/tabs/tableaubord');
-          },1000)
-        })  
-      })*/
-      }
-    });
-  }
+  
 
 
   returnConnected(){
@@ -121,7 +97,9 @@ public connected: boolean = false;
           var ref = this;
           setTimeout(function(){
             ref.loadingController.dismiss();
-            route.navigateByUrl('/tabs/tableaubord');
+            route.navigateByUrl('/tabs/tableaubord',{
+              replaceUrl : true
+             });
           },1000)
         })  
       })
@@ -141,11 +119,15 @@ public connected: boolean = false;
   }
  
   Inscript(){
-    this.router.navigateByUrl('/tabs/inscription');
+    this.router.navigateByUrl('/inscription',{
+      replaceUrl : true
+     });
   }
 
   motDePasseOublie(){
-    this.router.navigateByUrl('/tabs/motdepasseoublie');
+    this.router.navigateByUrl('/motdepasseoublie',{
+      replaceUrl : true
+     });
   }
 
   /* sendPasswordResetEmail(email){

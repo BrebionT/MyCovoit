@@ -48,6 +48,8 @@ export class MessagesPage{
   }
 
   ngOnDestroy(){
+    this.userList2=[];
+    this.messagesView=null;
     console.log("détruit")
   }
 

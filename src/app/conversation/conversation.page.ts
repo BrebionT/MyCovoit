@@ -52,9 +52,9 @@ export class ConversationPage implements OnInit{
         this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
         this.getDest(this.destId);
         this.getMessages(this.userId,this.destId);
+        this.scrollToBottom();
       }
     });
-    //
   }
 
   
@@ -74,6 +74,18 @@ export class ConversationPage implements OnInit{
       });
     })
   }
+
+   getContent() {
+    var x= document.querySelector('ion-content');
+    console.log("scroll");
+    return x;
+  }
+
+   scrollToBottom() {
+     
+    this.getContent().scrollToBottom();
+  }
+
 
 
   trierMessage(messages){
@@ -155,6 +167,7 @@ export class ConversationPage implements OnInit{
       vu: false
     });
     this.messageText = '';
+    this.scrollToBottom();
   }
 
 

@@ -7,25 +7,25 @@
       
 
 <div class ="container"> 
-      <ion-item class="champ" *ngIf="!connected">   
+      <ion-item class="champ">   
             <ion-label floating color="light">Mail :</ion-label>
             <ion-input placeholder="Adresse mail" type="email" color="light" [(ngModel)]="dataUser.email"></ion-input>
       </ion-item>
-      <ion-item class="champ" *ngIf="!connected">
+      <ion-item class="champ">
             <ion-label floating color="light">Mot de passe :</ion-label>
             <ion-input (keyup.enter)="login()" placeholder="Mot de passe" [type]="passwordType" color="light" [(ngModel)]="dataUser.password"></ion-input>
             <ion-icon color="light" item-end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>    
       </ion-item>
-      <ion-item lines="none" *ngIf="!connected">
+      <ion-item lines="none">
         <ion-button (click)="motDePasseOublie()" style="font-size:12px;" color="light" slot="end" fill="clear">Mot de passe oublié ?</ion-button>
       </ion-item>
             <center> <ion-button *ngIf="!connected" tab='historique' shape="round" color="primary" (click)="login()">Connexion</ion-button></center>
+            
             <div *ngIf="!connected" style="margin-top:31%;">
                   <p style="margin:2px;text-align: center;color:white; display:block">Vous n'êtes pas inscrit ?</p>
                   <p style="margin:2px;text-align: center; color:white; display:block">Cliquez sur le bouton ci-dessous.</p>
             </div>
-            <center> <ion-button *ngIf="!connected" color="light"  shape="round" (click)="Inscript()" style="margin-top:15px;">Inscription</ion-button></center>
-            <center> <ion-button *ngIf="connected" shape="round" color="danger" style="margin-top:33%" (click)="logout()">Déconnexion</ion-button></center>
+            <center> <ion-button  color="light"  shape="round" (click)="Inscript()" style="margin-top:15px;">Inscription</ion-button></center>
   </div>
 
  
