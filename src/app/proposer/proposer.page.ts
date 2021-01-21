@@ -150,7 +150,6 @@ export class ProposerPage implements OnInit{
       `<p><strong>DATE DE DEPART : </strong>`+this.trajet.tra_dateDepart+`</p>`+
       `<p><strong>HEURE DE DEPART : </strong>`+this.trajet.tra_heureDepart+`</p>`+
       `<p><strong>LIEU D'ARRIVEE : </strong>`+this.trajet.tra_lieuArrivee+`</p>`+
-      `<p><strong>DATE D'ARRIVEE : </strong>`+this.trajet.tra_dateArrivee+`</p>`+
       `<p><strong>HEURE D'ARRIVEE : </strong>`+this.trajet.tra_heureArrivee+`</p>`+
       `<p><strong>LES ETAPES : </strong>`+this.trajet.tra_etape+`</p>`,
       buttons: [

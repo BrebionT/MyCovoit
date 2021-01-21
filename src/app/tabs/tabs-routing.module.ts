@@ -57,6 +57,10 @@ const routes: Routes = [
         loadChildren: () => import('../rechercher/rechercher.module').then( m => m.RechercherPageModule)
       },
       {
+        path: 'recherchetrajet',
+        loadChildren: () => import('../recherchetrajet/recherchetrajet.module').then( m => m.RecherchetrajetPageModule)
+      },
+      {
 
         path: '',
         redirectTo: '/connexion',
