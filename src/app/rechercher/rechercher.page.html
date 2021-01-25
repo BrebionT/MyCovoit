@@ -6,8 +6,8 @@
     </ion-toolbar>
   </ion-header>
   
-  <ion-content [fullscreen]="true">
-    <ion-card>
+  <ion-content [fullscreen]="true" (keyup.enter)="fonctionstrouvertrajets()">
+    <ion-card *ngIf="beforesearch">
       <ion-toolbar>
         <ion-title >
           Où allez-vous ?
@@ -38,15 +38,51 @@
     </ion-item>
   -->
 </ion-card>
-    <ion-content class="padding">  
+    <ion-content class="padding" *ngIf="beforesearch">  
       <ion-grid>
         <ion-row>
           <ion-col class ="case">   
             <ion-button id="bouton" (click)="fonctionstrouvertrajets()" type="submit">Rechercher</ion-button>
+            <ion-button id="bouton" (click)="remplacer()" type="submit">test</ion-button>
             </ion-col>
         </ion-row>
       </ion-grid>
     </ion-content>
+
+    <ion-content class="padding" *ngIf="!beforesearch">   <!--*ngIf="!beforesearch"-->
+      <Center><strong><h1>Trajets disponibles</h1></strong></Center>
+      <ion-grid>
+        <ion-row>
+          <ion-col class ="case">   
+    <ion-card *ngFor="let trajets of liste_trajetdispo">         
+<ion-item>
+  <ion-col>
+    <ion-title style="padding-left:0; text-align:center;">{{destView.prenom}} {{destView.nom}}</ion-title>
+    <ion-avatar slot="end">
+      <img [src]="images">
+    </ion-avatar></ion-col>
+  <ion-datetime class="force-black-font" display-format="DD/MM/YYYY" value={{trajets.datedepart}}></ion-datetime>
+</ion-item>
   
+
+
+<ion-item>
+  <p class="important">Départ :</p>
+  <ion-datetime class="force-black-font" display-format="H:mm" picker-format="H:mm" value={{trajets.heuredepart}}></ion-datetime>
+  <ion-label>{{ trajets.lieudepart }}</ion-label>
+</ion-item>
+<ion-item>
+  <p class="important">Arrivée :</p>
+  <ion-datetime class="force-black-font" display-format="H:mm" picker-format="H:mm" value={{trajets.heurearrivee}}></ion-datetime>
+  <ion-label >{{ trajets.lieuarrivee }}</ion-label>
+</ion-item>
+
+
+    </ion-card>
+    <ion-button id="bouton"  onclick="window.location.reload()" type="submit">Retour</ion-button>
+            </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-content>
   </ion-content>
   
