@@ -1,0 +1,40 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Donnez votre avis</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+  <div *ngFor='let item of utilisateurs | async'>
+    <div class="header" *ngIf='item.id == destId'>
+      <div class="top">
+        <p style="color:#ffffff; margin:0; padding:10px 0px;"  *ngIf='item.id == destId'>{{item.prenom}}&nbsp;{{item.nom}}</p>
+      </div>
+    </div>
+    <div class="flex" *ngIf='item.id == destId'>
+      <div class="box-border">
+        <div class="border-white">
+          <div class="img-box">
+            <img id="imgProfil" [src]="images">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf='item.id == destId'>
+
+      <center><p style="margin:60px 0px 10px">Donnez une note sur 5 pour {{item.prenom}} {{item.nom}}</p></center>
+      <div style="width:70%; margin-left:15%">
+        <ion-icon (click)="rating(1)" [ngClass]="value>=1?'star1':'starno1'" class="star" name="star"></ion-icon>
+        <ion-icon (click)="rating(2)" [ngClass]="value>=2?'star2':'starno2'"class="star" name="star"></ion-icon>
+        <ion-icon (click)="rating(3)" [ngClass]="value>=3?'star3':'starno3'"class="star" name="star"></ion-icon>
+        <ion-icon (click)="rating(4)" [ngClass]="value>=4?'star4':'starno4'"class="star" name="star"></ion-icon>
+        <ion-icon (click)="rating(5)" [ngClass]="value>=5?'star5':'starno5'"class="star" name="star"></ion-icon>
+      </div>
+      <center><p style="margin:60px 0px 10px">Laissez un petit commentaire :</p></center>
+      <textarea [(ngModel)]="commentaire" id="commentaire" name="commentaire" rows="5" style="width:80%; margin:0px 10% 0px"></textarea>
+
+      <ion-button style="margin: 30px 35% 0px 35%; width: 30%;" (click)="envoyer()">Envoyer</ion-button>
+    </div>
+  </div>
+</ion-content>

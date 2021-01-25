@@ -107,31 +107,33 @@ export class TableaubordPage implements OnInit{
     this.trajet_a_venir = [];
     this.liste_dates = [];
   
-
-    this.uti_tra.subscribe(uti =>{
-      uti.forEach(value2=> {
-        if(value2['uti_tra_idUti']==that.userid){
-          this.trajets.subscribe(tra =>{
-            tra.forEach(value3=> {
-              if(value3['tra_id']==value2['uti_tra_idTra']){
-                var date = new Date (value3['tra_dateDepart']);
-                var newDate = date ;
-                if(newDate>=this.today){
-                  that.trajetprevus=true;
-                 // this.trajet_a_venir.push([value2, value3]);
-                  this.liste_dates.push({date:newDate, trajet:value3, role:value2['uti_tra_role']});
-                  this.liste_dates.sort(function(a,b){
-                    return a.date - b.date;
-                  });
-                  //console.log(this.liste_dates)
-                }
-              }
-            })
-          })
-        }
+    if(this.uti_tra != null){
+      this.uti_tra.subscribe(uti =>{
+        uti.forEach(value2=> {
+          if(value2['uti_tra_idUti']==that.userid){
+            if(this.trajets != null){
+              this.trajets.subscribe(tra =>{
+                tra.forEach(value3=> {
+                  if(value3['tra_id']==value2['uti_tra_idTra']){
+                    var date = new Date (value3['tra_dateDepart']);
+                    var newDate = date ;
+                    if(newDate>=this.today){
+                      that.trajetprevus=true;
+                     // this.trajet_a_venir.push([value2, value3]);
+                      this.liste_dates.push({date:newDate, trajet:value3, role:value2['uti_tra_role']});
+                      this.liste_dates.sort(function(a,b){
+                        return a.date - b.date;
+                      });
+                      //console.log(this.liste_dates)
+                    }
+                  }
+                })
+              })
+            }
+          }
       })
     })
-   
+  }
     
   }
 

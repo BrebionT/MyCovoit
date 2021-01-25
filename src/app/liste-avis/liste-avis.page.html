@@ -1,0 +1,35 @@
+
+  <ion-header [translucent]="true">
+    <ion-toolbar color="dark">
+      <ion-title>
+        Liste des avis
+      </ion-title>
+    
+    </ion-toolbar>
+  </ion-header>
+ 
+
+<ion-content>
+  <div *ngFor='let user of utilisateur'>
+  <center><h3 *ngIf="userAvis == userId" style="width:100%">
+    Liste des avis sur vous
+  </h3></center>
+  <center><h3 *ngIf="userAvis != userId" style="width:100%">
+    Liste des avis sur {{user.prenom}} {{user.nom}}
+  </h3></center>
+
+  <div *ngFor='let avis of listeAvis'>
+    <ion-item style="width:100%">
+      <div slot="start">
+        <h3 style="display:flex;">{{avis.avis.note}}<ion-icon style="fill:gold; margin-left:5px" name="star"> </ion-icon> </h3>
+      </div>
+      <div>
+        <div class="flex_box">
+          <p style="font-weight: bold;">{{avis.user.prenom}} {{avis.user.nom}}</p>
+        </div>
+        <p style="display:flex; width:100%">{{avis.avis.commentaire}}</p>
+      </div>
+    </ion-item>
+  </div>
+</div>
+</ion-content>

@@ -47,6 +47,7 @@ export class ModifProfilPage {
     public afAuth: AngularFireAuth,
     public afDB: AngularFireDatabase,
     private camera: Camera,
+    private router: Router,
     public afSG: AngularFireStorage
     ) { 
     this.connecter();
@@ -150,6 +151,7 @@ export class ModifProfilPage {
       bio: this.user.bio,
       photo:this.user.photo
     })
+    this.router.navigateByUrl('/tabs/profil');
   }
 
   formatDate(date) {

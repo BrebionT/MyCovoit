@@ -16,8 +16,14 @@ export class ProfilPage implements OnInit {
     password: ''
   };
   public images = "";
+
   utilisateurs: Observable<any[]>;
+  avis: Observable<any[]>;
+
   public userid;
+  public avisValue =0;
+  public nbAvis =0;
+  public avisTotal;
   public connected: boolean = false;
   utilisateur: Observable<any[]>;
 
@@ -29,7 +35,9 @@ export class ProfilPage implements OnInit {
     this.connecter();
     
     this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
+    this.avis = this.firestore.collection('avis').valueChanges();
     this.getUtilisateur();
+    this.getAvis();
   }
 
   connecter(){
@@ -58,7 +66,29 @@ export class ProfilPage implements OnInit {
     });
     
   }
+  getAvis(){
+    this.avis.subscribe(avis =>{
+      avis.forEach( unAvis =>{
+        if(unAvis['destinataire']==this.userid){
+          this.nbAvis+=1;
+          this.avisValue+=unAvis['note'];
+          this.avisTotal = (this.avisValue / this.nbAvis)
+          console.log(this.avisTotal.toString().indexOf('.'))
+          if(this.avisTotal.toString().indexOf('.') != -1){
+            this.avisTotal=this.avisTotal.toFixed(2);
+          }
+          //this.avisTotal = this.avisValue/this.nbAvis;
 
+          
+          //this.avisTotal
+
+          //console.log(this.avisTotal)
+        }
+      })
+      
+    })
+    
+  }
   getImagesStorage(image: any) {
     console.log(image)
     this.afSG.ref('users/'+image).getDownloadURL().subscribe(imgUrl => {

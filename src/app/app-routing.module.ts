@@ -33,7 +33,15 @@ const routes: Routes = [
   {
     path: 'motdepasseoublie',
     loadChildren: () => import('./motdepasseoublie/motdepasseoublie.module').then( m => m.MotdepasseoubliePageModule)
+  },  {
+    path: 'noter',
+    loadChildren: () => import('./noter/noter.module').then( m => m.NoterPageModule)
+  },
+  {
+    path: 'liste-avis',
+    loadChildren: () => import('./liste-avis/liste-avis.module').then( m => m.ListeAvisPageModule)
   }
+
 
 
 ];

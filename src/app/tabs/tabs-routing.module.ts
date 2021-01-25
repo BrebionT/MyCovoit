@@ -61,6 +61,14 @@ const routes: Routes = [
         loadChildren: () => import('../recherchetrajet/recherchetrajet.module').then( m => m.RecherchetrajetPageModule)
       },
       {
+        path: 'noter',
+        loadChildren: () => import('../noter/noter.module').then( m => m.NoterPageModule)
+      },
+      {
+        path: 'liste-avis',
+        loadChildren: () => import('../liste-avis/liste-avis.module').then( m => m.ListeAvisPageModule)
+      },
+      {
 
         path: '',
         redirectTo: '/connexion',

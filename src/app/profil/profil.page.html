@@ -1,15 +1,20 @@
+
 <ion-content>
   <div class="header">
-    <ion-buttons>
-      <ion-menu-button id="bouton" side="end"></ion-menu-button>
+    <ion-toolbar color="dark">
+      <ion-buttons>
+        <ion-menu-button side="end" id="bouton"></ion-menu-button>
       </ion-buttons>
+    </ion-toolbar>
+  
     <div *ngFor='let item of utilisateurs | async'>
       <div class="top">
         <p style="color:#ffffff; margin:0; padding:0px 0px;"  *ngIf='item.id == userid'>{{item.prenom}}&nbsp;{{item.nom}}</p>
       </div >
       <div class="space-between" *ngIf='item.id == userid'>
-        <div class="followings">
-          <ion-badge color="primary" mode="ios">4.5</ion-badge>
+        <div class="followings" [routerLink]="['/liste-avis']" fragment="{{userid}}">
+          <ion-badge *ngIf="avisTotal !='0' "color="primary" mode="ios">{{avisTotal}}</ion-badge>
+          <ion-badge *ngIf="avisTotal ==undefined "color="primary" mode="ios">Pas d'avis</ion-badge>
           <p>Note</p>
         </div>
         <div class="followings" >
@@ -45,6 +50,9 @@
     <p *ngIf='item.id == userid' style="color:rgb(50,50,50)"><span class="important">Bio :</span> {{item.bio}}</p>
 </div>
 </ion-card>
+
+
+
 </ion-content>
 <!--<ion-toolbar>
   <ion-title>profil</ion-title>
