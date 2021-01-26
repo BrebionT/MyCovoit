@@ -11,7 +11,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { DeconnexionPageRoutingModule } from './deconnexion-routing.module';
-
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 
@@ -27,6 +27,10 @@ import { DeconnexionPageRoutingModule } from './deconnexion-routing.module';
     ExploreContainerComponentModule,
     DeconnexionPageRoutingModule
   ],
-  declarations: [DeconnexionPage]
+  declarations: [DeconnexionPage],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
+  ]
 })
 export class DeconnexionPageModule {}

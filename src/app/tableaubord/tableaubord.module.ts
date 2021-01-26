@@ -6,6 +6,7 @@ import { TableaubordPage } from './tableaubord.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { TableaubordPageRoutingModule } from './tableaubord-routing.module';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,10 @@ import { TableaubordPageRoutingModule } from './tableaubord-routing.module';
     FormsModule,
     ExploreContainerComponentModule,
     TableaubordPageRoutingModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
   ],
   declarations: [TableaubordPage]
 })

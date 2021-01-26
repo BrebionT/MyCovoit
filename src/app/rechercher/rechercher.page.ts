@@ -49,7 +49,7 @@ export class RechercherPage {
 
   public trajettrouve : boolean = false;
 
-  trajet: Observable<any[]>;
+  public trajet;
   Tra_lieuDepart: string;
   Tra_lieuArrivee: string;
   Tra_dateDepart: string;
@@ -147,6 +147,8 @@ redirectiontrajettrouve(){
 }
 
 fonctionstrouvertrajets(){
+  
+  this.remplacer();
   this.recherche();
   this.redirectiontrajettrouve();
 }

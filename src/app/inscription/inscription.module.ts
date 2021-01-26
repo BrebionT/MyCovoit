@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { InscriptionPageRoutingModule } from './inscription-routing.module';
 
 import { InscriptionPage } from './inscription.page';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,10 @@ import { InscriptionPage } from './inscription.page';
     FormsModule,
     IonicModule,
     InscriptionPageRoutingModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
   ],
   declarations: [InscriptionPage]
 })

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AccueilPage } from './accueil.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AccueilPageRoutingModule } from './accueil-routing.module';
 
@@ -15,6 +16,10 @@ import { AccueilPageRoutingModule } from './accueil-routing.module';
     ExploreContainerComponentModule,
     AccueilPageRoutingModule
   ],
-  declarations: [AccueilPage]
+  declarations: [AccueilPage],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
+  ]
 })
 export class AccueilPageModule {}

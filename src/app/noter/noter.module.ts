@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { NoterPageRoutingModule } from './noter-routing.module';
 
 import { NoterPage } from './noter.page';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,10 @@ import { NoterPage } from './noter.page';
     FormsModule,
     IonicModule,
     NoterPageRoutingModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
   ],
   declarations: [NoterPage]
 })

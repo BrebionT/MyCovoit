@@ -11,10 +11,10 @@
 
 <ion-content>
   <div *ngFor='let user of utilisateur'>
-  <center><h3 *ngIf="userAvis == userId" style="width:100%">
+  <center><h3 *ngIf="userAvis == userid" style="width:100%">
     Liste des avis sur vous
   </h3></center>
-  <center><h3 *ngIf="userAvis != userId" style="width:100%">
+  <center><h3 *ngIf="userAvis != userid" style="width:100%">
     Liste des avis sur {{user.prenom}} {{user.nom}}
   </h3></center>
 

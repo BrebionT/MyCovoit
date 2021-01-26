@@ -11,6 +11,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { ConditionGenPageRoutingModule } from './conditionGen-routing.module';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 
@@ -26,6 +27,10 @@ import { ConditionGenPageRoutingModule } from './conditionGen-routing.module';
     FormsModule,
     ExploreContainerComponentModule,
     ConditionGenPageRoutingModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
   ],
   declarations: [ConditionGenPage]
 })
