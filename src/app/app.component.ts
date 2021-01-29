@@ -37,8 +37,7 @@ export class AppComponent {
     });
   }
 
-
-sideMenu()
+ sideMenu()
   {
     this.navigate =
     [
@@ -60,5 +59,6 @@ sideMenu()
       },
     ]
   }
+
   
 }

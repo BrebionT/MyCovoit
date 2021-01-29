@@ -27,10 +27,7 @@
       <ion-label color="dark" position="stacked">Date de départ :</ion-label>
       <ion-datetime displayFormat="DD/MM/YYYY" min="1994-03-14" max="2999-12-31" value="2002-09-23" [(ngModel)]="Tra_dateDepart"></ion-datetime>
     </ion-item>
-    <ion-item>
-      <ion-label color="dark" position="stacked">Heure d'arrivée : </ion-label>
-      <ion-datetime class="encadrer-un-contenu" display-format = "HH:mm" [(ngModel)]="trajet.Tra_heureArrivee"> </ion-datetime>
-    </ion-item>
+
   
    <!-- <ion-item>
       <ion-label position="floating">Nombres de passagers</ion-label>
@@ -43,7 +40,6 @@
         <ion-row>
           <ion-col class ="case">   
             <ion-button id="bouton" (click)="fonctionstrouvertrajets()" type="submit">Rechercher</ion-button>
-            <ion-button id="bouton" (click)="remplacer()" type="submit">test</ion-button>
             </ion-col>
         </ion-row>
       </ion-grid>

@@ -147,6 +147,7 @@ redirectiontrajettrouve(){
 }
 
 fonctionstrouvertrajets(){
+  this.remplacer()
   this.recherche();
   this.redirectiontrajettrouve();
 }
@@ -226,19 +227,15 @@ remplacer(){
   var regAccentC = new RegExp('[ç]', 'gi');
   var regAccentOE = new RegExp('[œ]', 'gi');
   var regAccentAE = new RegExp('[æ]', 'gi');
-  var regAccentTIRET = new RegExp('[_]', 'gi');
   var regAccentN = new RegExp('[ñ]', 'gi');
-  var regAccentSPECIAUX = new RegExp('[ ² * + = % µ € $ ¤ £ , ; : ! ? @ & § ~ ^ ` ¨ ° " # Ç  …]', 'gi');
-  var regAccentCHIFFRE = new RegExp('[0 1 2 3 4 5 6 7 8 9]', 'gi');
-  var regAccentSPECIAUX1 = new RegExp('[ă ā å ą ć ċ č Ď ď Đ đ ė ě ē ę ġ Ģ ģ Ħ ħ ī į ĳ ķ ļ ł ń ň ņ ő ø ŕ ř ś š ș ț Ť ť ū ů ų ű ź ż ž ẞ]','gi');
-  var regAccentSYMBOLE = new RegExp('[| )( }{  \ / >< »« [ ]]');
-  var regAccentAUTRES = new RegExp("\'");
 
-  //var regAccentAUTRES = new RegExp('[\().\'<>{}]');
-
-  var myStringUP;
+  
   var myString;
+  var myStringUP;
   var myStringUP2;
+  
+  console.log(myString)
+  console.log(mystring2);
 
   // Application de la fonction replace() sur myString
 
@@ -251,24 +248,36 @@ remplacer(){
   myString = myString.replace(regAccentC, 'c');
   myString = myString.replace(regAccentOE, 'oe');
   myString = myString.replace(regAccentAE, 'ae');
-  myString = myString.replace(regAccentTIRET, '-');
   myString = myString.replace(regAccentN, 'n');
-  myString = myString.replace(regAccentSPECIAUX, '');
-  myString = myString.replace(regAccentCHIFFRE, '');
-  myString = myString.replace(regAccentSPECIAUX1, '');
-  myString = myString.replace(regAccentSYMBOLE, '');
-  myString = myString.replace(regAccentAUTRES, '');
-  myString = myString.replace(String.fromCharCode(92),"");
-
  
-  myStringUP = myString.trim();
-  myStringUP2 = myStringUP.toLowerCase();
-  console.log(myStringUP2);
-  console.log(myStringUP.length);
 
-  //this.lieudepartRemplacé = this.Tra_lieuDepart.toLowerCase();
-  //this.lieudepartRemplacé.replace(/\w|-/g, '');
+  myString = myString.replace(/[^a-zA-Z- ]/g,'');
+  myStringUP = myString.trim();
+  this.Tra_lieuDepart = myStringUP.toLowerCase();
+  console.log('depart : '+this.Tra_lieuDepart);
   
+
+      var mystring2;
+      var mystring2UP;
+      var mystring2UP2;
+
+
+      mystring2 = this.Tra_lieuArrivee.replace(regAccentA, 'a');
+      mystring2 = mystring2.replace(regAccentE, 'e');
+      mystring2 = mystring2.replace(regAccentU, 'u');
+      mystring2 = mystring2.replace(regAccentI, 'i');
+      mystring2 = mystring2.replace(regAccentO, 'o');
+      mystring2 = mystring2.replace(regAccentY, 'y');
+      mystring2 = mystring2.replace(regAccentC, 'c');
+      mystring2 = mystring2.replace(regAccentOE, 'oe');
+      mystring2 = mystring2.replace(regAccentAE, 'ae');
+      mystring2 = mystring2.replace(regAccentN, 'n');
+  
+      mystring2 = mystring2.replace(/[^a-zA-Z- ]/g,'');
+      mystring2UP = mystring2.trim();
+      this.Tra_lieuArrivee = mystring2UP.toLowerCase();
+
+      console.log('arrivée : '+this.Tra_lieuArrivee);
 }
 
 

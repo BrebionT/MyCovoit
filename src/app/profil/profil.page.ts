@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
+
+
+
 @Component({
   selector: 'app-profil',
   templateUrl: './profil.page.html',
@@ -89,6 +92,7 @@ export class ProfilPage implements OnInit {
     })
     
   }
+ 
   getImagesStorage(image: any) {
     console.log(image)
     this.afSG.ref('users/'+image).getDownloadURL().subscribe(imgUrl => {
@@ -119,6 +123,6 @@ export class ProfilPage implements OnInit {
     };
     //console.log(this.connected, this.dataUser)
   }
-  
 
+  
 }

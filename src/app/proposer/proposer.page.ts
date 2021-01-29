@@ -21,6 +21,7 @@ export class ProposerPage implements OnInit{
   utilisateurTrajet = {} as utilisateur_trajet;
   messages: Observable<any[]>;
   users: Observable<any[]>;
+  today = new Date();
 
   public proposerView : Observable<any[]>;
   public userList = Array();
@@ -83,9 +84,30 @@ export class ProposerPage implements OnInit{
     
   }
 
-  
+heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
+  if(this.trajet.tra_heureDepart > this.trajet.tra_heureArrivee ){
+    this.showToast("L'heure d'arrivée ne peut pas être inférieur à celle de départ !");
+  }
+  else{
+    this.date(utilisateurTrajet,trajet);
+  }
+}
 
-  async createUtilisateur_trajet(utilisateurTrajet: utilisateur_trajet,id) {
+  date(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
+    var date1 = this.trajet.tra_dateDepart;
+    var date = new Date (date1);
+    var newDate = date ;
+    console.log("tratra"+newDate);
+    console.log("trotro"+this.today);
+    if( newDate.getDay() < this.today.getDay() && newDate.getMonth() < this.today.getMonth() && newDate.getFullYear() < this.today.getFullYear()){
+      this.showToast("Merci de rentrer une date ultérieur à celle d'aujourd'hui !");
+    }
+    else{
+      this.LancerFonction(utilisateurTrajet,trajet);
+      
+  }}
+
+  async createUtilisateur_trajet(utilisateurTrajet: utilisateur_trajet,id, ) {
     // console.log(post);
     utilisateurTrajet.uti_tra_idUti = this.userId;
     utilisateurTrajet.uti_tra_idTra = id;
@@ -139,11 +161,12 @@ export class ProposerPage implements OnInit{
 
   LancerFonction(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
     var id = new Date().toISOString();
+    this.remplacer();
     this.createUtilisateur_trajet(utilisateurTrajet, id);
     this.createTrajets(trajet, id);
   }
   
-  async presentAlertConfirm(utilisateurTrajet: utilisateur_trajet,trajet: trajets) {
+  async presentAlertConfirm(utilisateurTrajet: utilisateur_trajet,trajet: trajets,today) {
     const alert = await this.alertController.create({
       header: 'Confirmation de trajet !',
       message: `<p><strong>LIEU DE DEPART : </strong>`+this.trajet.tra_lieuDepart+`</p>`+
@@ -171,6 +194,69 @@ export class ProposerPage implements OnInit{
     });
 
     await alert.present();
+  }
+
+  remplacer(){
+    var regAccentA = new RegExp('[àâäã]', 'gi');
+    var regAccentE = new RegExp('[éèêë]', 'gi');
+    var regAccentU = new RegExp('[ùûü]', 'gi');
+    var regAccentI = new RegExp('[îïì]', 'gi');
+    var regAccentO = new RegExp('[ôöõò]', 'gi');
+    var regAccentY = new RegExp('[ÿ]', 'gi');
+    var regAccentC = new RegExp('[ç]', 'gi');
+    var regAccentOE = new RegExp('[œ]', 'gi');
+    var regAccentAE = new RegExp('[æ]', 'gi');
+    var regAccentN = new RegExp('[ñ]', 'gi');
+  
+    
+    var myString;
+    var myStringUP;
+    var myStringUP2;
+    
+    console.log(myString)
+    console.log(mystring2);
+  
+    // Application de la fonction replace() sur myString
+  
+    myString = this.trajet.tra_lieuDepart.replace(regAccentA, 'a');
+    myString = myString.replace(regAccentE, 'e');
+    myString = myString.replace(regAccentU, 'u');
+    myString = myString.replace(regAccentI, 'i');
+    myString = myString.replace(regAccentO, 'o');
+    myString = myString.replace(regAccentY, 'y');
+    myString = myString.replace(regAccentC, 'c');
+    myString = myString.replace(regAccentOE, 'oe');
+    myString = myString.replace(regAccentAE, 'ae');
+    myString = myString.replace(regAccentN, 'n');
+   
+  
+    myString = myString.replace(/[^a-zA-Z- ]/g,'');
+    myStringUP = myString.trim();
+    this.trajet.tra_lieuDepart = myStringUP.toLowerCase();
+    console.log('depart : '+this.trajet.tra_lieuDepart);
+    
+  
+        var mystring2;
+        var mystring2UP;
+        var mystring2UP2;
+  
+  
+        mystring2 = this.trajet.tra_lieuArrivee.replace(regAccentA, 'a');
+        mystring2 = mystring2.replace(regAccentE, 'e');
+        mystring2 = mystring2.replace(regAccentU, 'u');
+        mystring2 = mystring2.replace(regAccentI, 'i');
+        mystring2 = mystring2.replace(regAccentO, 'o');
+        mystring2 = mystring2.replace(regAccentY, 'y');
+        mystring2 = mystring2.replace(regAccentC, 'c');
+        mystring2 = mystring2.replace(regAccentOE, 'oe');
+        mystring2 = mystring2.replace(regAccentAE, 'ae');
+        mystring2 = mystring2.replace(regAccentN, 'n');
+    
+        mystring2 = mystring2.replace(/[^a-zA-Z- ]/g,'');
+        mystring2UP = mystring2.trim();
+        this.trajet.tra_lieuArrivee = mystring2UP.toLowerCase();
+  
+        console.log('arrivée : '+this.trajet.tra_lieuArrivee);
   }
 
 }

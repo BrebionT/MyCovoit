@@ -114,4 +114,7 @@ export class NoterPage {
     }
   }
 
+retour(){
+  this.router.navigateByUrl('/tabs/historique');
+}
 }
