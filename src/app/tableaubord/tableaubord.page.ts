@@ -14,6 +14,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
 export class TableaubordPage implements OnInit{
 
   today = new Date();
+  public myDate:any;
+  public trajet:any;
 
   utilisateurs: Observable<any[]>;
   trajets: Observable<any[]>;

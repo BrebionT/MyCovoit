@@ -64,3 +64,19 @@ ion-item ion-note ion-icon{
     margin-bottom: -6px;
     margin-left: -2px;
 }
+
+.delete{
+    display:flex;
+}
+
+.nodelete{
+    display:none;
+}
+
+.display{
+    display:none;
+}
+
+ion-col{
+    padding:0;
+}

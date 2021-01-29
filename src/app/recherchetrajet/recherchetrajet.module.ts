@@ -6,6 +6,7 @@ import { RecherchetrajetPage } from './recherchetrajet.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { RecherchetrajetPageRoutingModule } from './recherchetrajet-routing.module';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,10 @@ import { RecherchetrajetPageRoutingModule } from './recherchetrajet-routing.modu
     FormsModule,
     ExploreContainerComponentModule,
     RecherchetrajetPageRoutingModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
   ],
   declarations: [RecherchetrajetPage]
 })

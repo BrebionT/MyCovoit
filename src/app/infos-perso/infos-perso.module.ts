@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { InfosPersoPageRoutingModule } from './infos-perso-routing.module';
 
 import { InfosPersoPage } from './infos-perso.page';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,10 @@ import { InfosPersoPage } from './infos-perso.page';
     FormsModule,
     IonicModule,
     InfosPersoPageRoutingModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
   ],
   declarations: [InfosPersoPage]
 })

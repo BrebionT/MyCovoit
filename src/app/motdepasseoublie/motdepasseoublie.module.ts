@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { MotdepasseoubliePageRoutingModule } from './motdepasseoublie-routing.module';
 
 import { MotdepasseoubliePage } from './motdepasseoublie.page';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,10 @@ import { MotdepasseoubliePage } from './motdepasseoublie.page';
     FormsModule,
     IonicModule,
     MotdepasseoubliePageRoutingModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
   ],
   declarations: [MotdepasseoubliePage]
 })

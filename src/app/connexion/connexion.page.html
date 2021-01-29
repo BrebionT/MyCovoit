@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
 </ion-header>
 
-<ion-content>
+<ion-content (keyup.enter)="login()">
 
       <h1 class="MyCovoit"><strong><center>MYCOVOIT</center></strong></h1>
       
@@ -9,7 +9,7 @@
 <div class ="container"> 
       <ion-item class="champ">   
             <ion-label floating color="light">Mail :</ion-label>
-            <ion-input placeholder="Adresse mail" type="email" color="light" [(ngModel)]="dataUser.email"></ion-input>
+            <ion-input (keyup.enter)="login()" placeholder="Adresse mail" type="email" color="light" [(ngModel)]="dataUser.email"></ion-input>
       </ion-item>
       <ion-item class="champ">
             <ion-label floating color="light">Mot de passe :</ion-label>

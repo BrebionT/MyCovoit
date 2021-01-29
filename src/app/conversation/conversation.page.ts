@@ -1,10 +1,12 @@
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import {AngularFirestore} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import {IonContent} from '@ionic/angular'
 import { AngularFireStorage } from '@angular/fire/storage';
+
 
 
 @Component({
@@ -14,15 +16,34 @@ import { AngularFireStorage } from '@angular/fire/storage';
 })
 export class ConversationPage implements OnInit{
   
+  @ViewChild(IonContent) content: IonContent;
+
+  startPress;
+  endPress;
+  public duree;
+
+  startPress2;
+  endPress2;
+  public duree2;
+
+  selected=[];
+  selected2=[];
+
+  public messageiddata;
+  public message;
+
   connected= true;
   public userId;
   public destId;
+
+  test;
 
   public images = "";
 
   messageText: any;
   
-  public messagesView = Array();
+  public messagesView;
+  public messagesViewBIS = Array();
   public destView = {
     nom: '',
     prenom: ''
@@ -35,7 +56,6 @@ export class ConversationPage implements OnInit{
   
 
   constructor(
-    
     public afAuth: AngularFireAuth,
     public afDB: AngularFireDatabase,
     public firestore: AngularFirestore,
@@ -57,9 +77,22 @@ export class ConversationPage implements OnInit{
         this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
         this.getDest(this.destId);
         this.getMessages(this.userId,this.destId);
-        this.scrollToBottom();
+        var that=this;
+        //this.messagesView.forEach((message)=> that.selected[message.id]=false)
+        
+        setTimeout(() => {
+          this.content.scrollToBottom(300);
+       }, 1000);
+        
       }
     });
+  }
+
+  ionPageDidLoad()
+  {
+     setTimeout(() => {
+        this.content.scrollToBottom(300);
+     }, 1000);
   }
 
   
@@ -80,40 +113,16 @@ export class ConversationPage implements OnInit{
     })
   }
 
-   getContent() {
-    var x= document.querySelector('ion-content');
-    console.log("scroll");
-    return x;
-  }
-
-   scrollToBottom() {
-     
-    this.getContent().scrollToBottom();
-  }
-
-
-
   trierMessage(messages){
-    var newMessageList = Array();
-
     messages.sort(function(a,b){
-      return a.date-b.date;
+      return b.date-a.date;
     })
-    console.log(messages);
   }
 
 
   messageVu(id,message){
     if(message['utilisateur']!=this.userId && message['destinataire']==this.userId && message['vu']==false){ //le message était pour moi, alors je l'ai vu 
-    this.changeMessageVu(id)
-    console.log( "changement")
-      //return true;
-    }else if(message['utilisateur']==this.userId && message['vu']==false){ //le message n'était pas pour moi et il ne l'a pas vu
-    console.log( "pas encore changé")
-      //return false
-    }else if(message['utilisateur']==this.userId && message['vu']==true){ //le message n'était pas pour moi et il l'a  vu
-    console.log( "déjà changé")
-    //return true
+      this.changeMessageVu(id)
     }
   }
 
@@ -124,32 +133,91 @@ export class ConversationPage implements OnInit{
     })
   }
 
-  
+  pressDown(){
+    this.startPress = Date.now();
+    console.log('press')
+  }
+
+  pressUp(){
+    var that = this;
+    this.endPress = Date.now();
+    console.log('up')
+
+    this.duree = (this.endPress - this.startPress)/1000;
+    
+    /* if(this.duree>0.5){
+      setTimeout(() => {
+        this.content.scrollToBottom(300);
+     }, 30);
+    } */
+  }
+
+  pressDown2(){
+    this.startPress2 = Date.now();
+    console.log('press')
+  }
+
+  pressUp2(){
+    var that = this;
+    this.endPress2 = Date.now();
+    console.log('up')
+
+    this.duree2 = (this.endPress2 - this.startPress2)/1000;
+
+  }
   
   getMessages(userId,destId) {
+
+    /*
     var that = this;
     const db = this.firestore;
+    
     that.messagesView = [];
     this.messages.subscribe(message =>{
-      
+      console.log('subscribe')
       that.messagesView = [];
       message.forEach(value =>{
-
+        console.log('message')
         if((value['utilisateur']==userId && value['destinataire']==destId) || (value['destinataire']==userId && value['utilisateur']==destId)){
-          that.messagesView.push({
+          
+          this.messagesView.push({
+            id: value['id'],
             userId: value['utilisateur'],
             destId: value['destinataire'],
             text: value['message'],
             date: value['date'],
-            vu: value['vu']
+            vu: value['vu'],
+            archive: value['archive']
           });
-        
         }
       });
-      that.trierMessage(that.messagesView);
+      
+      
+      
+      that.trierMessage(this.messagesView);
+      this.messagesView.reverse();
+      
     })
     
-    
+    */
+    var that = this;
+    this.test = this.firestore.collection("messages");
+    this.test.ref.where("destinataire", "in", [destId, userId]);
+    this.test.ref.where("utilisateur", "in", [destId, userId]);
+    this.test.ref.orderBy('date')
+    .onSnapshot(function(querySnapshot) {
+      that.messagesView=[]
+        querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            //console.log(doc.id, " => ", doc.data());
+            //console.log(typeof(doc.data()))
+            that.messagesView.push(doc.data())
+        });
+    })
+  }
+
+  presentPopover(message){
+    console.log(message.id)
   }
 
   getDest(destId){
@@ -165,24 +233,161 @@ export class ConversationPage implements OnInit{
   }
 
   getImagesStorage(image: any) {
-    console.log(image)
+    //console.log(image)
     this.afSG.ref('users/'+image).getDownloadURL().subscribe(imgUrl => {
-      console.log(imgUrl);
+      //console.log(imgUrl);
       this.images= imgUrl;
     });
-    console.log(this.images)
+    //console.log(this.images)
   }
 
   envoyerMessage(){
-    this.firestore.collection('messages').add({
-      utilisateur: this.userId,
-      destinataire: this.destId,
-      message: this.messageText,
-      date: new Date(),
-      vu: false
-    });
-    this.messageText = '';
-    this.scrollToBottom();
+    if(this.messageText != undefined && this.messageText.trim() != ""){
+      this.firestore.collection('messages').add({
+        id: new Date().getTime(),
+        utilisateur: this.userId,
+        destinataire: this.destId,
+        message: this.messageText.trim(),
+        date: new Date(),
+        vu: false,
+        archive:false,
+        archiveDest:false
+      });
+      this.messageText = '';
+      var that = this;
+      setTimeout(() => {
+        that.content.scrollToBottom(300);
+     }, 30);
+      
+    }
+    
+  }
+
+  getTrail(value){
+    console.log(value)
+    if(this.selected.includes(value)==false){
+      this.selected.push(value)
+    }else{
+      const index = this.selected.indexOf(value);
+      this.selected.splice(index,1);
+    }
+    if(this.selected2.includes(value)==false){
+      this.selected2.push(value)
+    }else{
+      const index2 = this.selected2.indexOf(value);
+      this.selected2.splice(index2,1);
+    }
+    this.selected.sort();
+    this.selected2.sort()
+    console.log(this.selected)
+    
+  }
+
+  retour(){
+    var that = this;
+    this.duree=0;
+    
+    this.selected=[];
+    setTimeout(() => {
+      this.content.scrollToBottom(300);
+   }, 1000);
+  }
+  retour2(){
+    var that = this;
+    this.duree2=0;
+    
+    this.selected2=[];
+    setTimeout(() => {
+      this.content.scrollToBottom(300);
+   }, 1000);
+  }
+
+  supprimerMessage(sel){
+    var that = this;
+    this.firestore.collection("messages").get().toPromise().then((snapshot)=>{
+      snapshot.docs.forEach(doc =>{
+        if(doc.data()['id']==sel){
+          that.firestore.collection("messages").doc(doc.id).update({
+            archive:true
+          })
+
+          /* this.messageiddata = doc.id;
+          this.message = {
+            archive: doc.data()['archive'],
+            date: doc.data()['date'],
+            destinataire: doc.data()['destinataire'],
+            id: doc.data()['id'],
+            message: doc.data()['message'],
+            utilisateur: doc.data()['utilisateur'],
+            vu: doc.data()['vu']
+          }; */
+        }
+      })
+    })
+  }
+
+  supprimer(selected){
+    console.log('selected : ',selected)
+    console.log('select length : ',selected.length)
+    for(var i=0;i<selected.length;i++){
+      console.log(i)
+      var sel = selected[i];
+      console.log(selected[i])
+      this.supprimerMessage(sel)
+      
+    }
+    
+    this.duree=0;
+    
+    this.selected=[];
+    var that = this;
+    setTimeout(() => {
+      this.content.scrollToBottom(300);
+   }, 1000);
+  }
+
+  supprimerMessage2(sel){
+    var that = this;
+    this.firestore.collection("messages").get().toPromise().then((snapshot)=>{
+      snapshot.docs.forEach(doc =>{
+        if(doc.data()['id']==sel){
+          that.firestore.collection("messages").doc(doc.id).update({
+            archiveDest:true
+          })
+
+          /* this.messageiddata = doc.id;
+          this.message = {
+            archive: doc.data()['archive'],
+            date: doc.data()['date'],
+            destinataire: doc.data()['destinataire'],
+            id: doc.data()['id'],
+            message: doc.data()['message'],
+            utilisateur: doc.data()['utilisateur'],
+            vu: doc.data()['vu']
+          }; */
+        }
+      })
+    })
+  }
+
+  supprimer2(selected){
+    console.log('selected : ',selected)
+    console.log('select length : ',selected.length)
+    for(var i=0;i<selected.length;i++){
+      console.log(i)
+      var sel = selected[i];
+      console.log(selected[i])
+      this.supprimerMessage2(sel)
+      
+    }
+    
+    this.duree2=0;
+    
+    this.selected2=[];
+    var that = this;
+    setTimeout(() => {
+      this.content.scrollToBottom(300);
+   }, 1000);
   }
 
 

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/tabs/messages"></ion-back-button>
     </ion-buttons>
     <ion-title style="padding-left:0; text-align:center;">{{destView.prenom}} {{destView.nom}}</ion-title>
     <ion-avatar slot="end">
@@ -12,23 +12,94 @@
 
 <ion-content>
   <div class="bg"></div>
-
+  
   <div class="stream">
-    <ion-item lines="none" *ngFor="let message of messagesView">
-      <ion-badge style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.userId != userId && message.text.length>15"><p color="primary">{{ message.text }}</p><ion-note color="primary">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge>
-      <ion-badge style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.userId != userId && message.text.length<=15"><p color="primary">{{ message.text }}<ion-note color="primary"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
-      <ion-badge style="text-align: left; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.userId == userId && message.text.length>15"><p>{{ message.text }}</p><ion-note color="light">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge>
-      <ion-badge style="text-align: left; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.userId == userId && message.text.length<=15"><p>{{ message.text }}<ion-note color="light"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
+    <ion-radio-group (ionChange)="getTrail($event.detail.value)">
+      <div *ngFor="let message of messagesView">
+    <ion-item lines="none" *ngIf="(message.archiveDest==false && message.utilisateur != userId) || message.utilisateur == userId || message.destinatire == userId">
+      <!--<ion-icon (click)="presentPopover(message)" style="margin-right:0" *ngIf="message.userId != userId && message.text.length>15" slot="start" name="ellipsis-horizontal-outline" [ngClass]="duree>=1?'delete':'nodelete'"></ion-icon>-->
+      <ion-checkbox *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length>15" class='' [ngClass]="duree2>=0.3?'delete':'nodelete'" slot="start" [value]="message.id"></ion-checkbox><ion-badge (mousedown)="pressDown2()" (mouseup)="pressUp2()" style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length>15"><p color="primary">{{ message.message }}</p><ion-note color="primary">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge>
+      <ion-checkbox *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length<=15" class='' [ngClass]="duree2>=0.3?'delete':'nodelete'" slot="start" [value]="message.id"></ion-checkbox><ion-badge (mousedown)="pressDown2()" (mouseup)="pressUp2()" style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length<=15"><p color="primary">{{ message.message }}<ion-note color="primary"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
+      <ion-badge (mousedown)="pressDown()" (mouseup)="pressUp()" style="text-align: left; width:auto; height:auto; max-width: 300px; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.archive==false && message.utilisateur == userId && message.message.length>15"><p>{{ message.message }}</p><ion-note color="light">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge><ion-checkbox *ngIf="message.archive==false && message.utilisateur == userId && message.message.length>15" [class]='' [ngClass]="duree>=0.3?'delete':'nodelete'" slot="end" [value]="message.id"></ion-checkbox>
+      <ion-badge (mousedown)="pressDown()" (mouseup)="pressUp()" style="text-align: left; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.archive==false && message.utilisateur == userId && message.message.length<=15"><p>{{ message.message }}<ion-note color="light"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge><ion-checkbox *ngIf="message.archive==false && message.utilisateur == userId && message.message.length<=15" [class]='' [ngClass]="duree>=0.3?'delete':'nodelete'" slot="end" [value]="message.id"></ion-checkbox>
+      
+      <!--<ion-badge *ngIf="message.archiveDest==true && message.utilisateur != userId" text-wrap slot="start" style="color:black;background-color:#F0F0F0"><p>Vous avez caché ce message</p></ion-badge>-->
+      
+      <ion-badge *ngIf="message.archive==true && message.utilisateur == userId" text-wrap slot="end" style="color:black;background-color:#E0E0E0"><p>Ce message a été supprimé</p></ion-badge>
+      <ion-badge *ngIf="message.archive==true && message.utilisateur != userId" text-wrap slot="start" style="color:black;background-color:#E0E0E0"><p>Ce message a été supprimé</p></ion-badge>
     </ion-item>
+    </div>
+    </ion-radio-group>
   </div>
+
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="scrollToBottom()">
+      <ion-icon name="arrow-down"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
 
  </ion-content>
  
+ <ion-toolbar style="background-color: #C0C0C0;" [ngClass]="duree>=0.3?'delete':'nodelete'">
+  <ion-buttons style="background-color: #C0C0C0;">
+    <ion-grid style="background-color: #C0C0C0; color:black">
+      <ion-row>
+        <ion-col (click)="supprimer(selected)" style="border-right: black solid 1px;">
+          <center><ion-icon name="trash-outline" style="height:25px; width:25px;"></ion-icon></center>
+        </ion-col>
+        <ion-col (click)="retour()"  style="border-left: black solid 1px;">
+          <center><ion-icon name="arrow-back" style="height:25px; width:25px;"></ion-icon></center>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col (click)="supprimer(selected)"  style="border-right: black solid 1px;">
+          <center><ion-button style="font-size:x-small;" (click)="supprimer(selected)">
+              Supprimer
+          </ion-button></center>
+        </ion-col>
+        <ion-col (click)="retour()"  style="border-left: black solid 1px;">
+          <center><ion-button style="font-size: x-small;" (click)="retour()">
+              Retour
+          </ion-button></center>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-buttons>
+  
+</ion-toolbar>
 
+<ion-toolbar style="background-color: #C0C0C0;" [ngClass]="duree2>=0.3?'delete':'nodelete'">
+  <ion-buttons style="background-color: #C0C0C0;">
+    <ion-grid style="background-color: #C0C0C0; color:black">
+      <ion-row>
+        <ion-col (click)="supprimer2(selected2)" style="border-right: black solid 1px;">
+          <center><ion-icon name="trash-outline" style="height:25px; width:25px;"></ion-icon></center>
+        </ion-col>
+        <ion-col (click)="retour2()"  style="border-left: black solid 1px;">
+          <center><ion-icon name="arrow-back" style="height:25px; width:25px;"></ion-icon></center>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col (click)="supprimer2(selected2)"  style="border-right: black solid 1px;">
+          <center><ion-button style="font-size:x-small;" (click)="supprimer2(selected2)">
+              Supprimer pour moi
+          </ion-button></center>
+        </ion-col>
+        <ion-col (click)="retour2()"  style="border-left: black solid 1px;">
+          <center><ion-button style="font-size: x-small;" (click)="retour2()">
+              Retour
+          </ion-button></center>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-buttons>
+  
+</ion-toolbar>
  <ion-footer>
+   
   <ion-toolbar>
     
-    <ion-input [(ngModel)]="messageText" placeholder="Votre message"></ion-input>
+    <ion-input autofocus="true" (keyup.enter)="envoyerMessage()" [(ngModel)]="messageText" placeholder="Votre message"></ion-input>
     <ion-buttons slot="end">
       <ion-button  (click)="envoyerMessage()">
         Envoyer

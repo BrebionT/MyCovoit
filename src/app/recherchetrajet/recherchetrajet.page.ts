@@ -15,7 +15,7 @@ export class RecherchetrajetPage implements OnInit{
 
   
   today = new Date();
-
+  public trajet:any;
   utilisateurs: Observable<any[]>;
   trajets: Observable<any[]>;
   uti_tra: Observable<any[]>;

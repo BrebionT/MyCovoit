@@ -20,6 +20,7 @@ export class ListeAvisPage implements OnInit {
 
   public userid;
   public userAvis;
+  public userId:any;
 
 
   constructor(public firestore: AngularFirestore,

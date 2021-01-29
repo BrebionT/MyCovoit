@@ -160,49 +160,78 @@ async uploadFirebase() {
     });
   }
 
+  isCharNumber(c) {
+    return c >= '0' && c <= '9';
+  }
+
+  parcoursString(ch){
+    for(var i=0;i<ch.length;i++){
+      if(!this.isCharNumber(ch[i])){
+        return false
+      }
+    }
+    return true;
+  }
+
   envoyerUtilisateur(){
     
-    if(this.user.nom!=''){
-      if(this.user.prenom!=''){
-        if(this.user.date_naiss!=''){
-          if(this.user.ville!=''){
-            if(this.user.adresse!=''){
-              if(this.user.cp!=''){
-                if(this.user.sexe!=''){
-                  if(this.user.tel!=''){
-                    //console.log(this.afDR.uid);
-                    //this.afDB.list('users/').push({
-                    this.firestore.collection('utilisateurs').add({
-                      nom: this.user.nom,
-                      prenom: this.user.prenom,
-                      date_naiss: this.user.date_naiss,
-                      adresse: this.user.adresse,
-                      ville: this.user.ville,
-                      cp: this.user.cp,
-                      sexe: this.user.sexe,
-                      tel: this.user.tel,
-                      classe: this.user.classe,
-                      photo: this.image,
-                      id: this.user.id,
-                      bio: this.user.bio,
-                      mail: this.user.mail
-                    });
-                    this.uploadFirebase()
-                    this.router.navigateByUrl('/tabs/tableaubord');
+    if(this.user.nom.trim()!=""){
+      if(this.user.prenom.trim()!=""){
+        if(this.user.date_naiss.trim() >= this.minDate && this.user.date_naiss <= this.maxDate){
+          if(this.user.ville.trim()!=""){
+            if(this.user.adresse.trim()!=""){
+
+              // traitement code postal
+
+              this.user.cp=this.user.cp.trim();
+              if(this.user.cp.length == 5){
+                var reste = this.user.cp.substr(2,3)
+                if(this.parcoursString(reste)){
+                  if(this.user.adresse.trim()!=""){
+
+                    // traitement telephone
+
+                    this.user.tel=this.user.tel.trim();
+                    if(this.user.tel.length == 10){
+                      if(this.parcoursString(this.user.tel)){
+                        
+                        this.firestore.collection('utilisateurs').add({
+                          nom: this.user.nom,
+                          prenom: this.user.prenom,
+                          date_naiss: this.user.date_naiss,
+                          adresse: this.user.adresse,
+                          ville: this.user.ville,
+                          cp: this.user.cp,
+                          sexe: this.user.sexe,
+                          tel: this.user.tel,
+                          classe: this.user.classe,
+                          photo: this.image,
+                          id: this.user.id,
+                          bio: this.user.bio,
+                          mail: this.user.mail
+                        });
+                        this.uploadFirebase()
+                        this.router.navigateByUrl('/tabs/tableaubord');
+                      }else{
+                        this.errorValue("Ce n'est pas un numéro ça ...")
+                      }
+                    }else{
+                      this.errorValue("Ce n'est pas la longueur d'un numéro ça ...")
+                    }
                   }else{
-                    this.errorValue("Hey t'as pas un 06 ? ")
+                    this.errorValue("On ne te juge pas mais tu dois quand même mettre un genre.")
                   }
                 }else{
-                  this.errorValue("On ne te juge pas mais tu dois quand même mettre un genre.")
+                  this.errorValue("Si tu ne connais ton code postal on est mal 🤷‍♂️")
                 }
               }else{
-                this.errorValue("Si tu ne connais ton code postal on est mal 🤷‍♂️")
+                this.errorValue("Ce n'est pas la longueur d'un code postal ça ...")
               }
             }else{
               this.errorValue("Un doute sur ton adresse ?")
             }
           }else{
-            this.errorValue("Tu as honte de ta ville ? Tu dois l'indiquer'.")
+            this.errorValue("Tu as honte de ta ville ? Tu dois l'indiquer.")
           }
         }else{
           this.errorValue("Tu as un doute sur ton age c'est ça ?")

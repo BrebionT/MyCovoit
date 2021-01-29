@@ -33,8 +33,7 @@
 
   <ion-row>
     <ion-col><label class="important">Naissance : </label></ion-col>
-    <ion-col><ion-datetime id="date" displayFormat="MM/DD/YYYY" [(ngModel)]="user.date_naiss" [min]="minDate" [max]="maxDate"></ion-datetime></ion-col>
-    
+    <ion-col><input [(ngModel)]="user.date_naiss" style="float: right;" size=20 type="date" id="date_naiss" name="date_naiss" [value]=item.date_naiss [min]=minDate [max]=maxDate required></ion-col>
   </ion-row>
 
   <ion-row>

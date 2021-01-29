@@ -7,6 +7,7 @@ import { ProposerPage } from './proposer.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { ProposerPageRoutingModule } from './Proposer-routing.module';
+import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -16,6 +17,10 @@ import { ProposerPageRoutingModule } from './Proposer-routing.module';
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: ProposerPage }]),
     ProposerPageRoutingModule,
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA
   ],
   declarations: [ProposerPage]
 })
