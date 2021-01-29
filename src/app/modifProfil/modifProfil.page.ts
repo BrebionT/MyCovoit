@@ -64,7 +64,7 @@ export class ModifProfilPage {
         this.userid = auth.uid;
         this.getUserData();
         
-        console.log(this.userid);
+        //console.log(this.userid);
       }
     });
   }
@@ -74,11 +74,11 @@ export class ModifProfilPage {
 
   async addPhoto(source: string) {
     if (source === 'camera') {
-      console.log('camera');
+      //console.log('camera');
       //const cameraPhoto = await this.openCamera();
       //this.image = 'data:image/jpg;base64,' + cameraPhoto;
     } else {
-      console.log('library');
+      //console.log('library');
       const libraryImage = await this.openLibrary();
       this.image = 'data:image/jpg;base64,' + libraryImage;
       this.uploadFirebase(this.image);
@@ -138,20 +138,60 @@ export class ModifProfilPage {
     })
   }
 
+  isCharNumber(c) {
+    return c >= '0' && c <= '9';
+  }
+
+  parcoursString(ch){
+    for(var i=0;i<ch.length;i++){
+      if(!this.isCharNumber(ch[i])){
+        return false
+      }
+    }
+    return true;
+  }
+
   modifier(){
-    this.firestore.collection("utilisateurs").doc(this.useriddata).update({
-      nom: this.user.nom,
-      prenom: this.user.prenom,
-      date_naiss: this.user.date_naiss,
-      adresse: this.user.adresse,
-      ville: this.user.ville,
-      cp: this.user.cp,
-      sexe: this.user.sexe,
-      tel: this.user.tel,
-      bio: this.user.bio,
-      photo:this.user.photo
-    })
-    this.router.navigateByUrl('/tabs/profil');
+    if(this.user.nom.trim()!=""){
+      if(this.user.prenom.trim()!=""){
+        if(this.user.date_naiss.trim() >= this.minDate && this.user.date_naiss <= this.maxDate){
+          if(this.user.ville.trim()!=""){
+            if(this.user.adresse.trim()!=""){
+
+              // traitement code postal
+
+              this.user.cp=this.user.cp.trim();
+              if(this.user.cp.length == 5){
+                var reste = this.user.cp.substr(2,3)
+                if(this.parcoursString(reste)){
+
+                  // traitement telephone
+
+                  this.user.tel=this.user.tel.trim();
+                  if(this.user.tel.length == 10){
+                    if(this.parcoursString(this.user.tel)){
+                      this.firestore.collection("utilisateurs").doc(this.useriddata).update({
+                        nom: this.user.nom,
+                        prenom: this.user.prenom,
+                        date_naiss: this.user.date_naiss,
+                        adresse: this.user.adresse,
+                        ville: this.user.ville,
+                        cp: this.user.cp,
+                        sexe: this.user.sexe,
+                        tel: this.user.tel,
+                        bio: this.user.bio,
+                        photo:this.user.photo
+                      })
+                      this.router.navigateByUrl('/tabs/profil');
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   formatDate(date) {
@@ -174,7 +214,7 @@ export class ModifProfilPage {
       uti.forEach(value => {
         if(value['id']==that.userid){
           that.utilisateur = value;
-          console.log(value)
+          //console.log(value)
           that.getImagesStorage(value['photo'])
         }
       })
@@ -183,9 +223,9 @@ export class ModifProfilPage {
   }
 
   getImagesStorage(image: any) {
-    console.log(image)
+    //console.log(image)
     this.afSG.ref('users/'+image).getDownloadURL().subscribe(imgUrl => {
-      console.log(imgUrl);
+      //console.log(imgUrl);
       this.image= imgUrl;
       this.images= imgUrl;
     });

@@ -29,7 +29,6 @@
 <ion-item>
   <div>
     <ion-label color="dark" position="floatting">Date de naissance</ion-label>
-    <!--<ion-input [(ngModel)]="user.date_naiss" type="date" inputmode="none" name="dateNaiss" ></ion-input>-->
     <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="user.date_naiss" [min]="minDate" [max]="maxDate"></ion-datetime>.
   </div>
 </ion-item><br>
@@ -51,7 +50,7 @@
 <ion-item>
   <div>
     <ion-label color="dark" position="floatting">Code postal</ion-label>
-    <ion-input [(ngModel)]="user.cp" type="text" name="codePost"></ion-input>
+    <ion-input [(ngModel)]="user.cp" maxlength="5" type="text" name="codePost"></ion-input>
   </div>
 </ion-item><br>
 
@@ -81,7 +80,7 @@
 <ion-item>
   <div>
     <ion-label color="dark" position="floatting">Téléphone</ion-label>
-    <ion-input [(ngModel)]="user.tel" type="text"  name="tel"></ion-input>
+    <ion-input [(ngModel)]="user.tel" maxlength="10" type="text"  name="tel"></ion-input>
   </div>
 </ion-item>
 <ion-item>

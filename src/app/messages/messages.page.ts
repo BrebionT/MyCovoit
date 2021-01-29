@@ -55,7 +55,6 @@ export class MessagesPage implements OnInit{
 
   ngOnInit(){
     this.firestore.collection("messages").valueChanges().subscribe(message =>{
-      console.log("update ?")
       this.update = message;
     })
   }
@@ -67,7 +66,7 @@ export class MessagesPage implements OnInit{
   ngOnDestroy(){
     this.userList2=[];
     this.messagesView=null;
-    console.log("détruit")
+    //console.log("détruit")
   }
 
   changerVu(destId){
@@ -91,13 +90,13 @@ export class MessagesPage implements OnInit{
   messageVu(id,message){
     if(message['utilisateur']!=this.userId && message['destinataire']==this.userId && message['vu']==false){ //le message était pour moi, alors je l'ai vu 
     this.changeMessageVu(id,message['utilisateur'],message['destinataire'],message["message"])
-    console.log( "changement")
+    //console.log( "changement")
       //return true;
     }else if(message['utilisateur']==this.userId && message['vu']==false){ //le message n'était pas pour moi et il ne l'a pas vu
-    console.log( "pas encore changé")
+    //console.log( "pas encore changé")
       //return false
     }else if(message['utilisateur']==this.userId && message['vu']==true){ //le message n'était pas pour moi et il l'a  vu
-    console.log( "déjà changé")
+    //console.log( "déjà changé")
     //return true
     }
   }

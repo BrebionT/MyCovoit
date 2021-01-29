@@ -45,7 +45,7 @@ export class ProfilPage implements OnInit {
       if (auth) {
         this.userid = auth.uid;
         
-        console.log(this.userid);
+        //console.log(this.userid);
       }
     });
   }
@@ -59,7 +59,7 @@ export class ProfilPage implements OnInit {
       uti.forEach(value => {
         if(value['id']==that.userid){
           that.utilisateur = value;
-          console.log(value)
+          //console.log(value)
           that.getImagesStorage(value['photo'])
         }
       })
@@ -73,7 +73,7 @@ export class ProfilPage implements OnInit {
           this.nbAvis+=1;
           this.avisValue+=unAvis['note'];
           this.avisTotal = (this.avisValue / this.nbAvis)
-          console.log(this.avisTotal.toString().indexOf('.'))
+          //console.log(this.avisTotal.toString().indexOf('.'))
           if(this.avisTotal.toString().indexOf('.') != -1){
             this.avisTotal=this.avisTotal.toFixed(2);
           }
@@ -90,13 +90,13 @@ export class ProfilPage implements OnInit {
     
   }
   getImagesStorage(image: any) {
-    console.log(image)
+    //console.log(image)
     this.afSG.ref('users/'+image).getDownloadURL().subscribe(imgUrl => {
-      console.log(imgUrl);
+      //console.log(imgUrl);
       this.images= imgUrl;
     });
-    console.log("liste images :")
-    console.log(this.images)
+    //console.log("liste images :")
+    //console.log(this.images)
   }
  
   returnConnected(){
