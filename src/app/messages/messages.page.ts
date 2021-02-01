@@ -177,7 +177,13 @@ export class MessagesPage implements OnInit{
 
             /// On l'enregistre ///
             that.userList.push(value['destinataire']);
-            that.userList2.push([value['destinataire'],value['date'],value["message"],value["vu"],value["utilisateur"]]);
+            if(value['archive']==true){
+              that.userList2.push([value['destinataire'],value['date'],"Ce message a été supprimé",value["vu"],value["utilisateur"]]);
+            }else if(value['archiveDest']==true){
+              that.userList2.push([value['destinataire'],value['date'],value['message'],value["vu"],value["utilisateur"]]);
+            }else{
+              that.userList2.push([value['destinataire'],value['date'],value["message"],value["vu"],value["utilisateur"]]);
+            }
 
           }else{
             for(var i=0; i<that.userList2.length;i++){  //Nous allons le chercher parmis la liste des personnes
@@ -195,7 +201,13 @@ export class MessagesPage implements OnInit{
                     })})
 
                   that.userList.push(value['destinataire']);
-                  that.userList2.push([value['destinataire'],value['date'],value["message"],value["vu"],value["destinataire"]]);
+                  if(value['archive']==true){
+                    that.userList2.push([value['destinataire'],value['date'],"Ce message a été supprimé",value["vu"],value["destinataire"]]);
+                  }else if(value['archiveDest']==true){
+                    that.userList2.push([value['destinataire'],value['date'],"Vous avez supprimé ce message",value["vu"],value["destinataire"]]);
+                  }else{
+                    that.userList2.push([value['destinataire'],value['date'],value["message"],value["vu"],value["destinataire"]]);
+                  }
                   
                   
 
@@ -220,7 +232,13 @@ export class MessagesPage implements OnInit{
 
             /// On l'enregistre ///
             that.userList.push(value['utilisateur']);
-            that.userList2.push([value['utilisateur'],value['date'],value["message"],value["vu"],value['destinataire']]);
+            if(value['archive']==true){
+              that.userList2.push([value['utilisateur'],value['date'],"Ce message a été supprimé",value["vu"],value["destinataire"]]);
+            }else if(value['archiveDest']==true){
+              that.userList2.push([value['utilisateur'],value['date'],"Vous avez supprimé ce message",value["vu"],value["destinataire"]]);
+            }else{
+              that.userList2.push([value['utilisateur'],value['date'],value["message"],value["vu"],value["destinataire"]]);
+            }
 
           }else{
             for(var i=0; i<that.userList2.length;i++){  //Nous allons le chercher parmis la liste des personnes
@@ -238,7 +256,13 @@ export class MessagesPage implements OnInit{
                     })})
 
                   that.userList.push(value['utilisateur']);
-                  that.userList2.push([value['utilisateur'],value['date'],value["message"],value["vu"],value['destinataire']]);
+                  if(value['archive']==true){
+                    that.userList2.push([value['utilisateur'],value['date'],"Ce message a été supprimé",value["vu"],value["destinataire"]]);
+                  }else if(value['archiveDest']==true){
+                    that.userList2.push([value['utilisateur'],value['date'],"Vous avez supprimé ce message",value["vu"],value["destinataire"]]);
+                  }else{
+                    that.userList2.push([value['utilisateur'],value['date'],value["message"],value["vu"],value["destinataire"]]);
+                  }
                 
                   
 

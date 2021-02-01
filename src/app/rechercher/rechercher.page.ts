@@ -152,11 +152,6 @@ fonctionstrouvertrajets(){
   this.redirectiontrajettrouve();
 }
 
-filtreheure(traj){
-  if(traj['tra_heureDepart'] == this.Tra_dateDepart ){
-    this.router.navigateByUrl('')
-  }
-}
 
 
 changement(){

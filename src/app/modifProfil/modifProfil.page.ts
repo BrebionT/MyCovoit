@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {Observable} from 'rxjs';
+import {Observable, zip} from 'rxjs';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
@@ -40,8 +40,20 @@ export class ModifProfilPage {
   public connected: boolean = false;
   utilisateur: Observable<any[]>;
 
+  public disabled;
+
   minDate: String;
   maxDate: String;
+
+  
+  ville;
+  liste_ville;
+
+  cp;
+  liste_cp;
+
+  showville=false;
+  showvillebycp=false;
 
   constructor(public firestore: AngularFirestore,
     public afAuth: AngularFireAuth,
@@ -56,6 +68,10 @@ export class ModifProfilPage {
     
     this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
     this.getUtilisateur();
+    this.ville="";
+    this.liste_ville=[{nom:''}]
+    this.cp="";
+    this.liste_cp=[{nom:''}]
   }
 
   connecter(){
@@ -216,6 +232,8 @@ export class ModifProfilPage {
           that.utilisateur = value;
           //console.log(value)
           that.getImagesStorage(value['photo'])
+          this.ville=value['ville']
+          this.cp=value['cp']
         }
       })
     });
@@ -235,6 +253,118 @@ export class ModifProfilPage {
  
   returnConnected(){
     return this.connected;
+  }
+
+  addVille(val){
+    this.user.ville=val.nom;
+    this.ville = val.nom;
+    this.user.cp = val.codesPostaux[0];
+    this.cp=val.codesPostaux[0];
+    this.showville=false;
+    this.showvillebycp=false;
+    this.disabled=true;
+  }
+
+  addVilleByCP(val){
+    this.user.ville=val.nom;
+    this.ville = val.nom;
+    this.user.cp = val.codesPostaux[0];
+    this.cp=val.codesPostaux[0];
+    this.showville=false;
+    this.showvillebycp=false;
+    this.disabled=true;
+  }
+
+  suppVille(){
+    this.user.ville="";
+    this.ville = "";
+    this.user.cp="";
+    this.cp="";
+    this.disabled=false;
+  }
+
+
+
+  suppAdresse(){
+    this.user.adresse="";
+  }
+
+  suppNom(){
+    this.user.nom="";
+  }
+
+  suppPrenom(){
+    this.user.prenom="";
+  }
+
+  showVille(val){
+    if(this.disabled==false){
+      this.showville=val;
+    }
+    
+  }
+
+  showVilleByCP(val){
+    if(this.disabled==false){
+      this.showvillebycp=val;
+    }
+    
+  }
+
+  getVille(){
+      if(this.ville.trim()==""){
+        this.ville="";
+      }
+      const apiUrl2 = 'https://geo.api.gouv.fr/communes?nom='
+      const format = '&format=json';
+      
+      let ville = this.ville;
+      //let ville = this.user.ville;
+      let url2 = apiUrl2+ville+'&limit=3'+format;
+  
+
+        fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
+          this.liste_ville=results
+          console.log(results);
+          
+          
+        }).catch(err => {
+          this.liste_ville=[{nom:''}]
+          console.log(err);
+        });
+  }
+
+  getVilleByCP(){
+    
+
+    if(this.cp.trim()==""){
+      this.cp="";
+    }
+    const apiUrl = 'https://geo.api.gouv.fr/communes?codePostal='
+    const format = '&format=json';
+    
+    let cp = this.cp;
+    //let ville = this.user.ville;
+    let url2 = apiUrl+cp+format;
+
+
+      fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
+        this.liste_cp=results
+        console.log(results);
+        
+        
+      }).catch(err => {
+        this.liste_cp=[{nom:''}]
+        console.log(err);
+      });
+    
+  }
+  isDisabled(){
+    if(this.user.ville!=""){
+      return true;
+    }else{
+      return false;
+    }
   }
   
 
