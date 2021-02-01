@@ -8,10 +8,15 @@
         border: 1px solid black; padding: 4px; 
     }
 
-    #bouton-envoyer{
+    #bouton{
        display: flex;
+       margin-left: 12px;
+       margin-right: 12px;
        //align-items: center;
     }
 
-
+    #boutonadd{
+        margin-top: auto;
+        margin-bottom: auto;
+    }
 }

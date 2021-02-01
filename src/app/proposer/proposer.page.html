@@ -42,9 +42,9 @@
         
         <div>
           <ion-text>
-            <h4><ion-label color="dark" position="floating">Etapes :</ion-label></h4>
+            <h4><ion-label color="dark" position="floating">Etapes :<ion-button id="boutonadd" (click)="addEtape()"><ion-icon name="add-outline"></ion-icon></ion-button></ion-label></h4>
           </ion-text>
-            <ion-input placeholder="Caen" [(ngModel)]="trajet.tra_etape"></ion-input>
+            <ion-input *ngIf="!beforeClick" placeholder="Caen" [(ngModel)]="etape.eta_ville"></ion-input>
         </div>
       </ion-item>
     </ion-list>
@@ -83,5 +83,5 @@
       </ion-grid>
     </ion-list>
   </ion-card>
-  <center><ion-button id="bouton-envoyer" (click)="heure(utilisateurTrajet,trajet)">Proposer</ion-button></center>
+  <center><ion-button id="bouton" (click)="heure(utilisateurTrajet,trajet)">Proposer</ion-button></center>
 </ion-content>
