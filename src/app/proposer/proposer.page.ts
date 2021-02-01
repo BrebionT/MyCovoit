@@ -10,6 +10,7 @@ import {LoadingController, ToastController, NavController} from '@ionic/angular'
 import {trajets} from '../models/trajets.model';
 import {utilisateur_trajet} from '../models/utilisateur_trajet.model';
 import { AlertController } from '@ionic/angular';
+import {etapes} from '../models/etapes.model';
 
 @Component({
   selector: 'app-proposer',
@@ -19,9 +20,12 @@ import { AlertController } from '@ionic/angular';
 export class ProposerPage implements OnInit{
   trajet = {} as trajets;
   utilisateurTrajet = {} as utilisateur_trajet;
+  etape = {} as etapes;
   messages: Observable<any[]>;
   users: Observable<any[]>;
   today = new Date();
+
+  beforeClick :boolean = true;
 
   public proposerView : Observable<any[]>;
   public userList = Array();
@@ -30,6 +34,7 @@ export class ProposerPage implements OnInit{
   public connected= false;
   public userId;
   public destId;
+  id;// id trajet
   
   constructor(
     public alertController: AlertController,
@@ -49,16 +54,16 @@ export class ProposerPage implements OnInit{
         this.userId = auth.uid;
         this.connected = true;
         this.users = this.firestore.collection("utilisateurs").valueChanges();
-        
+        this.id = new Date().toISOString();
         
       }});
       
     
   }
   ngOnInit() {}
-  async createTrajets(trajet: trajets,id) {
+  async createTrajets(trajet: trajets) {
     // console.log(post);
-    trajet.tra_id = id;
+    trajet.tra_id = this.id;
     if (this.formValidation()) {
       // console.log("ready to submit");
 
@@ -107,10 +112,10 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
       
   }}
 
-  async createUtilisateur_trajet(utilisateurTrajet: utilisateur_trajet,id, ) {
+  async createUtilisateur_trajet(utilisateurTrajet: utilisateur_trajet) {
     // console.log(post);
     utilisateurTrajet.uti_tra_idUti = this.userId;
-    utilisateurTrajet.uti_tra_idTra = id;
+    utilisateurTrajet.uti_tra_idTra = this.id;
     utilisateurTrajet.uti_tra_role = "Conducteur";
     if (this.formValidation()) {
       // console.log("ready to submit");
@@ -160,13 +165,13 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
   }
 
   LancerFonction(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
-    var id = new Date().toISOString();
+    
     this.remplacer();
-    this.createUtilisateur_trajet(utilisateurTrajet, id);
-    this.createTrajets(trajet, id);
+    this.createUtilisateur_trajet(utilisateurTrajet);
+    this.createTrajets(trajet);
   }
   
-  async presentAlertConfirm(utilisateurTrajet: utilisateur_trajet,trajet: trajets,today) {
+  async presentAlertConfirm(utilisateurTrajet: utilisateur_trajet,trajet: trajets) {
     const alert = await this.alertController.create({
       header: 'Confirmation de trajet !',
       message: `<p><strong>LIEU DE DEPART : </strong>`+this.trajet.tra_lieuDepart+`</p>`+
@@ -211,7 +216,6 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
     
     var myString;
     var myStringUP;
-    var myStringUP2;
     
     console.log(myString)
     console.log(mystring2);
@@ -234,12 +238,10 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
     myStringUP = myString.trim();
     this.trajet.tra_lieuDepart = myStringUP.toLowerCase();
     console.log('depart : '+this.trajet.tra_lieuDepart);
-    
   
         var mystring2;
         var mystring2UP;
-        var mystring2UP2;
-  
+        
   
         mystring2 = this.trajet.tra_lieuArrivee.replace(regAccentA, 'a');
         mystring2 = mystring2.replace(regAccentE, 'e');
@@ -259,6 +261,36 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
         console.log('arrivée : '+this.trajet.tra_lieuArrivee);
   }
 
+addEtape(etape: etapes){
+  this.beforeClick = false;
+  this.createEtape(etape)}
+
+async createEtape(etape: etapes ) {
+  // console.log(post);
+  etape.eta_id = this.userId;
+  etape.eta_idTra = this.id;
+  etape.eta_ville = this.etape.eta_ville;
+  if (this.etape.eta_ville != "") {
+    // console.log("ready to submit");
+
+    // show loader
+    const loader = this.loadingCtrl.create({
+      message: 'Veuillez patienter...'
+    });
+    await (await loader).present();
+
+    try {
+      await this.firestore.collection('etapes').add(etape);
+    } catch (e) {
+      this.showToast(e);
+    }
+
+    // dismiss loader
+    await (await loader).dismiss();
+
+    // redirect to home page
+    this.navCtrl.navigateRoot('tabs/tableaubord');
+  }}
 }
 
 
