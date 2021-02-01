@@ -142,9 +142,14 @@ fonctionstrouvertrajets(){
   this.redirectiontrajettrouve();
 }
 
+
+
+
 changement(){
     this.beforesearch=false;
 }
+
+
 
 
 remplacer(){
