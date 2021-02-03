@@ -42,6 +42,11 @@ export class AppComponent {
     this.navigate =
     [
       {
+        title : "Tableau de bord",
+        url   : "/tabs/tableaubord",
+        icon  : "home-outline"
+      },
+      {
         title : "Modifier mon profil",
         url   : "/tabs/modifProfil",
         icon  : "create-outline"

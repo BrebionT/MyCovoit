@@ -26,6 +26,7 @@ export class ProposerPage implements OnInit{
   today = new Date();
 
   beforeClick :boolean = true;
+  data: boolean = false;
 
   public proposerView : Observable<any[]>;
   public userList = Array();
@@ -48,6 +49,11 @@ export class ProposerPage implements OnInit{
   liste_depart;
   liste_arrivee;
   
+  public anArray:any=[];
+  public list = [{value:'listeEtape'}];;
+
+  public listeEtape = [{value:''}];
+
   constructor(
     public alertController: AlertController,
     private toastCtrl: ToastController,
@@ -70,6 +76,7 @@ export class ProposerPage implements OnInit{
         this.userId = auth.uid;
         this.connected = true;
         this.users = this.firestore.collection("utilisateurs").valueChanges();
+        this.users = this.firestore.collection("etapes").valueChanges();
         this.id = new Date().toISOString();
         
       }});
@@ -184,6 +191,7 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
     
     this.createUtilisateur_trajet(utilisateurTrajet);
     this.createTrajets(trajet);
+    this.parcour();
   }
   
   async presentAlertConfirm(utilisateurTrajet: utilisateur_trajet,trajet: trajets) {
@@ -218,34 +226,41 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
 
 addEtape(etape: etapes){
   this.beforeClick = false;
-  this.createEtape(etape)}
+  //this.createEtape()
+}
 
-async createEtape(etape: etapes ) {
-  // console.log(post);
-  etape.eta_id = this.userId;
-  etape.eta_idTra = this.id;
-  etape.eta_ville = this.etape.eta_ville;
+parcour(){
+  this.listeEtape.forEach(element => {
+    if(element.value != ""){
+    this.createEtape(element.value)}});
+}
+
+async createEtape(value) { 
   if (this.etape.eta_ville != "") {
+   // this.list.forEach(element => {
+      this.firestore.collection('etapes').add({
+        eta_id: new Date().toISOString()+Math.floor(Math.random() * 99),
+        eta_idTra: this.id,
+        eta_ville: value,
+      });
+  //  });
     // console.log("ready to submit");
-
-    // show loader
-    const loader = this.loadingCtrl.create({
-      message: 'Veuillez patienter...'
-    });
-    await (await loader).present();
-
-    try {
-      await this.firestore.collection('etapes').add(etape);
-    } catch (e) {
-      this.showToast(e);
-    }
-
-    // dismiss loader
-    await (await loader).dismiss();
-
-    // redirect to home page
-    this.navCtrl.navigateRoot('tabs/tableaubord');
+   
   }}
+
+
+goTo(){
+    console.log('this.anArray',this.anArray);
+    this.data=true;
+   }
+Add(){
+    this.listeEtape.push({'value':''});
+    this.anArray.push({'value':''});
+   }
+Remove(){
+    this.listeEtape.pop();
+    this.anArray.pop();
+  }
 
   getVilleDepart(event){
       if(this.Tra_lieuDepartBIS.trim()==""){
