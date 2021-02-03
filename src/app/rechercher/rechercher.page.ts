@@ -110,16 +110,17 @@ this.liste_trajetdispo = [];
 this.beforesearch=true;
 this.trajet.subscribe(tra =>{
 tra.forEach(traj=> {
-/*console.log("ok")
-console.log(traj['tra_lieuDepart']+"/////" + this.Tra_lieuDepart)
+//console.log("ok")
+//console.log(traj['tra_lieuDepart']+"/////" + this.Tra_lieuDepart)
 console.log(traj['tra_dateDepart'] +"/////"+ this.Tra_dateDepart.slice(0,-19));
-console.log(traj['tra_lieuArrivee']+ "/////" + this.Tra_lieuArrivee );*/
+//console.log(traj['tra_lieuArrivee']+ "/////" + this.Tra_lieuArrivee );
 if(traj['tra_lieuDepart'] == this.Tra_lieuDepart 
 && traj['tra_lieuArrivee'] == this.Tra_lieuArrivee 
 && traj['tra_dateDepart'] == this.Tra_dateDepart.slice(0,-19))
 {
-  if(traj['tra_dateDepart'] <= this.today){
-    this.trajettrouve = true;
+  var date = new Date (traj['tra_dateDepart']);
+  if(date >= this.today){
+  this.trajettrouve = true;
   this.changement();
   this.liste_trajetdispo.push({lieudepart:traj['tra_lieuDepart'], heuredepart:traj['tra_heureDepart'], lieuarrivee:traj['tra_lieuArrivee'], heurearrivee:traj['tra_heureArrivee'], datedepart:traj['tra_dateDepart'],});
 }
