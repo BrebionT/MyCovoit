@@ -19,53 +19,94 @@
   
 </div>
 
+
 <div class="corp" *ngFor='let item of utilisateurs | async'>
 <ion-grid *ngIf='item.id == userid' style="padding-right:20px">
   <ion-row>
     <ion-col><label class="important">Prénom : </label></ion-col>
-    <ion-col><input [(ngModel)]="user.prenom" type="text" id="prenom" name="prenom" [value]=item.prenom size=20 required></ion-col>
+    <ion-col size=7><div id="bordure">
+      <ion-input style="width:200px; display:inline-block;" [(ngModel)]="user.prenom" type="text" id="prenom" name="prenom" [value]=item.prenom size=20 required></ion-input>
+      <ion-icon (click)="suppPrenom()" *ngIf="user.prenom != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+    </div></ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col><label class="important">Nom : </label></ion-col>
-    <ion-col><input [(ngModel)]="user.nom" type="text" id="nom" name="nom" [value]=item.nom size=20 required></ion-col>
+    <ion-col size=7><div id="bordure">
+      <ion-input style="width:200px; display:inline-block;" [(ngModel)]="user.nom" type="text" id="nom" name="nom" [value]=item.nom size=20 required></ion-input>
+      <ion-icon (click)="suppNom()" *ngIf="user.nom != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+    </div></ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col><label class="important">Naissance : </label></ion-col>
-    <ion-col><input [(ngModel)]="user.date_naiss" style="float: right;" size=20 type="date" id="date_naiss" name="date_naiss" [value]=item.date_naiss [min]=minDate [max]=maxDate required></ion-col>
+    <ion-col size=7><div id="bordure" style="height:100%"><ion-input [(ngModel)]="user.date_naiss" style="float: right;" size=20 type="date" id="date_naiss" name="date_naiss" [value]=item.date_naiss [min]=minDate [max]=maxDate required></ion-input></div></ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col><label class="important">Genre : </label></ion-col>
-    <ion-col><select [(ngModel)]="user.sexe" name="genre" value="item.sexe" style="float: right;">
-      <option *ngIf="item.sexe == 'homme'" value="homme" selected>Homme</option>
-      <option *ngIf="item.sexe != 'homme'" value="homme" >Homme</option>
-      <option *ngIf="item.sexe == 'femme'" value="femme" selected>Femme</option>
-      <option *ngIf="item.sexe != 'femme'" value="femme" >Femme</option>
-      <option *ngIf="item.sexe == 'autres'" value="autres" selected>Autres</option>
-      <option *ngIf="item.sexe != 'autres'" value="autres" >Autres</option>
-  </select></ion-col>
+    <ion-col size=7><div id="bordure" style="height:100%"><ion-select interface="popover" [(ngModel)]="user.sexe" name="genre" value="item.sexe" style="border:0px; width: 100%;float: right;">
+      <ion-select-option *ngIf="item.sexe == 'homme'" value="homme" selected>Homme</ion-select-option>
+      <ion-select-option *ngIf="item.sexe != 'homme'" value="homme" >Homme</ion-select-option>
+      <ion-select-option *ngIf="item.sexe == 'femme'" value="femme" selected>Femme</ion-select-option>
+      <ion-select-option *ngIf="item.sexe != 'femme'" value="femme" >Femme</ion-select-option>
+      <ion-select-option *ngIf="item.sexe == 'autres'" value="autres" selected>Autres</ion-select-option>
+      <ion-select-option *ngIf="item.sexe != 'autres'" value="autres" >Autres</ion-select-option>
+  </ion-select></div></ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col><label class="important">Adresse : </label></ion-col>
-    <ion-col><input [(ngModel)]="user.adresse" type="text" id="adresse" size=20 name="adresse" [value]=item.adresse required></ion-col>
+    <ion-col size=7><div id="bordure">
+      <ion-input style="width:200px; display:inline-block;" [(ngModel)]="user.adresse" type="text" id="adresse" size=20 name="adresse" [value]=item.adresse></ion-input>
+      <ion-icon (click)="suppAdresse()" *ngIf="user.adresse != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+    </div>
+  </ion-col>
+  
   </ion-row>
 
   <ion-row>
     <ion-col><label class="important">Ville : </label></ion-col>
-    <ion-col><input [(ngModel)]="user.ville" type="text" id="ville" size=20 name="ville" [value]=item.ville required></ion-col>
+    <!-- <ion-col><input [(ngModel)]="user.ville" type="text" id="ville" size=20 name="ville" [value]=item.ville required></ion-col> -->
+    <ion-col size=7>
+      <div id="bordure">
+        
+        <ion-input readonly="{{isDisabled()}}" style="width:200px; display:inline-block;" (ionFocus)="showVille(true)" [(ngModel)]="ville" (ngModelChange)="getVille()" [placeholder]="ville"></ion-input>
+        <ion-icon (click)="suppVille()" *ngIf="user.ville != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+      </div>
+
+      <div *ngIf="liste_ville.length>0 && showville==true && ville.length>=3">
+        <ion-list>
+          <ion-item (click)="addVille(liste_ville[0])" *ngIf="liste_ville[0] != undefined">{{liste_ville[0].nom}}</ion-item>
+          <ion-item (click)="addVille(liste_ville[1])" *ngIf="liste_ville[1] != undefined">{{liste_ville[1].nom}}</ion-item>
+          <ion-item (click)="addVille(liste_ville[2])" *ngIf="liste_ville[2] != undefined">{{liste_ville[2].nom}}</ion-item>
+        </ion-list>
+      </div>
+
+    </ion-col>
   </ion-row>
 
   <ion-row>
     <ion-col><label class="important">Code Postal : </label></ion-col>
-    <ion-col><input [(ngModel)]="user.cp" type="text" id="cp" size=20 name="cp" [value]=item.cp maxlength="5" required></ion-col>
+    <ion-col size=7>
+      <div id="bordure">
+        <ion-input readonly="{{isDisabled()}}" style="width:200px; display:inline-block;" (ionFocus)="showVilleByCP(true)" [(ngModel)]="cp" type="text" id="cp" (ngModelChange)="getVilleByCP()"  size=20 name="cp" [value]=item.cp maxlength="5"></ion-input>
+        <ion-icon (click)="suppVille()" *ngIf="user.cp != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+      </div>
+      <div *ngIf="liste_cp.length>0 && showvillebycp==true && cp.length==5">
+        <ion-list>
+          <ion-item (click)="addVilleByCP(liste_cp[0])" *ngIf="liste_cp[0] != undefined">{{liste_cp[0].nom}}</ion-item>
+          <ion-item (click)="addVilleByCP(liste_cp[1])" *ngIf="liste_cp[1] != undefined">{{liste_cp[1].nom}}</ion-item>
+          <ion-item (click)="addVilleByCP(liste_cp[2])" *ngIf="liste_cp[2] != undefined">{{liste_cp[2].nom}}</ion-item>
+        </ion-list>
+      </div>
+  
+  </ion-col>
   </ion-row>
   
   <ion-row>
     <ion-col><label class="important">Téléphone : </label></ion-col>
-    <ion-col><input [(ngModel)]="user.tel" type="text" id="tel" size=20 name="tel" [value]=item.tel maxlength="10" required></ion-col>
+    <ion-col size=7><div id="bordure"><ion-input [(ngModel)]="user.tel" type="text" id="tel" size=20 name="tel" [value]=item.tel maxlength="10" required></ion-input></div></ion-col>
   </ion-row>
   <ion-row>
     <ion-col><label class="important" style="display:block; width:100%; margin-left: -10px; text-align: center;">Bio : </label></ion-col>
@@ -80,8 +121,9 @@
 </div>
 
 <ion-button style="margin: -30px 35% 0px 35%; width: 30%;" (click)="modifier()">Modifier</ion-button>
+
+
 </ion-content>
 <!--<ion-toolbar>
   <ion-title>profil</ion-title>
 </ion-toolbar>-->
-

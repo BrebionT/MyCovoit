@@ -101,3 +101,27 @@ border: solid;
 border-width: thin;
 border-color: darkgray;
  }
+
+ .select-disabled{
+     opacity: 1;
+ }
+
+ ion-input{
+     width:190px !important;
+}
+
+#bordure{
+    border:1px solid black;
+}
+
+ion-input{
+    text-overflow: ellipsis;
+  }
+
+  .native-input[disabled].sc-ion-input-md{
+      opacity: 1;
+  }
+  ion-input {
+    opacity: 1 !important;
+}
+
