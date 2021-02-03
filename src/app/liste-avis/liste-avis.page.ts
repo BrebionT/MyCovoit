@@ -19,7 +19,7 @@ export class ListeAvisPage implements OnInit {
   public listeAvis=[]
 
   public userid;
-  public userAvis;
+  public userAvis=this.router.url.slice(-28);
   public userId:any;
 
 
@@ -86,7 +86,7 @@ export class ListeAvisPage implements OnInit {
           if(this.utilisateurs != null){
             this.utilisateurs.subscribe(utilisateurs =>{
               utilisateurs.forEach( utilisateur =>{
-                if(unAvis['destinataire']==this.userid){
+                if(unAvis['destinataire']==this.userAvis){
                   if(unAvis['utilisateur']== utilisateur['id']){
                     this.listeAvis.push({avis:unAvis,user:utilisateur})
                   }

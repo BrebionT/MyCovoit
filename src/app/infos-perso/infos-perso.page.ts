@@ -52,6 +52,25 @@ export class InfosPersoPage{
     mail: ''
   };
 
+  public disabled=false;
+
+  
+  ville;
+  liste_ville;
+
+  cp;
+  liste_cp;
+
+  showville=false;
+  showvillebycp=false;
+
+
+
+  animal=true;
+  cigarette=true;
+  musique=true;
+  parle=true;
+
   constructor(
     public loadingController: LoadingController,
     public alertController: AlertController,
@@ -68,6 +87,11 @@ export class InfosPersoPage{
     //this.trajets = this.firestore.collection('Trajets').valueChanges();
     this.maxDate= this.formatDate(new Date(new Date().setDate(new Date().getDate() - 4745)).toISOString());
     this.minDate= this.formatDate(new Date(new Date().setDate(new Date().getDate() - 23725)).toISOString());
+
+    this.ville="";
+    this.liste_ville=[{nom:''}]
+    this.cp="";
+    this.liste_cp=[{nom:''}]
 
     
     
@@ -208,7 +232,13 @@ async uploadFirebase() {
                           photo: this.image,
                           id: this.user.id,
                           bio: this.user.bio,
-                          mail: this.user.mail
+                          mail: this.user.mail,
+
+                          animal:this.animal,
+                          cigarette:this.cigarette,
+                          musique:this.musique,
+                          parle:this.parle
+                          
                         });
                         this.uploadFirebase()
                         this.router.navigateByUrl('/tabs/tableaubord');
@@ -252,5 +282,147 @@ async uploadFirebase() {
     }
   }
 
+  isDisabled(){
+    if(this.user.ville!=""){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  addVille(val){
+    this.user.ville=val.nom;
+    this.ville = val.nom;
+    this.user.cp = val.codesPostaux[0];
+    this.cp=val.codesPostaux[0];
+    this.showville=false;
+    this.showvillebycp=false;
+    this.disabled=true;
+  }
+
+  addVilleByCP(val){
+    this.user.ville=val.nom;
+    this.ville = val.nom;
+    this.user.cp = val.codesPostaux[0];
+    this.cp=val.codesPostaux[0];
+    this.showville=false;
+    this.showvillebycp=false;
+    this.disabled=true;
+  }
+
+  suppVille(){
+    this.user.ville="";
+    this.ville = "";
+    this.user.cp="";
+    this.cp="";
+    this.disabled=false;
+  }
+
+
+
+  suppAdresse(){
+    this.user.adresse="";
+  }
+
+  suppNom(){
+    this.user.nom="";
+  }
+
+  suppPrenom(){
+    this.user.prenom="";
+  }
+
+  showVille(val){
+    console.log(val)
+    if(this.disabled==false){
+      this.showville=val;
+    }
+    
+  }
+
+  showVilleByCP(val){
+    if(this.disabled==false){
+      this.showvillebycp=val;
+    }
+    
+  }
+
+  getVille(event){
+      if(this.ville.trim()==""){
+        this.ville="";
+      }
+      const apiUrl2 = 'https://geo.api.gouv.fr/communes?nom='
+      const format = '&format=json';
+      
+      let ville = event;
+      //let ville = this.user.ville;
+      let url2 = apiUrl2+ville+'&limit=3'+format;
+  
+
+        fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
+          this.liste_ville=results
+          console.log(results);
+          
+          
+        }).catch(err => {
+          this.liste_ville=[{nom:''}]
+          console.log(err);
+        });
+  }
+
+  getVilleByCP(){
+    
+
+    if(this.cp.trim()==""){
+      this.cp="";
+    }
+    const apiUrl = 'https://geo.api.gouv.fr/communes?codePostal='
+    const format = '&format=json';
+    
+    let cp = this.cp;
+    //let ville = this.user.ville;
+    let url2 = apiUrl+cp+format;
+
+
+      fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
+        this.liste_cp=results
+        console.log(results);
+        
+        
+      }).catch(err => {
+        this.liste_cp=[{nom:''}]
+        console.log(err);
+      });
+    
+  }
+
+  prefAnimal(){
+    if(this.animal!=true){
+      this.animal=true;
+    }else{
+      this.animal=false;
+    }
+  }
+  prefCigarette(){
+    if(this.cigarette!=true){
+      this.cigarette=true;
+    }else{
+      this.cigarette=false;
+    }
+  }
+  prefMusique(){
+    if(this.musique!=true){
+      this.musique=true;
+    }else{
+      this.musique=false;
+    }
+  }
+  prefParle(){
+    if(this.parle!=true){
+      this.parle=true;
+    }else{
+      this.parle=false;
+    }
+  }
   
 }

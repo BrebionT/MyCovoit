@@ -1,6 +1,6 @@
 .header{
     background-color: #110A3B;
-    height:75px;
+    height:150px;
     padding-top:1 px;
     }
     
@@ -15,9 +15,8 @@
         padding:0;
     }
     
-    .corp{    
-        margin:40px 0px 0px 20px; 
-        //margin-left: 20px;
+    .corp{     
+        margin-left: 20px;
            
     }
     
@@ -49,7 +48,7 @@
     
     .followings p {
         color: white;
-        margin: 8px 0px 0px 0px;
+        margin: 10px 0px 0px 0px;
     }
     
     .followings {
@@ -77,8 +76,9 @@
         border-radius: 50%;
     }
     
-    .ion-card{
-    margin:auto;
+    ion-card{
+        margin:auto;
+        height:50%;
     }
     
     
@@ -91,49 +91,8 @@
         color:black;
         font-weight: bold;
     }
-
-    ion-row{
-        margin:5px 0px;
+    
+    .preference{
+        margin:0;
     }
     
-#date{
-border: solid;
-border-width: thin;
-border-color: darkgray;
- }
-
- .select-disabled{
-     opacity: 1;
- }
-
- ion-input{
-     width:70% !important;
-}
-
-#bordure{
-    border:1px solid black;
-}
-
-ion-input{
-    text-overflow: ellipsis;
-  }
-
-  .native-input[disabled].sc-ion-input-md{
-      opacity: 1;
-  }
-  ion-input {
-    opacity: 1 !important;
-}
-
-.preference{
-    margin:0;
-}
-
-textarea{
-    padding:5px;
-}
-
-.sc-ion-input-md-h{ 
-    --padding:5px;
-}
-

@@ -6,7 +6,7 @@
     </ion-toolbar>
   </ion-header>
   
-  <ion-content [fullscreen]="true" (keyup.enter)="fonctionstrouvertrajets()">
+  <ion-content *ngIf="beforesearch" [fullscreen]="true" (keyup.enter)="fonctionstrouvertrajets()">
     <ion-card *ngIf="beforesearch">
       <ion-toolbar>
         <ion-title >
@@ -15,17 +15,38 @@
       </ion-toolbar>
     <ion-item>
       <ion-label color="dark" position="stacked">Lieu de départ :</ion-label>
-      <ion-input id="test" placeholder="Hôtel du Moulin" [(ngModel)]="Tra_lieuDepart" type="string" ></ion-input>
+      <div style="width:100%;">
+        <ion-input readonly="{{isDisabledDepart()}}" style="width:80%; display:inline-block;" (ngModelChange)="getVilleDepart($event)" (ionFocus)="showVilleDepart(true)"id="test" placeholder="Ville de départ" [(ngModel)]="Tra_lieuDepartBIS" type="string" ></ion-input>
+        <ion-icon (click)="suppVilleDepart()" *ngIf="Tra_lieuDepartBIS != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+      </div>
+      <div *ngIf="liste_depart.length>0 && showvilleDepart==true && Tra_lieuDepartBIS.length>=3">
+        <ion-list>
+          <ion-item (click)="addVilleDepart(liste_depart[0])" *ngIf="liste_depart[0] != undefined && liste_depart[0].codeDepartement != undefined">{{liste_depart[0].nom}} ( {{liste_depart[0].codeDepartement}} )</ion-item>
+          <ion-item (click)="addVilleDepart(liste_depart[1])" *ngIf="liste_depart[1] != undefined && liste_depart[1].codeDepartement != undefined">{{liste_depart[1].nom}} ( {{liste_depart[1].codeDepartement}} )</ion-item>
+          <ion-item (click)="addVilleDepart(liste_depart[2])" *ngIf="liste_depart[2] != undefined && liste_depart[2].codeDepartement != undefined">{{liste_depart[2].nom}} ( {{liste_depart[2].codeDepartement}} )</ion-item>
+        </ion-list>
+      </div>
     </ion-item>
   
     <ion-item>
       <ion-label color="dark" position="stacked">Lieu d'arrivée :</ion-label>
-      <ion-input placeholder="Caen" [(ngModel)]="Tra_lieuArrivee" type="string" ></ion-input>
+      <div style="width:100%;">
+        <ion-input readonly="{{isDisabledArrivee()}}" style="width:80%; display:inline-block;" (ngModelChange)="getVilleArrivee($event)" (ionFocus)="showVilleArrivee(true)"id="test" placeholder="Ville d'arrivée" [(ngModel)]="Tra_lieuArriveeBIS" type="string" ></ion-input>
+        <ion-icon (click)="suppVilleArrivee()" *ngIf="Tra_lieuArriveeBIS != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+      </div>
+      <div *ngIf="liste_arrivee.length>0 && showvilleArrivee==true && Tra_lieuArriveeBIS.length>=3">
+        <ion-list>
+          <ion-item (click)="addVilleArrivee(liste_arrivee[0])" *ngIf="liste_arrivee[0] != undefined && liste_arrivee[0].codeDepartement != undefined">{{liste_arrivee[0].nom}} ( {{liste_arrivee[0].codeDepartement}} )</ion-item>
+          <ion-item (click)="addVilleArrivee(liste_arrivee[1])" *ngIf="liste_arrivee[1] != undefined && liste_arrivee[1].codeDepartement != undefined">{{liste_arrivee[1].nom}} ( {{liste_arrivee[1].codeDepartement}} )</ion-item>
+          <ion-item (click)="addVilleArrivee(liste_arrivee[2])" *ngIf="liste_arrivee[2] != undefined && liste_arrivee[2].codeDepartement != undefined">{{liste_arrivee[2].nom}} ( {{liste_arrivee[2].codeDepartement}} )</ion-item>
+        </ion-list>
+      </div>
     </ion-item>
    
     <ion-item>
       <ion-label color="dark" position="stacked">Date de départ :</ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY" min="1994-03-14" max="2999-12-31" value="2002-09-23" [(ngModel)]="Tra_dateDepart"></ion-datetime>
+      <!-- <ion-input [(ngModel)]="Tra_dateDepart" type="date" [min]=today [max]=datemax required></ion-input> -->
+      <ion-datetime displayFormat="DD/MM/YYYY" [min]="today" [max]="datemax" [(ngModel)]="Tra_dateDepart"></ion-datetime>
     </ion-item>
 
   
@@ -34,8 +55,9 @@
       <ion-input [(ngModel)]="tra_nbPassager" placeholder="Nombres de passagers" type="number" min="1" id="nbPassa"></ion-input>
     </ion-item>
   -->
-</ion-card>
-    <ion-content class="padding" *ngIf="beforesearch">  
+  </ion-card>
+  </ion-content>
+  <ion-content class="padding" *ngIf="beforesearch">  
       <ion-grid>
         <ion-row>
           <ion-col class ="case">   
@@ -50,35 +72,42 @@
       <ion-grid>
         <ion-row>
           <ion-col class ="case">   
-    <ion-card *ngFor="let trajets of liste_trajetdispo">         
-<ion-item>
-  <ion-col>
-    <ion-title style="padding-left:0; text-align:center;">{{destView.prenom}} {{destView.nom}}</ion-title>
-    <ion-avatar slot="end">
-      <img [src]="images">
-    </ion-avatar></ion-col>
-  <ion-datetime class="force-black-font" display-format="DD/MM/YYYY" value={{trajets.datedepart}}></ion-datetime>
-</ion-item>
-  
+    <ion-card *ngFor="let trajets of liste_trajetdispo">
+      <div [routerLink]="['/infos-trajet']" fragment="{{trajets.trajet.tra_id}}">
 
+      <ion-item>
+        <ion-col size=3>
+          <ion-avatar style="width:48px; height:48px">
+            <img [src]="trajets.photo">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size=5>
+          <p style=" max-width:150px; padding-left:0; text-align:left;">{{trajets.utilisateur.prenom}}</p>
+        </ion-col>
+        <ion-col>
+          <ion-label class="force-black-font" >{{trajets.trajet.tra_dateDepart | date : 'dd/MM/yyyy'}}</ion-label>
+        </ion-col>
+      </ion-item>
+        
+      <ion-item>
+        <span class="important">Départ : </span>
+        <p style="width:50px" class="force-black-font" > &nbsp; {{trajets.trajet.tra_heureDepart | date : 'HH:mm'}}</p>
+        <p class="force-black-font" >&nbsp; ➜ &nbsp;</p>
+        <p>{{ trajets.trajet.tra_lieuDepart }}</p>
+      </ion-item>
 
-<ion-item>
-  <p class="important">Départ :</p>
-  <ion-datetime class="force-black-font" display-format="H:mm" picker-format="H:mm" value={{trajets.heuredepart}}></ion-datetime>
-  <ion-label>{{ trajets.lieudepart }}</ion-label>
-</ion-item>
-<ion-item>
-  <p class="important">Arrivée :</p>
-  <ion-datetime class="force-black-font" display-format="H:mm" picker-format="H:mm" value={{trajets.heurearrivee}}></ion-datetime>
-  <ion-label >{{ trajets.lieuarrivee }}</ion-label>
-</ion-item>
+      <ion-item>
+        <span class="important">Arrivée : </span>
+        <p style="width:50px" class="force-black-font" > &nbsp; {{trajets.trajet.tra_heureArrivee | date : 'HH:mm'}}</p>
+        <p class="force-black-font" >&nbsp; ➜ &nbsp;</p>
+        <p >{{ trajets.trajet.tra_lieuArrivee }}</p>
+      </ion-item>
 
-
+    </div>
     </ion-card>
-    <ion-button id="bouton"  onclick="window.location.reload()" type="submit">Retour</ion-button>
+    <ion-button id="bouton"  (click)="retour()" type="submit">Retour</ion-button>
             </ion-col>
         </ion-row>
       </ion-grid>
-    </ion-content>
   </ion-content>
   

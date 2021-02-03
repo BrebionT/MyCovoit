@@ -13,7 +13,13 @@ export class TabsPage {
 
   ];
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController) {
+
+    
+
+  }
+
+  
 
   async openProfilModal() {
     const modal = await this.modalCtrl.create({

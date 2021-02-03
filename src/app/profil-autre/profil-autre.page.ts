@@ -6,14 +6,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 
-
-
 @Component({
-  selector: 'app-profil',
-  templateUrl: './profil.page.html',
-  styleUrls: ['./profil.page.scss'],
+  selector: 'app-profil-autre',
+  templateUrl: './profil-autre.page.html',
+  styleUrls: ['./profil-autre.page.scss'],
 })
-export class ProfilPage implements OnInit {
+export class ProfilAutrePage implements OnInit {
+
   dataUser = {
     email: '',
     password: ''
@@ -24,16 +23,19 @@ export class ProfilPage implements OnInit {
   avis: Observable<any[]>;
 
   public userid;
+
+  public useridAutre=this.router.url.slice(-28);
+
   public avisValue =0;
   public nbAvis =0;
   public avisTotal;
   public connected: boolean = false;
   utilisateur: Observable<any[]>;
 
-
   constructor(public firestore: AngularFirestore,
     public afAuth: AngularFireAuth,
     public afDB: AngularFireDatabase,
+    private router: Router,
     public afSG: AngularFireStorage
     ) { 
     this.connecter();
@@ -48,8 +50,6 @@ export class ProfilPage implements OnInit {
     this.afAuth.authState.subscribe(auth => {
       if (auth) {
         this.userid = auth.uid;
-        
-        //console.log(this.userid);
       }
     });
   }
@@ -61,7 +61,7 @@ export class ProfilPage implements OnInit {
     var that = this;
     this.utilisateurs.subscribe(uti =>{
       uti.forEach(value => {
-        if(value['id']==that.userid){
+        if(value['id']==that.useridAutre){
           that.utilisateur = value;
           //console.log(value)
           that.getImagesStorage(value['photo'])
@@ -79,10 +79,11 @@ export class ProfilPage implements OnInit {
     });
     
   }
+
   getAvis(){
     this.avis.subscribe(avis =>{
       avis.forEach( unAvis =>{
-        if(unAvis['destinataire']==this.userid){
+        if(unAvis['destinataire']==this.useridAutre){
           this.nbAvis+=1;
           this.avisValue+=unAvis['note'];
           this.avisTotal = (this.avisValue / this.nbAvis)
@@ -92,9 +93,7 @@ export class ProfilPage implements OnInit {
           }
         }
       })
-      
     })
-    
   }
  
   getImagesStorage(image: any) {
@@ -108,4 +107,5 @@ export class ProfilPage implements OnInit {
   }
 
   
+    
 }

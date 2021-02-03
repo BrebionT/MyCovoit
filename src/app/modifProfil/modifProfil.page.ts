@@ -27,6 +27,10 @@ export class ModifProfilPage {
     tel: '',
     bio: '',
     photo: '',
+    animal:true,
+    cigarette:true,
+    musique:true,
+    parle:true
   };
 
   image = '';
@@ -40,10 +44,10 @@ export class ModifProfilPage {
   public connected: boolean = false;
   utilisateur: Observable<any[]>;
 
-  public disabled;
-
   minDate: String;
   maxDate: String;
+
+  public disabled;
 
   
   ville;
@@ -54,6 +58,8 @@ export class ModifProfilPage {
 
   showville=false;
   showvillebycp=false;
+
+
 
   constructor(public firestore: AngularFirestore,
     public afAuth: AngularFireAuth,
@@ -147,7 +153,12 @@ export class ModifProfilPage {
             sexe: doc.data()['sexe'],
             tel: doc.data()['tel'],
             bio: doc.data()['bio'],
-            photo: doc.data()['photo']
+            photo: doc.data()['photo'],
+            animal: doc.data()['animal'],
+            cigarette: doc.data()['cigarette'],
+            musique: doc.data()['musique'],
+            parle: doc.data()['parle']
+
           };
         }
       })
@@ -196,7 +207,11 @@ export class ModifProfilPage {
                         sexe: this.user.sexe,
                         tel: this.user.tel,
                         bio: this.user.bio,
-                        photo:this.user.photo
+                        photo:this.user.photo,
+                        animal: this.user.animal,
+                        cigarette: this.user.cigarette,
+                        musique: this.user.musique,
+                        parle: this.user.parle
                       })
                       this.router.navigateByUrl('/tabs/profil');
                     }
@@ -366,6 +381,37 @@ export class ModifProfilPage {
       return false;
     }
   }
+
+  prefAnimal(){
+    if(this.user.animal!=true){
+      this.user.animal=true;
+    }else{
+      this.user.animal=false;
+    }
+  }
+  prefCigarette(){
+    if(this.user.cigarette!=true){
+      this.user.cigarette=true;
+    }else{
+      this.user.cigarette=false;
+    }
+  }
+  prefMusique(){
+    if(this.user.musique!=true){
+      this.user.musique=true;
+    }else{
+      this.user.musique=false;
+    }
+  }
+  prefParle(){
+    if(this.user.parle!=true){
+      this.user.parle=true;
+    }else{
+      this.user.parle=false;
+    }
+  }
+
+  
   
 
 }

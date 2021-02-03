@@ -41,7 +41,16 @@ const routes: Routes = [
   {
     path: 'liste-avis',
     loadChildren: () => import('./liste-avis/liste-avis.module').then( m => m.ListeAvisPageModule)
+  },
+  {
+    path: 'profil-autre',
+    loadChildren: () => import('./profil-autre/profil-autre.module').then( m => m.ProfilAutrePageModule)
+  },
+  {
+    path: 'infos-trajet',
+    loadChildren: () => import('./infos-trajet/infos-trajet.module').then( m => m.InfosTrajetPageModule)
   }
+
 
 
 

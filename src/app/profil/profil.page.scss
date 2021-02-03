@@ -16,7 +16,7 @@ padding-top:1 px;
 }
 
 .corp{     
-    margin-left: 20px;
+    margin: 20px;
        
 }
 
@@ -76,8 +76,9 @@ img {
     border-radius: 50%;
 }
 
-.ion-card{
-margin:auto;
+ion-card{
+    margin:auto;
+    height:50%;
 }
 
 
@@ -91,3 +92,6 @@ margin:auto;
     font-weight: bold;
 }
 
+.preference{
+    margin:0;
+}

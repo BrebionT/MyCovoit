@@ -128,33 +128,36 @@ export class HistoriquePage implements OnInit{
     this.uti_tra.subscribe(uti =>{
       uti.forEach(value2=> {
         if(value2['uti_tra_idUti']==that.userid){
-          this.trajets.subscribe(tra =>{
-            tra.forEach(value3=> {
-              if(value3['tra_id']==value2['uti_tra_idTra']){
-                var date = new Date (value3['tra_dateDepart']);
-                var newDate = date ;
-                if(newDate<this.today){
-                  that.trajetfait=true;
-                  this.liste_dates.push({date:newDate, trajet:value3, role:value2['uti_tra_role']});
-                  this.liste_dates.sort(function(a,b){
-                    return b.date - a.date;
-                  });
-
-                  that.uti_tra2.subscribe(uti_tras2 =>{
-                    uti_tras2.forEach(uti_tra2=> {
-                      
-                      if(value3['tra_id']==uti_tra2['uti_tra_idTra']){
-                        if(uti_tra2['uti_tra_idUti'] != this.userid){
-                          console.log(uti_tra2)
-                          this.liste_users.push({trajet:value3, user:uti_tra2['uti_tra_idUti'], role:uti_tra2['uti_tra_role']});
+          if(this.trajets != null){
+            this.trajets.subscribe(tra =>{
+              tra.forEach(value3=> {
+                if(value3['tra_id']==value2['uti_tra_idTra']){
+                  var date = new Date (value3['tra_dateDepart']);
+                  var newDate = date ;
+                  if(newDate<this.today){
+                    that.trajetfait=true;
+                    this.liste_dates.push({date:newDate, trajet:value3, role:value2['uti_tra_role']});
+                    this.liste_dates.sort(function(a,b){
+                      return b.date - a.date;
+                    });
+  
+                    that.uti_tra2.subscribe(uti_tras2 =>{
+                      uti_tras2.forEach(uti_tra2=> {
+                        
+                        if(value3['tra_id']==uti_tra2['uti_tra_idTra']){
+                          if(uti_tra2['uti_tra_idUti'] != this.userid){
+                            console.log(uti_tra2)
+                            this.liste_users.push({trajet:value3, user:uti_tra2['uti_tra_idUti'], role:uti_tra2['uti_tra_role']});
+                          }
                         }
-                      }
+                      })
                     })
-                  })
+                  }
                 }
-              }
+              })
             })
-          })
+          }
+          
         }
       })
     })

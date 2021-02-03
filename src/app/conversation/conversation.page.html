@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/tabs/messages"></ion-back-button>
     </ion-buttons>
     <ion-title style="padding-left:0; text-align:center;">{{destView.prenom}} {{destView.nom}}</ion-title>
-    <ion-avatar slot="end">
+    <ion-avatar [routerLink]="['/profil-autre']" fragment="{{destId}}" slot="end">
       <img [src]="images">
     </ion-avatar>
   </ion-toolbar>

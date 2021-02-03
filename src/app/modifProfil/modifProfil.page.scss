@@ -107,7 +107,7 @@ border-color: darkgray;
  }
 
  ion-input{
-     width:190px !important;
+     width:70% !important;
 }
 
 #bordure{
@@ -123,5 +123,18 @@ ion-input{
   }
   ion-input {
     opacity: 1 !important;
+    margin-left:5px;
+}
+
+.preference{
+    margin:0;
+}
+
+textarea{
+    padding:5px;
+}
+
+.sc-ion-input-md-h{ 
+    --padding:5px;
 }
 

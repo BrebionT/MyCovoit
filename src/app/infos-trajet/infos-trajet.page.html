@@ -1,0 +1,57 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button style="color:white" defaultHref="/tabs/rechercher"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Rechercher un trajet
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="trajet != undefined && utilisateur != undefined ">
+  <ion-title style="height:25px;margin-top:35px; font-weight: bold;">{{trajet.tra_dateDepart}}</ion-title>
+  <div position='relative'>
+    <ion-item lines="none">
+      <span class="important" style="width:15px">&nbsp;</span>
+      <p style="width:50px" class="force-black-font" > &nbsp; {{trajet.tra_heureDepart | date : 'HH:mm'}}</p>
+      <p class="force-black-font" >&nbsp; ➜ &nbsp;</p>
+      <p>{{trajet.tra_lieuDepart }}</p>
+    </ion-item>
+    
+    <ion-item lines="none">
+      <span class="important" style="width:15px">&nbsp;</span>
+      <p style="width:50px" class="force-black-font" > &nbsp; {{trajet.tra_heureArrivee | date : 'HH:mm'}}</p>
+      <p class="force-black-font" >&nbsp; ➜ &nbsp;</p>
+      <p >{{trajet.tra_lieuArrivee }}</p>
+    </ion-item>
+
+    <svg height='70' width='70' style='z-index:1000; position:"absolute"; top:80px'>
+      
+      <line x1='25' y1='5' x2='25' y2='65' style='stroke:rgb(0,0,0);stroke-width:2' />
+      <circle cx='25' cy='5' r='2' stroke='black' stroke-width='4' fill='black' />
+      <circle cx='25' cy='65' r='2' stroke='black' stroke-width='4' fill='black' />
+   </svg>
+  </div>
+
+  <div style="margin:15px 0px 0px 15px;">
+    <h4 style="height:25px; font-weight: bold;">Etape : </h4>
+    <p>•</p>
+    <p>•</p>
+  </div>
+
+  <div style="margin:15px 0px 0px 15px;">
+    <h4 style="height:25px; font-weight: bold;">Conducteur : </h4>
+    <div style="width:100%">
+      <span>
+        <ion-avatar style="width:48px; height:48px">
+          <img [src]="utilisateur.photo">
+        </ion-avatar>
+      </span>
+      <span style="margin:15px">{{utilisateur.prenom}} {{utilisateur.nom}}</span>
+    </div>
+      <p *ngIf="avisTotal !='0' "color="primary" mode="ios">{{avisTotal}}</p>
+      <p *ngIf="avisTotal ==undefined "color="primary" mode="ios">Pas d'avis</p>
+  </div>
+
+</ion-content>

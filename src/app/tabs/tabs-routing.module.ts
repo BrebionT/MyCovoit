@@ -69,6 +69,10 @@ const routes: Routes = [
         loadChildren: () => import('../liste-avis/liste-avis.module').then( m => m.ListeAvisPageModule)
       },
       {
+        path: 'profil-autre',
+        loadChildren: () => import('../profil-autre/profil-autre.module').then( m => m.ProfilAutrePageModule)
+      },
+      {
 
         path: '',
         redirectTo: '/connexion',

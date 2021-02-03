@@ -8,7 +8,128 @@
 
 <ion-content>
 
+  <ion-grid style="padding-right:20px">
+    <ion-row>
+      <ion-col><label class="important">Prénom : </label></ion-col>
+      <ion-col size=7><div id="bordure" style="width:100%">
+        <ion-input style="width:70%; display:inline-block;" [(ngModel)]="user.prenom" type="text" id="prenom" name="prenom" size=20 required></ion-input>
+        <ion-icon (click)="suppPrenom()" *ngIf="user.prenom != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+      </div></ion-col>
+    </ion-row>
+  
+    <ion-row>
+      <ion-col><label class="important">Nom : </label></ion-col>
+      <ion-col size=7><div id="bordure">
+        <ion-input style="width:70%; display:inline-block;" [(ngModel)]="user.nom" type="text" id="nom" name="nom" size=20 required></ion-input>
+        <ion-icon (click)="suppNom()" *ngIf="user.nom != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+      </div></ion-col>
+    </ion-row>
+  
+    <ion-row>
+      <ion-col><label class="important">Naissance : </label></ion-col>
+      <ion-col size=7><div id="bordure" style="height:100%"><ion-input [(ngModel)]="user.date_naiss" style="float: right;" size=20 type="date" id="date_naiss" name="date_naiss" [min]=minDate [max]=maxDate required></ion-input></div></ion-col>
+    </ion-row>
+  
+    <ion-row>
+      <ion-col><label class="important">Genre : </label></ion-col>
+      <ion-col size=7><div id="bordure" style="height:100%"><ion-select interface="popover" [(ngModel)]="user.sexe" name="genre" style="border:0px; width: 100%;float: right;">
+        <ion-select-option value="homme" selected>Homme</ion-select-option>
+        <ion-select-option value="femme">Femme</ion-select-option>
+        <ion-select-option value="autres">Autres</ion-select-option>
+    </ion-select></div></ion-col>
+    </ion-row>
+  
+    <ion-row>
+      <ion-col><label class="important">Adresse : </label></ion-col>
+      <ion-col size=7><div id="bordure">
+        <ion-input style="width:70%; display:inline-block;" [(ngModel)]="user.adresse" type="text" id="adresse" size=20 name="adresse"></ion-input>
+        <ion-icon (click)="suppAdresse()" *ngIf="user.adresse != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+      </div>
+    </ion-col>
+    
+    </ion-row>
+  
+    <ion-row>
+      <ion-col><label class="important">Ville : </label></ion-col>
+      <!-- <ion-col><input [(ngModel)]="user.ville" type="text" id="ville" size=20 name="ville" [value]=item.ville required></ion-col> -->
+      <ion-col size=7>
+        <div id="bordure">
+          
+          <ion-input readonly="{{isDisabled()}}" style="width:70%; display:inline-block;" (ionFocus)="showVille(true)" [(ngModel)]="ville" (ngModelChange)="getVille($event)" [placeholder]="ville"></ion-input>
+          <ion-icon (click)="suppVille()" *ngIf="user.ville != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+        </div>
+  
+        <div *ngIf="liste_ville.length>0 && showville==true && ville.length>=3">
+          <ion-list>
+            <ion-item (click)="addVille(liste_ville[0])" *ngIf="liste_ville[0] != undefined">{{liste_ville[0].nom}} ( {{liste_ville[0].codeDepartement}} )</ion-item>
+            <ion-item (click)="addVille(liste_ville[1])" *ngIf="liste_ville[1] != undefined">{{liste_ville[1].nom}} ( {{liste_ville[1].codeDepartement}} )</ion-item>
+            <ion-item (click)="addVille(liste_ville[2])" *ngIf="liste_ville[2] != undefined">{{liste_ville[2].nom}} ( {{liste_ville[2].codeDepartement}} )</ion-item>
+          </ion-list>
+        </div>
+  
+      </ion-col>
+    </ion-row>
+  
+    <ion-row>
+      <ion-col><label class="important">Code Postal : </label></ion-col>
+      <ion-col size=7>
+        <div id="bordure">
+          <ion-input readonly="{{isDisabled()}}" style="width:70%; display:inline-block;" (ionFocus)="showVilleByCP(true)" [(ngModel)]="cp" type="text" id="cp" (ngModelChange)="getVilleByCP()"  size=20 name="cp" maxlength="5"></ion-input>
+          <ion-icon (click)="suppVille()" *ngIf="user.cp != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+        </div>
+        <div *ngIf="liste_cp.length>0 && showvillebycp==true && cp.length==5">
+          <ion-list>
+            <ion-item (click)="addVilleByCP(liste_cp[0])" *ngIf="liste_cp[0] != undefined">{{liste_cp[0].nom}} ( {{liste_cp[0].codeDepartement}} )</ion-item>
+            <ion-item (click)="addVilleByCP(liste_cp[1])" *ngIf="liste_cp[1] != undefined">{{liste_cp[1].nom}} ( {{liste_cp[1].codeDepartement}} )</ion-item>
+            <ion-item (click)="addVilleByCP(liste_cp[2])" *ngIf="liste_cp[2] != undefined">{{liste_cp[2].nom}} ( {{liste_cp[2].codeDepartement}} )</ion-item>
+          </ion-list>
+        </div>
+    
+    </ion-col>
+    </ion-row>
+    
+    <ion-row>
+      <ion-col><label class="important">Téléphone : </label></ion-col>
+      <ion-col size=7><div id="bordure"><ion-input [(ngModel)]="user.tel" type="text" id="tel" size=20 name="tel" maxlength="10" required></ion-input></div></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col><label class="important" style="display:block; width:100%; margin-left: -10px; text-align: center;">Bio : </label></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col><textarea [(ngModel)]="user.bio" id="bio" name="bio" rows="4" style="width:100%"></textarea></ion-col>
+    </ion-row>
+    <ion-row>
+      <div style="width:100%">
+        <ion-grid>
+          <ion-row>
+            <ion-col style="position: relative;" (click)="prefAnimal()">
+              <p class="preference" style="font-size: 45px;position: absolute;">🐕</p>
+              <p class="preference" *ngIf="!animal" style="font-size: 45px;position: absolute;">❌</p>
+            </ion-col>
+            <ion-col style="position: relative;" (click)="prefCigarette()">
+              <p class="preference" style="font-size: 45px;position: absolute;">🚬</p>
+              <p class="preference" *ngIf="!cigarette" style="font-size: 45px;position: absolute;">❌</p>
+            </ion-col>
+            <ion-col style="position: relative;" (click)="prefMusique()">
+              <p class="preference" style="font-size: 45px;position: absolute;">🎵</p>
+              <p class="preference" *ngIf="!musique" style="font-size: 45px;position: absolute;">❌</p>
+            </ion-col>
+            <ion-col style="position: relative;" (click)="prefParle()">
+              <p class="preference" style="font-size: 45px;position: absolute;">💬</p>
+              <p class="preference" *ngIf="!parle" style="font-size: 45px;position: absolute;">❌</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </ion-row>
+    
+  
+    
+  
+    
+  </ion-grid>
 
+<!-- 
 <ion-list margin-content>
 
 
@@ -82,26 +203,27 @@
     <ion-label color="dark" position="floatting">Téléphone</ion-label>
     <ion-input [(ngModel)]="user.tel" maxlength="10" type="text"  name="tel"></ion-input>
   </div>
-</ion-item>
-<ion-item>
-  <div style="margin:auto">
-    <ion-button (click)="addPhoto('library')" color="primary" expand="block">
+</ion-item> -->
+
+
+  <center>
+    <ion-button style="width:70%;margin-top: 60px;" (click)="addPhoto('library')" color="primary" expand="block">
       <ion-icon name="image" slot="start"></ion-icon>
       Ouvrir la bibliothèque
     </ion-button>
     
-    <ion-button (click)="addPhoto('camera')" color="primary" expand="block">
+    <!-- <ion-button (click)="addPhoto('camera')" color="primary" expand="block">
       <ion-icon name="camera" slot="start"></ion-icon>
       Prendre une photo
-    </ion-button>
+    </ion-button> -->
 
-  </div>
-</ion-item><br>
+  </center>
+
 
 
     <center><ion-button (click)="envoyerUtilisateur()">S'inscrire</ion-button></center>
 
 
 <br>
-</ion-list>
+
 </ion-content>

@@ -18,7 +18,7 @@ import {etapes} from '../models/etapes.model';
   styleUrls: ['./proposer.page.scss'],
 })
 export class ProposerPage implements OnInit{
-  trajet = {} as trajets;
+  trajet = {tra_lieuDepart:"", tra_lieuArrivee:""} as trajets;
   utilisateurTrajet = {} as utilisateur_trajet;
   etape = {} as etapes;
   messages: Observable<any[]>;
@@ -35,6 +35,18 @@ export class ProposerPage implements OnInit{
   public userId;
   public destId;
   id;// id trajet
+
+  showvilleDepart=false;
+  disabledDepart;
+
+  showvilleArrivee=false;
+  disabledArrivee;
+
+  Tra_lieuDepartBIS="";
+  Tra_lieuArriveeBIS="";
+
+  liste_depart;
+  liste_arrivee;
   
   constructor(
     public alertController: AlertController,
@@ -46,6 +58,10 @@ export class ProposerPage implements OnInit{
     public afDB: AngularFireDatabase,
     private router: Router
   ) {
+
+    this.liste_depart=[{nom:''}]
+    this.liste_arrivee=[{nom:''}]
+
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
         this.router.navigateByUrl('/connexion');
@@ -166,7 +182,6 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
 
   LancerFonction(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
     
-    this.remplacer();
     this.createUtilisateur_trajet(utilisateurTrajet);
     this.createTrajets(trajet);
   }
@@ -201,66 +216,6 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
     await alert.present();
   }
 
-  remplacer(){
-    var regAccentA = new RegExp('[àâäã]', 'gi');
-    var regAccentE = new RegExp('[éèêë]', 'gi');
-    var regAccentU = new RegExp('[ùûü]', 'gi');
-    var regAccentI = new RegExp('[îïì]', 'gi');
-    var regAccentO = new RegExp('[ôöõò]', 'gi');
-    var regAccentY = new RegExp('[ÿ]', 'gi');
-    var regAccentC = new RegExp('[ç]', 'gi');
-    var regAccentOE = new RegExp('[œ]', 'gi');
-    var regAccentAE = new RegExp('[æ]', 'gi');
-    var regAccentN = new RegExp('[ñ]', 'gi');
-  
-    
-    var myString;
-    var myStringUP;
-    
-    console.log(myString)
-    console.log(mystring2);
-  
-    // Application de la fonction replace() sur myString
-  
-    myString = this.trajet.tra_lieuDepart.replace(regAccentA, 'a');
-    myString = myString.replace(regAccentE, 'e');
-    myString = myString.replace(regAccentU, 'u');
-    myString = myString.replace(regAccentI, 'i');
-    myString = myString.replace(regAccentO, 'o');
-    myString = myString.replace(regAccentY, 'y');
-    myString = myString.replace(regAccentC, 'c');
-    myString = myString.replace(regAccentOE, 'oe');
-    myString = myString.replace(regAccentAE, 'ae');
-    myString = myString.replace(regAccentN, 'n');
-   
-  
-    myString = myString.replace(/[^a-zA-Z- ]/g,'');
-    myStringUP = myString.trim();
-    this.trajet.tra_lieuDepart = myStringUP.toLowerCase();
-    console.log('depart : '+this.trajet.tra_lieuDepart);
-  
-        var mystring2;
-        var mystring2UP;
-        
-  
-        mystring2 = this.trajet.tra_lieuArrivee.replace(regAccentA, 'a');
-        mystring2 = mystring2.replace(regAccentE, 'e');
-        mystring2 = mystring2.replace(regAccentU, 'u');
-        mystring2 = mystring2.replace(regAccentI, 'i');
-        mystring2 = mystring2.replace(regAccentO, 'o');
-        mystring2 = mystring2.replace(regAccentY, 'y');
-        mystring2 = mystring2.replace(regAccentC, 'c');
-        mystring2 = mystring2.replace(regAccentOE, 'oe');
-        mystring2 = mystring2.replace(regAccentAE, 'ae');
-        mystring2 = mystring2.replace(regAccentN, 'n');
-    
-        mystring2 = mystring2.replace(/[^a-zA-Z- ]/g,'');
-        mystring2UP = mystring2.trim();
-        this.trajet.tra_lieuArrivee = mystring2UP.toLowerCase();
-  
-        console.log('arrivée : '+this.trajet.tra_lieuArrivee);
-  }
-
 addEtape(etape: etapes){
   this.beforeClick = false;
   this.createEtape(etape)}
@@ -291,6 +246,118 @@ async createEtape(etape: etapes ) {
     // redirect to home page
     this.navCtrl.navigateRoot('tabs/tableaubord');
   }}
+
+  getVilleDepart(event){
+      if(this.Tra_lieuDepartBIS.trim()==""){
+        this.Tra_lieuDepartBIS="";
+      }
+      const apiUrl2 = 'https://geo.api.gouv.fr/communes?nom='
+      const format = '&format=json';
+      
+      let Tra_lieuDepartBIS = event;
+      //let ville = this.user.ville;
+      let url2 = apiUrl2+Tra_lieuDepartBIS+'&limit=3'+format;
+    
+    
+        fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
+          this.liste_depart=results
+          //console.log(results);
+          
+          
+        }).catch(err => {
+          this.liste_depart=[{nom:''}]
+          //console.log(err);
+        });
+  }
+  
+  addVilleDepart(val){
+    this.trajet.tra_lieuDepart=val.nom;
+    this.Tra_lieuDepartBIS = val.nom;
+    
+    this.showvilleDepart=false;
+    this.disabledDepart=true;
+  }
+  
+  showVilleDepart(val){
+    if(this.disabledDepart==false){
+      this.showvilleDepart=val;
+    }
+    
+  }
+  
+  suppVilleDepart(){
+    this.trajet.tra_lieuDepart="";
+    this.Tra_lieuDepartBIS = "";
+  
+    this.disabledDepart=false;
+  }
+  
+  isDisabledDepart(){
+    //console.log(this.trajet.tra_lieuDepart);
+    if(this.trajet.tra_lieuDepart!=""){
+      this.disabledDepart=true;
+      return true;
+    }else{
+      this.disabledDepart=false;
+      return false;
+    }
+  }
+
+  getVilleArrivee(event){
+    if(this.Tra_lieuArriveeBIS.trim()==""){
+      this.Tra_lieuArriveeBIS="";
+    }
+    const apiUrl2 = 'https://geo.api.gouv.fr/communes?nom='
+    const format = '&format=json';
+    
+    let Tra_lieuArriveeBIS = event;
+    //let ville = this.user.ville;
+    let url2 = apiUrl2+Tra_lieuArriveeBIS+'&limit=3'+format;
+  
+  
+      fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
+        this.liste_arrivee=results
+        //console.log(results);
+        
+        
+      }).catch(err => {
+        this.liste_arrivee=[{nom:''}]
+        //console.log(err);
+      });
+}
+
+addVilleArrivee(val){
+  this.trajet.tra_lieuArrivee=val.nom;
+  this.Tra_lieuArriveeBIS = val.nom;
+  
+  this.showvilleArrivee=false;
+  this.disabledArrivee=true;
+}
+
+showVilleArrivee(val){
+  if(this.disabledArrivee==false){
+    this.showvilleArrivee=val;
+  }
+  
+}
+
+suppVilleArrivee(){
+  this.trajet.tra_lieuArrivee="";
+  this.Tra_lieuArriveeBIS = "";
+
+  this.disabledArrivee=false;
+}
+
+isDisabledArrivee(){
+  //console.log(this.trajet.tra_lieuDepart);
+  if(this.trajet.tra_lieuArrivee!=""){
+    this.disabledArrivee=true;
+    return true;
+  }else{
+    this.disabledArrivee=false;
+    return false;
+  }
+}
 }
 
 

@@ -34,10 +34,14 @@ export class RechercherPage {
 
   lieudepartRemplacé: string;
 
-  today = new Date();
+  today;
+
+  datemax;
+
+  
   utilisateurs: Observable<any[]>;
   trajets: Observable<any[]>;
-  uti_tra: Observable<any[]>;
+  uti_tras: Observable<any[]>;
   public trajet_a_venir : [] = [];
   public trajet_a_venir2 : []= [];
   liste_dates = [];
@@ -50,11 +54,32 @@ export class RechercherPage {
   public trajettrouve : boolean = false;
 
   public trajet;
-  Tra_lieuDepart: string;
-  Tra_lieuArrivee: string;
+  public uti_tra;
+  public uti;
+
+  showvilleDepart=false;
+  disabledDepart;
+
+  showvilleArrivee=false;
+  disabledArrivee;
+
+  Tra_lieuDepart="";
+  Tra_lieuDepartBIS="";
+  liste_depart;
+
+  Tra_lieuArrivee="";
+  Tra_lieuArriveeBIS="";
+  liste_arrivee;
+
   Tra_dateDepart: string;
+
   Tra_heureDepart: string;
+
   //tra_nbPassager: string;
+
+  test;
+
+  listeUser_Photo = []
 
 dataUser = {
   email: '',
@@ -75,6 +100,20 @@ connected: boolean;
   ) {
     
     this.trajet = firestore.collection('trajets').valueChanges();
+    this.uti_tras = firestore.collection('utilisateur_trajet').valueChanges();
+    this.utilisateurs = firestore.collection('utilisateurs').valueChanges();
+
+    this.liste_depart=[{nom:''}]
+    this.liste_arrivee=[{nom:''}]
+
+    this.today = new Date();
+    this.today = this.formatDate(this.today)
+
+    this.datemax= new Date();
+    this.datemax.setDate(this.datemax.getDate()+360);
+    this.datemax = this.formatDate(this.datemax)
+
+    //this.getListUsers()
 
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
@@ -88,6 +127,36 @@ connected: boolean;
 
 }
 
+formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+  if (month.length < 2) 
+      month = '0' + month;
+  if (day.length < 2) 
+      day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+getImagesStorage(traj, uti) {
+  var that = this;
+  var img = uti['photo'];
+  this.afSG.ref('users/'+img).getDownloadURL().subscribe(imgUrl => {
+    that.liste_trajetdispo.push({trajet:traj, utilisateur:uti, photo:imgUrl});
+  });
+}
+
+getListUsers(){
+  var that = this;
+  this.utilisateurs.subscribe(utis =>{
+    utis.forEach(uti => {
+      that.getImagesStorage(uti["photo"],uti.id);
+      //console.log('photo : ',photo)
+    });
+  })
+}
 
 async errorValue(messages) {
   const toast = await this.toastController.create({
@@ -101,31 +170,58 @@ async errorValue(messages) {
   await toast.present();
 }
 
-
-
-
 recherche(){
   
 this.liste_trajetdispo = [];
 this.beforesearch=true;
-this.trajet.subscribe(tra =>{
-tra.forEach(traj=> {
-/*console.log("ok")
-console.log(traj['tra_lieuDepart']+"/////" + this.Tra_lieuDepart)
-console.log(traj['tra_dateDepart'] +"/////"+ this.Tra_dateDepart.slice(0,-19));
-console.log(traj['tra_lieuArrivee']+ "/////" + this.Tra_lieuArrivee );*/
-if(traj['tra_lieuDepart'] == this.Tra_lieuDepart 
-&& traj['tra_lieuArrivee'] == this.Tra_lieuArrivee 
-&& traj['tra_dateDepart'] == this.Tra_dateDepart.slice(0,-19))
-{
-  if(traj['tra_dateDepart'] <= this.today){
-    this.trajettrouve = true;
-  this.changement();
-  this.liste_trajetdispo.push({lieudepart:traj['tra_lieuDepart'], heuredepart:traj['tra_heureDepart'], lieuarrivee:traj['tra_lieuArrivee'], heurearrivee:traj['tra_heureArrivee'], datedepart:traj['tra_dateDepart'],});
-}
-}
-    })
-  })
+
+var that = this;
+
+
+
+/* this.trajet.subscribe(tra =>{
+  tra.forEach(traj=> { */
+
+
+
+    that.test = that.firestore.collection("trajets");
+    that.test.ref.orderBy('tra_dateDepart')
+    .onSnapshot(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+    console.log(doc.data())
+    //console.log(traj['tra_lieuDepart']+"/////" + this.Tra_lieuDepart)
+    //console.log(traj['tra_dateDepart'] +"/////"+ this.Tra_dateDepart.slice(0,-19));
+    //console.log(traj['tra_lieuArrivee']+ "/////" + this.Tra_lieuArrivee );
+    if(doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart && doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19)){
+      var date = new Date(doc.data()['tra_dateDepart'])
+      if(date >= new Date){
+
+        console.log(doc.data()['tra_id'])
+
+        that.uti_tras.subscribe(uti_tras => {
+          uti_tras.forEach(uti_tra =>{
+
+            if(uti_tra["uti_tra_idTra"]==doc.data()['tra_id']){
+
+              that.utilisateurs.subscribe(utis =>{
+                utis.forEach(uti =>{
+
+                  if(uti_tra["uti_tra_idUti"]==uti['id']){
+
+                    that.getImagesStorage(doc.data(),uti);
+                    that.trajettrouve = true;
+                    that.changement();
+                  }
+
+                })
+              })
+            }
+          })
+        })
+      }
+    }
+  })})
+
 }
 
 redirectiontrajettrouve(){
@@ -137,80 +233,126 @@ redirectiontrajettrouve(){
 }
 
 fonctionstrouvertrajets(){
-  this.remplacer();
   this.recherche();
   this.redirectiontrajettrouve();
 }
-
-
-
 
 changement(){
     this.beforesearch=false;
 }
 
-
-
-
-remplacer(){
-  var regAccentA = new RegExp('[àâäã]', 'gi');
-  var regAccentE = new RegExp('[éèêë]', 'gi');
-  var regAccentU = new RegExp('[ùûü]', 'gi');
-  var regAccentI = new RegExp('[îïì]', 'gi');
-  var regAccentO = new RegExp('[ôöõò]', 'gi');
-  var regAccentY = new RegExp('[ÿ]', 'gi');
-  var regAccentC = new RegExp('[ç]', 'gi');
-  var regAccentOE = new RegExp('[œ]', 'gi');
-  var regAccentAE = new RegExp('[æ]', 'gi');
-  var regAccentN = new RegExp('[ñ]', 'gi');
-
+getVilleDepart(event){
+  if(this.Tra_lieuDepartBIS.trim()==""){
+    this.Tra_lieuDepartBIS="";
+  }
+  const apiUrl2 = 'https://geo.api.gouv.fr/communes?nom='
+  const format = '&format=json';
   
-  var myString;
-  var myStringUP;
+  let Tra_lieuDepartBIS = event;
+  //let ville = this.user.ville;
+  let url2 = apiUrl2+Tra_lieuDepartBIS+'&limit=3'+format;
+
+
+    fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
+      this.liste_depart=results
+      console.log(results);
+      
+      
+    }).catch(err => {
+      this.liste_depart=[{nom:''}]
+      console.log(err);
+    });
+}
+
+addVilleDepart(val){
+  this.Tra_lieuDepart=val.nom;
+  this.Tra_lieuDepartBIS = val.nom;
   
- // console.log(myString)
-  //console.log(mystring2);
+  this.showvilleDepart=false;
+  this.disabledDepart=true;
+}
 
-  // Application de la fonction replace() sur myString
+showVilleDepart(val){
+  if(this.disabledDepart==false){
+    this.showvilleDepart=val;
+  }
+}
 
-  myString = this.Tra_lieuDepart.replace(regAccentA, 'a');
-  myString = myString.replace(regAccentE, 'e');
-  myString = myString.replace(regAccentU, 'u');
-  myString = myString.replace(regAccentI, 'i');
-  myString = myString.replace(regAccentO, 'o');
-  myString = myString.replace(regAccentY, 'y');
-  myString = myString.replace(regAccentC, 'c');
-  myString = myString.replace(regAccentOE, 'oe');
-  myString = myString.replace(regAccentAE, 'ae');
-  myString = myString.replace(regAccentN, 'n');
- 
+suppVilleDepart(){
+  this.Tra_lieuDepart="";
+  this.Tra_lieuDepartBIS = "";
 
-  myString = myString.replace(/[^a-zA-Z- ]/g,'');
-  myStringUP = myString.trim();
-  this.Tra_lieuDepart = myStringUP.toLowerCase();
- // console.log('depart : '+this.Tra_lieuDepart);
+  this.disabledDepart=false;
+}
+
+isDisabledDepart(){
+  if(this.Tra_lieuDepart!=""){
+    this.disabledDepart=true;
+    return true;
+  }else{
+    this.disabledDepart=false;
+    return false;
+  }
+}
+
+getVilleArrivee(event){
+  if(this.Tra_lieuArriveeBIS.trim()==""){
+    this.Tra_lieuArriveeBIS="";
+  }
+  const apiUrl2 = 'https://geo.api.gouv.fr/communes?nom='
+  const format = '&format=json';
   
+  let Tra_lieuArriveeBIS = event;
+  //let ville = this.user.ville;
+  let url2 = apiUrl2+Tra_lieuArriveeBIS+'&limit=3'+format;
 
-      var mystring2;
-      var mystring2UP;
 
+    fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
+      this.liste_arrivee=results
+      console.log(results);
+      
+      
+    }).catch(err => {
+      this.liste_arrivee=[{nom:''}]
+      console.log(err);
+    });
+}
 
-      mystring2 = this.Tra_lieuArrivee.replace(regAccentA, 'a');
-      mystring2 = mystring2.replace(regAccentE, 'e');
-      mystring2 = mystring2.replace(regAccentU, 'u');
-      mystring2 = mystring2.replace(regAccentI, 'i');
-      mystring2 = mystring2.replace(regAccentO, 'o');
-      mystring2 = mystring2.replace(regAccentY, 'y');
-      mystring2 = mystring2.replace(regAccentC, 'c');
-      mystring2 = mystring2.replace(regAccentOE, 'oe');
-      mystring2 = mystring2.replace(regAccentAE, 'ae');
-      mystring2 = mystring2.replace(regAccentN, 'n');
+addVilleArrivee(val){
+  this.Tra_lieuArrivee=val.nom;
+  this.Tra_lieuArriveeBIS = val.nom;
   
-      mystring2 = mystring2.replace(/[^a-zA-Z- ]/g,'');
-      mystring2UP = mystring2.trim();
-      this.Tra_lieuArrivee = mystring2UP.toLowerCase();
+  this.showvilleArrivee=false;
+  this.disabledArrivee=true;
+}
 
-      //console.log('arrivée : '+this.Tra_lieuArrivee);
+showVilleArrivee(val){
+  if(this.disabledArrivee==false){
+    this.showvilleArrivee=val;
+  }
+  
+}
+
+suppVilleArrivee(){
+  this.Tra_lieuArrivee="";
+  this.Tra_lieuArriveeBIS = "";
+
+  this.disabledArrivee=false;
+}
+
+isDisabledArrivee(){
+  //console.log(this.Tra_lieuDepart);
+  if(this.Tra_lieuArrivee!=""){
+    this.disabledArrivee=true;
+    return true;
+  }else{
+    this.disabledArrivee=false;
+    return false;
+  }
+}
+
+retour(){
+  this.beforesearch=true;
 }
 
 

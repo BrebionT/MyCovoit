@@ -1,0 +1,79 @@
+
+
+
+<ion-content *ngIf="utilisateur != undefined">
+  <div class="header">
+    <ion-buttons slot="start">
+      <ion-back-button style="color:white" defaultHref="/tabs/profil"></ion-back-button>
+    </ion-buttons>
+  
+    <div>
+      <div class="top">
+        <p style="color:#ffffff; margin:0; padding:0px 0px;">{{utilisateur.prenom}}&nbsp;{{utilisateur.nom}}</p>
+      </div >
+      <div class="space-between">
+        <div class="followings" [routerLink]="['/liste-avis']" fragment="{{useridAutre}}">
+          <ion-badge *ngIf="avisTotal !='0' "color="primary" mode="ios">{{avisTotal}}</ion-badge>
+          <ion-badge *ngIf="avisTotal ==undefined "color="primary" mode="ios">Pas d'avis</ion-badge>
+          <p>Note</p>
+        </div>
+        <div class="followings" >
+          <ion-badge *ngIf='utilisateur.sexe == "homme"' color="primary" mode="ios" >M</ion-badge>
+          <ion-badge *ngIf='utilisateur.sexe == "femme"' color="primary" mode="ios" >F</ion-badge>
+          <ion-badge *ngIf='utilisateur.sexe == "autres"' color="primary" mode="ios" >A</ion-badge>
+          <p>Genre</p>
+        </div>
+      </div>
+      </div>
+  </div>
+
+<div class="flex">
+  <div class="box-border">
+    <div class="border-white">
+      <div class="img-box">
+        <img id="imgProfil" [src]="images">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ion-card>
+<div class="corp">
+    <p style="color:rgb(50,50,50)"><span class="important">Prénom :</span> {{utilisateur.prenom}}</p>
+    <p style="color:rgb(50,50,50)"><span class="important">Nom :</span> {{utilisateur.nom}}</p>
+    <p style="color:rgb(50,50,50)"><span class="important">Age :</span> {{utilisateur.date_naiss}} ans</p>
+    <p style="color:rgb(50,50,50)"><span class="important">Bio :</span> {{utilisateur.bio}}</p>
+    <div style="width:100%">
+      <ion-grid>
+        <ion-row>
+          <ion-col style="position: relative;">
+            <p class="preference" style="font-size: 45px;position: absolute;">🐕</p>
+            <p class="preference" *ngIf="!utilisateur.animal" style="font-size: 45px;position: absolute;">❌</p>
+          </ion-col>
+          <ion-col style="position: relative;">
+            <p class="preference" style="font-size: 45px;position: absolute;">🚬</p>
+            <p class="preference" *ngIf="!utilisateur.cigarette" style="font-size: 45px;position: absolute;">❌</p>
+          </ion-col>
+          <ion-col style="position: relative;">
+            <p class="preference" style="font-size: 45px;position: absolute;">🎵</p>
+            <p class="preference" *ngIf="!utilisateur.musique" style="font-size: 45px;position: absolute;">❌</p>
+          </ion-col>
+          <ion-col style="position: relative;">
+            <p class="preference" style="font-size: 45px;position: absolute;">💬</p>
+            <p class="preference" *ngIf="!utilisateur.parle" style="font-size: 45px;position: absolute;">❌</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+</div>
+</ion-card>
+
+
+
+</ion-content>
+<!--<ion-toolbar>
+  <ion-title>profil</ion-title>
+</ion-toolbar>-->
+
