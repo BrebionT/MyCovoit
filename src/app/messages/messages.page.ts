@@ -6,6 +6,8 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
+import {boole} from '../../environments/environment';
+
 
 @Component({
   selector: 'app-messages',
@@ -47,7 +49,6 @@ export class MessagesPage implements OnInit{
         this.messages = this.firestore.collection("messages").valueChanges();
         this.users = this.firestore.collection("utilisateurs").valueChanges();
         this.getUsers(this.userId);
-        
       }});
 
     
@@ -60,7 +61,6 @@ export class MessagesPage implements OnInit{
   }
 
   ionViewWillEnter(){
-    
   }
 
   ngOnDestroy(){
@@ -113,6 +113,7 @@ export class MessagesPage implements OnInit{
       date: new Date(),
       vu: true
     })
+    boole.notif = false;
   
     this.firestore.collection("messages").doc("tempo").delete()
   }

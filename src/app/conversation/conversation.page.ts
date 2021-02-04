@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {IonContent} from '@ionic/angular'
 import { AngularFireStorage } from '@angular/fire/storage';
+import {boole} from '../../environments/environment';
 
 
 
@@ -88,6 +89,9 @@ export class ConversationPage implements OnInit{
     });
   }
 
+  ionViewWillEnter(){
+  }
+
   ionPageDidLoad()
   {
      setTimeout(() => {
@@ -131,6 +135,7 @@ export class ConversationPage implements OnInit{
     this.firestore.collection("messages").doc(id).update({
       vu:true
     })
+    boole.notif = false;
   }
 
   pressDown(){
@@ -211,7 +216,12 @@ export class ConversationPage implements OnInit{
             // doc.data() is never undefined for query doc snapshots
             //console.log(doc.id, " => ", doc.data());
             //console.log(typeof(doc.data()))
-            that.messagesView.push(doc.data())
+
+
+            if((doc.data()['utilisateur']== destId && doc.data()['destinataire']== userId) || (doc.data()['utilisateur']== userId && doc.data()['destinataire']== destId)){
+              that.messagesView.push(doc.data())
+            }
+            
         });
     })
   }

@@ -111,10 +111,12 @@ export class TableaubordPage implements OnInit{
   
     if(this.uti_tra != null){
       this.uti_tra.subscribe(uti =>{
+        
         uti.forEach(value2=> {
           if(value2['uti_tra_idUti']==that.userid){
             if(this.trajets != null){
               this.trajets.subscribe(tra =>{
+                
                 tra.forEach(value3=> {
                   if(value3['tra_id']==value2['uti_tra_idTra']){
                     var date = new Date (value3['tra_dateDepart']);

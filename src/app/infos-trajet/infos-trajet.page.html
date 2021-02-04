@@ -26,32 +26,119 @@
       <p >{{trajet.tra_lieuArrivee }}</p>
     </ion-item>
 
-    <svg height='70' width='70' style='z-index:1000; position:"absolute"; top:80px'>
+    <svg height='65' width='65' style='z-index:1000; position:"absolute"; top:82px'>
       
-      <line x1='25' y1='5' x2='25' y2='65' style='stroke:rgb(0,0,0);stroke-width:2' />
+      <line x1='25' y1='5' x2='25' y2='60' style='stroke:rgb(0,0,0);stroke-width:2' />
       <circle cx='25' cy='5' r='2' stroke='black' stroke-width='4' fill='black' />
-      <circle cx='25' cy='65' r='2' stroke='black' stroke-width='4' fill='black' />
+      <circle cx='25' cy='60' r='2' stroke='black' stroke-width='4' fill='black' />
    </svg>
   </div>
 
-  <div style="margin:15px 0px 0px 15px;">
+  <div style="width:80%; margin: 15px 10%; border-bottom: lightgray 1px solid;"></div>
+
+  <div *ngIf="etapes.length > 0" style="width:90%; margin:15px auto;">
+
     <h4 style="height:25px; font-weight: bold;">Etape : </h4>
-    <p>•</p>
-    <p>•</p>
+    <!-- <p>•</p>
+    <p>•</p> -->
+    <ng-container *ngFor="let etape of etapes">
+      <p style="margin:0"> &nbsp; ➜ &nbsp;{{etape.eta_ville}}</p>
+    </ng-container>
   </div>
 
-  <div style="margin:15px 0px 0px 15px;">
-    <h4 style="height:25px; font-weight: bold;">Conducteur : </h4>
-    <div style="width:100%">
-      <span>
-        <ion-avatar style="width:48px; height:48px">
-          <img [src]="utilisateur.photo">
-        </ion-avatar>
-      </span>
-      <span style="margin:15px">{{utilisateur.prenom}} {{utilisateur.nom}}</span>
+  <div *ngIf="etapes.length > 0" style="width:80%; margin: 15px 10%; border-bottom: lightgray 1px solid;"></div>
+  <div *ngIf="etapes.length > 0" style="width:80%; margin: 15px 10%; border-bottom: lightgray 1px solid;"></div>
+
+  <div style="width:95%; margin:auto;" [routerLink]="['/profil-autre']" fragment="{{utilisateur.id}}">
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <h4 style="height:25px; font-weight: bold; text-align: left;margin:0">Conducteur : </h4>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size=3>
+          <ion-avatar style="width:48px; height:48px">
+            <img [src]="utilisateur.photo">
+          </ion-avatar>
+        </ion-col>
+        <ion-col size=8>
+          <p style="text-align: center; padding:0px 0px; margin:0;text-overflow: ellipsis;white-space: nowrap;width: 100%; display: block; overflow: hidden">{{utilisateur.prenom}} {{utilisateur.nom}}</p>
+          <p *ngIf="avisTotal !='0' " style="margin:10px 0px 0px 0px" color="primary" mode="ios">{{avisTotal}}<span style="font-size: 20px;">★</span> / 5 - {{nbAvis}} avis</p>
+          <p *ngIf="avisTotal ==undefined " style="margin:10px 0px 0px 0px" color="primary" mode="ios">Pas d'avis</p>
+        </ion-col>
+        <ion-col size=1>
+          <ion-icon style="margin:25px 0px" name="chevron-forward-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
     </div>
-      <p *ngIf="avisTotal !='0' "color="primary" mode="ios">{{avisTotal}}</p>
-      <p *ngIf="avisTotal ==undefined "color="primary" mode="ios">Pas d'avis</p>
-  </div>
+
+    <div style="width:100%;height:42px;">
+      <div style="max-width:70%; margin:auto; height:auto; background-color:#110A3B; border-radius: 5px;"  [routerLink]="['/conversation']" fragment="{{utilisateur.id}}">
+        <!-- <p style="color:#110A3B; width: 36px; margin:0; display:inline-block;text-align: center; vertical-align: middle;"><ion-icon name="chatbubble-ellipses-outline" style="width: 36px; height: 36px;"></ion-icon></p> -->
+        <p style="color:white; width: 42px; margin:0; display:inline-block;text-align: center; vertical-align: middle;"><img src="../assets/pixel-speech-bubble.gif"></p>
+        <p style="color:white;max-width: 70%; margin:auto; font-size:20px; display:inline-block;text-align: center; vertical-align: middle;">&nbsp; Contacter {{utilisateur.prenom}}</p>
+      </div>
+    </div>
+
+    <div style="width:80%; margin: 20px 10%; border-bottom: lightgray 1px solid;"></div>
+
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col style="height: 42px; position:relative;" size=2>
+            <p class="preference" style="font-size: 32px; position:absolute;">🐕</p>
+            <p class="preference" *ngIf="!utilisateur.animal" style="font-size: 32px; position:absolute;">❌</p>
+          </ion-col>
+          <ion-col size=10 style="height: 42px; position:relative;">
+            <p class="preference" *ngIf="utilisateur.animal" style="font-size: 16px; margin-top: 15px;">Les animaux sont autorisés.</p>
+            <p class="preference" *ngIf="!utilisateur.animal" style="font-size: 16px; margin-top: 15px; position:absolute;">Les animaux ne sont pas autorisés.</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="height: 42px; position:relative;" size=2>
+            <p class="preference" style="font-size: 32px; position:absolute;">🚬</p>
+            <p class="preference" *ngIf="!utilisateur.cigarette" style="font-size: 32px; position:absolute;">❌</p>
+          </ion-col>
+          <ion-col size=10 style="height: 42px; position:relative;">
+            <p class="preference" *ngIf="utilisateur.cigarette" style="font-size: 16px; margin-top: 15px; position:absolute;">Fumer est autorisé.</p>
+            <p class="preference" *ngIf="!utilisateur.cigarette" style="font-size: 16px; margin-top: 15px; position:absolute;">Fumer n'est pas autorisé.</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="height: 42px; position:relative;" size=2>
+            <p class="preference"  style="font-size: 32px; position:absolute;">🎵</p>
+            <p class="preference" *ngIf="!utilisateur.musique" style="font-size: 32px; position:absolute;">❌</p>
+          </ion-col>
+          <ion-col size=10 style="height: 42px; position:relative;">
+            <p class="preference" *ngIf="utilisateur.musique" style="font-size: 16px; margin-top: 15px; position:absolute;">Il y a de la musique.</p>
+            <p class="preference" *ngIf="!utilisateur.musique" style="font-size: 16px; margin-top: 15px; position:absolute;">Il n'y a pas de musique.</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col style="height: 42px; position:relative;" size=2>
+            <p class="preference" style="font-size: 32px; position:absolute;">💬</p>
+            <p class="preference" *ngIf="!utilisateur.parler" style="font-size: 32px; position:absolute;">❌</p>
+          </ion-col>
+          <ion-col size=10 style="height: 42px; position:relative;">
+            <p class="preference" *ngIf="utilisateur.parler" style="font-size: 16px; margin-top: 15px; position:absolute;">Le conducteur aime bien parler.</p>
+            <p class="preference" *ngIf="!utilisateur.parler" style="font-size: 16px; margin-top: 15px; position:absolute;">Le conducteur n'est pas très bavard.</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div style="width:80%; margin: 20px 10%; border-bottom: lightgray 1px solid;"></div>
+
+    <div>
+      <h4>Voiture</h4>
+    </div>
+
+    <ion-button color='dark' style="border-radius: 5px; max-width:70%; margin:auto; display:block" (click)="reserver()">Réserver</ion-button>
+
+  
 
 </ion-content>

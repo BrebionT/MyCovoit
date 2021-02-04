@@ -206,7 +206,7 @@ var that = this;
               that.utilisateurs.subscribe(utis =>{
                 utis.forEach(uti =>{
 
-                  if(uti_tra["uti_tra_idUti"]==uti['id']){
+                  if(uti_tra["uti_tra_idUti"]==uti['id'] && uti_tra["uti_tra_role"]=="Conducteur"){
 
                     that.getImagesStorage(doc.data(),uti);
                     that.trajettrouve = true;
@@ -352,6 +352,14 @@ isDisabledArrivee(){
 }
 
 retour(){
+  this.beforesearch=true;
+}
+
+suppValue(){
+  this.suppVilleDepart();
+  this.suppVilleArrivee();
+  this.Tra_dateDepart="";
+  this.liste_trajetdispo=[];
   this.beforesearch=true;
 }
 
