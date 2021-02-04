@@ -20,7 +20,7 @@ import {etapes} from '../models/etapes.model';
 export class ProposerPage implements OnInit{
   trajet = {tra_lieuDepart:"", tra_lieuArrivee:""} as trajets;
   utilisateurTrajet = {} as utilisateur_trajet;
-  etape = {} as etapes;
+  etape = {eta_ville:""} as etapes;
   messages: Observable<any[]>;
   users: Observable<any[]>;
   today = new Date();
@@ -43,15 +43,20 @@ export class ProposerPage implements OnInit{
   showvilleArrivee=false;
   disabledArrivee;
 
+  showvilleEtape=[false];
+  disabledEtape = [{value:false}];
+
   Tra_lieuDepartBIS="";
   Tra_lieuArriveeBIS="";
+  listeEtapeBIS=[];
 
   liste_depart;
   liste_arrivee;
+  liste_etape= [];
   
   public anArray:any=[];
   public list = [{value:'listeEtape'}];;
-
+ 
   public listeEtape = [{value:''}];
 
   constructor(
@@ -67,6 +72,8 @@ export class ProposerPage implements OnInit{
 
     this.liste_depart=[{nom:''}]
     this.liste_arrivee=[{nom:''}]
+    this.liste_etape=[{nom:''}]
+
 
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
@@ -230,18 +237,18 @@ addEtape(etape: etapes){
 }
 
 parcour(){
-  this.listeEtape.forEach(element => {
+  this.listeEtapeBIS.forEach(element => {
     if(element.value != ""){
     this.createEtape(element.value)}});
 }
 
-async createEtape(value) { 
+async createEtape(idx) { 
   if (this.etape.eta_ville != "") {
    // this.list.forEach(element => {
       this.firestore.collection('etapes').add({
         eta_id: new Date().toISOString()+Math.floor(Math.random() * 99),
         eta_idTra: this.id,
-        eta_ville: value,
+        eta_ville: idx,
       });
   //  });
     // console.log("ready to submit");
@@ -256,10 +263,19 @@ goTo(){
 Add(){
     this.listeEtape.push({'value':''});
     this.anArray.push({'value':''});
+    this.listeEtapeBIS.push({'value':''});
+    this.disabledEtape.push({value:false})
+    this.liste_etape.push({nom:''})
+    this.showvilleEtape.push(false)
    }
 Remove(){
     this.listeEtape.pop();
     this.anArray.pop();
+
+    this.listeEtapeBIS.pop();
+    this.disabledEtape.pop();
+    this.liste_etape.pop();
+    this.showvilleEtape.pop()
   }
 
   getVilleDepart(event){
@@ -373,6 +389,66 @@ isDisabledArrivee(){
     return false;
   }
 }
+
+getVilleEtape(event,idx){
+  if(this.listeEtapeBIS[idx].value.trim()==""){
+    this.listeEtapeBIS[idx].value="";
+  }
+  const apiUrl2 = 'https://geo.api.gouv.fr/communes?nom='
+  const format = '&format=json';
+  
+  let listeEtapeBIS = event;
+  //let ville = this.user.ville;
+  let url2 = apiUrl2+listeEtapeBIS+'&limit=3'+format;
+
+
+    fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
+      this.liste_etape[idx]=results
+      //console.log(results);
+      
+      
+    }).catch(err => {
+      this.liste_etape[idx]=[{nom:''}]
+      //console.log(err);
+    });
+}
+
+addVilleEtape(val,idx){
+this.etape.eta_ville=val.nom;
+this.listeEtapeBIS[idx].value = val.nom;
+
+this.showvilleEtape[idx]=false;
+
+this.disabledEtape[idx].value = true;
+//this.disabledEtape=true;
+}
+
+showVilleEtape(val,idx){
+  console.log(this.listeEtapeBIS)
+if(this.disabledEtape[idx].value==false){
+  this.showvilleEtape[idx]=val;
+}
+
+}
+
+suppVilleEtape(idx){
+this.etape.eta_ville="";
+this.listeEtapeBIS[idx].value = "";
+this.disabledEtape[idx].value=false;
+this.disabledDepart=false;
+}
+
+isDisabledEtape(idx){
+//console.log(this.trajet.tra_lieuDepart);
+if(this.etape.eta_ville!=""){
+  this.disabledEtape[idx].value=true;
+  return true;
+}else{
+  this.disabledEtape[idx].value=false;
+  return false;
+}
+}
+
 }
 
 

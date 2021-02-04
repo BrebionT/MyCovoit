@@ -51,8 +51,12 @@
             </div>
         </div>
         
-        
-        
+
+
+
+
+
+
         <div style="width: 100%;">
           <ion-grid>
               <ion-row>
@@ -65,12 +69,50 @@
     </ion-list>
    
     <ion-item *ngFor="let att of anArray; let idx = index">
+      <ion-label>Étape {{idx+1}} :</ion-label>
+      <ion-input readonly="{{disabledEtape[idx].value}}" style="width:80%; display:inline-block;" (ngModelChange)="getVilleEtape($event,idx)" (ionFocus)="showVilleEtape(true,idx)"id="test" placeholder="Etape" [(ngModel)]="listeEtapeBIS[idx].value" type="string" ></ion-input>
+      <ion-icon (click)="suppVilleEtape(idx)" *ngIf="listeEtapeBIS != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+      <div *ngIf="liste_etape[idx].length>0 && showvilleEtape[idx]==true && listeEtapeBIS[idx].value.length>=3">
+       
+        <ion-list>
+          <ion-item (click)="addVilleEtape(liste_etape[idx][0],idx)" *ngIf="liste_etape[idx][0] != undefined && liste_etape[idx][0].codeDepartement != undefined">{{liste_etape[idx][0].nom}} ( {{liste_etape[idx][0].codeDepartement}} )</ion-item>
+          <ion-item (click)="addVilleEtape(liste_etape[idx][1],idx)" *ngIf="liste_etape[idx][1] != undefined && liste_etape[idx][1].codeDepartement != undefined">{{liste_etape[idx][1].nom}} ( {{liste_etape[idx][1].codeDepartement}} )</ion-item>
+          <ion-item (click)="addVilleEtape(liste_etape[idx][2],idx)" *ngIf="liste_etape[idx][2] != undefined && liste_etape[idx][2].codeDepartement != undefined">{{liste_etape[idx][2].nom}} ( {{liste_etape[idx][2].codeDepartement}} )</ion-item>
+        </ion-list>
+      </div>
       <!-- <ion-label color="primary">{{att.label}}{{idx+1}}</ion-label> -->
+  </ion-item>
+  <center><button *ngIf="listeEtape.length > 1" style="color:black; display:inline-block; width:25px; padding:2px; margin-top:16px; margin-bottom:9px" (click)="Remove()"><ion-icon name="remove-outline"></ion-icon></button></center>
+        
+
+
+
+
+
+
+
+
+
+
+
+       <!-- <div style="width: 100%;">
+          <ion-grid>
+              <ion-row>
+            <ion-col style="width:50px;padding-right: 0;" size=1;><h4 style="display:inline-block;"><ion-label color="dark" position="floating">Etapes ?</ion-label></h4></ion-col>
+            <ion-col style="padding-left: 0;"><button style="color:black; display:inline-block; width:25px; padding:2px; margin-top:16px; margin-bottom:9px" (click)="Add()"><ion-icon name="add-outline"></ion-icon></button></ion-col>
+              </ion-row>
+          </ion-grid>
+        </div>
+      </ion-item>
+    </ion-list>
+   
+    <ion-item *ngFor="let att of anArray; let idx = index">
+      <!- <ion-label color="primary">{{att.label}}{{idx+1}}</ion-label> 
       <ion-label>Étape {{idx+1}} :</ion-label>
       <ion-input type="text" [(ngModel)]="listeEtape[idx].value"></ion-input>
   </ion-item>
   <center><button *ngIf="listeEtape.length > 1" style="color:black; display:inline-block; width:25px; padding:2px; margin-top:16px; margin-bottom:9px" (click)="Remove()"><ion-icon name="remove-outline"></ion-icon></button></center>
-
+-->
     <ion-list margin-bottom>
       <ion-list-header color="light">
         <h4><ion-label class="fw700">Date et horaire</ion-label></h4>
