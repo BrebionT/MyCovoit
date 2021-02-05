@@ -69,54 +69,6 @@ export class MessagesPage implements OnInit{
     //console.log("détruit")
   }
 
-  changerVu(destId){
-   
-    var that = this;
-    const db = this.firestore;
-    db.collection("messages").get().toPromise().then((snapshot)=>{
-      snapshot.docs.forEach(doc =>{
-        //console.log(doc.id, doc.data()['utilisateur']) //     doc.data()['utilisateur']
-
-        var value = doc.data();
-
-        if((value['utilisateur']==this.userId && value['destinataire']==destId) || (value['destinataire']==this.userId && value['utilisateur']==destId)){
-          this.messageVu(doc.id,value)        
-        }
-      });
-    })
-    
-  }
-
-  messageVu(id,message){
-    if(message['utilisateur']!=this.userId && message['destinataire']==this.userId && message['vu']==false){ //le message était pour moi, alors je l'ai vu 
-    this.changeMessageVu(id,message['utilisateur'],message['destinataire'],message["message"])
-    //console.log( "changement")
-      //return true;
-    }else if(message['utilisateur']==this.userId && message['vu']==false){ //le message n'était pas pour moi et il ne l'a pas vu
-    //console.log( "pas encore changé")
-      //return false
-    }else if(message['utilisateur']==this.userId && message['vu']==true){ //le message n'était pas pour moi et il l'a  vu
-    //console.log( "déjà changé")
-    //return true
-    }
-  }
-
-
-  changeMessageVu(id,iduser,iddest,message){
-    this.firestore.collection("messages").doc(id).update({
-      vu:true
-    })
-    this.firestore.collection("messages").doc("tempo").set({
-      utilisateur:iduser,
-      destinataire:iddest,
-      message: message,
-      date: new Date(),
-      vu: true
-    })
-    boole.notif = false;
-  
-    this.firestore.collection("messages").doc("tempo").delete()
-  }
 
   convers(){
     this.router.navigateByUrl('/tabs/conversation');
@@ -130,8 +82,6 @@ export class MessagesPage implements OnInit{
     })
     //console.log(messages);
   }
-
-  
 
   getUsers(userId){
 

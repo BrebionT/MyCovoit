@@ -4,7 +4,7 @@ import { MessagerieModalComponent } from '../messagerie-modal/messagerie-modal.c
 import { ProfilModalComponent } from '../profil-modal/profil-modal.component';
 import {AngularFirestore} from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import {boole} from '../../environments/environment';
+//import {boole} from '../../environments/environment';
 
 @Component({
   selector: 'app-tabs',
@@ -19,7 +19,9 @@ export class TabsPage {
   connected;
   userId;
 
-  boole = boole;
+  test;
+
+  notif = false;
 
   messages;
 
@@ -31,15 +33,34 @@ export class TabsPage {
       } else {
         this.userId = auth.uid;
         this.connected = true;
+
+        var that = this;
+
+    const db = this.firestore;
+
+    this.test = this.firestore.collection("messages_vu");
+    this.test.ref.where("destinataire", "==", this.userId);
+    this.test.ref.orderBy('id')
+    .onSnapshot(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        var value = doc.data();
+        console.log(value['destinataire'],that.userId)
+        if(value['destinataire']==that.userId){
+          if(value['vu']==false){
+            that.notif = true;
+          }    
+        }
+      })
+    })
       }
     })
   }
 
 
   ngOnInit() {
-    var that = this;
-
-    this.messages = this.firestore.collection("messages").valueChanges().subscribe(messages => {
+    
+    
+    /* this.messages = this.firestore.collection("messages").valueChanges().subscribe(messages => {
       messages.forEach(message =>{
         if(message['destinataire']==that.userId){
           if(message['vu']==false){
@@ -49,7 +70,7 @@ export class TabsPage {
           }  
         }
       }
-    )})
+    )}) */
     
     /* const db = this.firestore;
     

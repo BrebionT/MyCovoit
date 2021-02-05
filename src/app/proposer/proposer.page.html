@@ -86,38 +86,14 @@
         
 
 
-
-
-
-
-
-
-
-
-
-       <!-- <div style="width: 100%;">
-          <ion-grid>
-              <ion-row>
-            <ion-col style="width:50px;padding-right: 0;" size=1;><h4 style="display:inline-block;"><ion-label color="dark" position="floating">Etapes ?</ion-label></h4></ion-col>
-            <ion-col style="padding-left: 0;"><button style="color:black; display:inline-block; width:25px; padding:2px; margin-top:16px; margin-bottom:9px" (click)="Add()"><ion-icon name="add-outline"></ion-icon></button></ion-col>
-              </ion-row>
-          </ion-grid>
-        </div>
-      </ion-item>
-    </ion-list>
-   
-    <ion-item *ngFor="let att of anArray; let idx = index">
-      <!- <ion-label color="primary">{{att.label}}{{idx+1}}</ion-label> 
-      <ion-label>Étape {{idx+1}} :</ion-label>
-      <ion-input type="text" [(ngModel)]="listeEtape[idx].value"></ion-input>
+  <ion-item>
+    <ion-label>Nombre de place : </ion-label>
+    <ion-input type="number" value='0' min='0' max='8'></ion-input>
   </ion-item>
-  <center><button *ngIf="listeEtape.length > 1" style="color:black; display:inline-block; width:25px; padding:2px; margin-top:16px; margin-bottom:9px" (click)="Remove()"><ion-icon name="remove-outline"></ion-icon></button></center>
--->
+    
     <ion-list margin-bottom>
       <ion-list-header color="light">
         <h4><ion-label class="fw700">Date et horaire</ion-label></h4>
-          
-        
       </ion-list-header>
       <br>
 

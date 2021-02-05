@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   utilisateurs: Observable<any[]>;
-  public userid;
+  public userid = "";
   navigate : any;
   constructor(
     public firestore: AngularFirestore,
@@ -25,10 +25,18 @@ export class AppComponent {
     private router: Router,
     
   ) {
-    this.sideMenu();
-    this.initializeApp();
-    this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
-  }
+    this.afAuth.authState.subscribe(auth => {
+      if (!auth) {
+        this.userid="";
+      } else {
+        this.userid = auth.uid;
+      
+  
+        this.sideMenu();
+        this.initializeApp();
+        this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
+      }}
+    )}
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -37,11 +45,17 @@ export class AppComponent {
     });
   }
 
- sideMenu()
+ sideMenu(){
+  if(this.userid!=""){
+
+ 
   {
+    console.log(this.userid)
     this.navigate =
     [
+      
       {
+        
         title : "Tableau de bord",
         url   : "/tabs/tableaubord",
         icon  : "home-outline"
@@ -64,6 +78,6 @@ export class AppComponent {
       },
     ]
   }
-
-  
+}
+}
 }

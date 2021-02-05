@@ -14,7 +14,7 @@
   
   <ion-list>
     <div *ngFor="let userShow of messagesView | async" >
-    <ion-item detail [routerLink]="['/conversation']" *ngIf="userShow[0]!=undefined" fragment="{{userShow[0]}}" (click)="changerVu(userShow[0])">
+    <ion-item detail [routerLink]="['/conversation']" *ngIf="userShow[0]!=undefined" fragment="{{userShow[0]}}">
       
         <ion-avatar slot="start" >
           <ng-container *ngFor="let userPhoto of photoView | async">

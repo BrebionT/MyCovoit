@@ -121,11 +121,11 @@
         <ion-row>
           <ion-col style="height: 42px; position:relative;" size=2>
             <p class="preference" style="font-size: 32px; position:absolute;">💬</p>
-            <p class="preference" *ngIf="!utilisateur.parler" style="font-size: 32px; position:absolute;">❌</p>
+            <p class="preference" *ngIf="!utilisateur.parle" style="font-size: 32px; position:absolute;">❌</p>
           </ion-col>
           <ion-col size=10 style="height: 42px; position:relative;">
-            <p class="preference" *ngIf="utilisateur.parler" style="font-size: 16px; margin-top: 15px; position:absolute;">Le conducteur aime bien parler.</p>
-            <p class="preference" *ngIf="!utilisateur.parler" style="font-size: 16px; margin-top: 15px; position:absolute;">Le conducteur n'est pas très bavard.</p>
+            <p class="preference" *ngIf="utilisateur.parle" style="font-size: 16px; margin-top: 15px; position:absolute;">Le conducteur aime bien parler.</p>
+            <p class="preference" *ngIf="!utilisateur.parle" style="font-size: 16px; margin-top: 15px; position:absolute;">Le conducteur n'est pas très bavard.</p>
           </ion-col>
         </ion-row>
       </ion-grid>

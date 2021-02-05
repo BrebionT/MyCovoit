@@ -27,6 +27,16 @@ export const firebaseConfig ={
     appId: "1:5697256208:web:86ebf869169d70db280395"
 };
 
+/* export const firebaseConfig2 ={
+  apiKey: "AIzaSyD1_DBlCDGqBOm4JAIYIWq7_v7smv_dh1k",
+  authDomain: "mycovoit-314c0.firebaseapp.com",
+  projectId: "mycovoit-314c0",
+  storageBucket: "mycovoit-314c0.appspot.com",
+  messagingSenderId: "392458809336",
+  appId: "1:392458809336:web:79dea30a6d35dfb9fd300d",
+  measurementId: "G-F7B78KG2X6"
+}; */
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -35,6 +45,7 @@ export const firebaseConfig ={
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    //AngularFireModule.initializeApp(firebaseConfig2),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
