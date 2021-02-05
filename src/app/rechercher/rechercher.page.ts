@@ -41,6 +41,7 @@ export class RechercherPage {
   
   utilisateurs: Observable<any[]>;
   trajets: Observable<any[]>;
+  etapes: Observable<any[]>;
   uti_tras: Observable<any[]>;
   public trajet_a_venir : [] = [];
   public trajet_a_venir2 : []= [];
@@ -53,6 +54,7 @@ export class RechercherPage {
 
   public trajettrouve : boolean = false;
 
+  public etape;
   public trajet;
   public uti_tra;
   public uti;
@@ -78,6 +80,8 @@ export class RechercherPage {
   //tra_nbPassager: string;
 
   test;
+  test2;
+  test3;
 
   listeUser_Photo = []
 
@@ -102,6 +106,7 @@ connected: boolean;
     this.trajet = firestore.collection('trajets').valueChanges();
     this.uti_tras = firestore.collection('utilisateur_trajet').valueChanges();
     this.utilisateurs = firestore.collection('utilisateurs').valueChanges();
+    this.etape = firestore.collection('etapes').valueChanges();
 
     this.liste_depart=[{nom:''}]
     this.liste_arrivee=[{nom:''}]
@@ -184,19 +189,33 @@ var that = this;
 
 
 
+
     that.test = that.firestore.collection("trajets");
     that.test.ref.orderBy('tra_dateDepart')
     .onSnapshot(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
     console.log(doc.data())
+
+    that.test2 = that.firestore.collection("etapes");
+    that.test2.ref.onSnapshot(function(querySnapshot2) {
+        querySnapshot2.forEach(function(doc2) {
+    console.log(doc.data())
+
+    that.test3 = that.firestore.collection("etapes");
+    that.test3.ref.onSnapshot(function(querySnapshot3) {
+        querySnapshot3.forEach(function(doc3) {
+    console.log(doc.data())
     //console.log(traj['tra_lieuDepart']+"/////" + this.Tra_lieuDepart)
     //console.log(traj['tra_dateDepart'] +"/////"+ this.Tra_dateDepart.slice(0,-19));
     //console.log(traj['tra_lieuArrivee']+ "/////" + this.Tra_lieuArrivee );
-    if(doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart && doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19)){
+    if((doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart && doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
+    || (doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart && (doc2.data()['eta_ville'] == that.Tra_lieuArrivee && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
+    || (doc2.data()['eta_ville'] == that.Tra_lieuDepart && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19)
+    || (doc2.data()['eta_ville'] == that.Tra_lieuDepart && doc3.data()['eta_ville'] == that.Tra_lieuArrivee  && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19) && doc3.data()['eta_idTra'] == doc2.data()['eta_idTra'] && doc3.data()['eta_idTra'] == doc.data()['tra_id'] && doc2.data()['eta_idTra'] == doc.data()['tra_id'])){
       var date = new Date(doc.data()['tra_dateDepart'])
       if(date >= new Date){
 
-        console.log(doc.data()['tra_id'])
+        console.log(doc.data()['etapes.eta_ville'])
 
         that.uti_tras.subscribe(uti_tras => {
           uti_tras.forEach(uti_tra =>{
@@ -221,6 +240,12 @@ var that = this;
       }
     }
   })})
+  })})
+  })})
+}
+
+ngOnInit(){
+  //console.log(this.etape[''])
 
 }
 
