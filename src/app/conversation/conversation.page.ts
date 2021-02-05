@@ -6,8 +6,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {IonContent} from '@ionic/angular'
 import { AngularFireStorage } from '@angular/fire/storage';
-import {boole} from '../../environments/environment';
-
 
 
 @Component({
@@ -83,20 +81,18 @@ export class ConversationPage implements OnInit{
         
         setTimeout(() => {
           this.content.scrollToBottom(300);
-       }, 1000);
+       }, 500);
         
       }
     });
   }
 
-  ionViewWillEnter(){
+  ionViewWillLeave(){
   }
 
   ionPageDidLoad()
   {
-     setTimeout(() => {
-        this.content.scrollToBottom(300);
-     }, 1000);
+     
   }
 
   
@@ -111,7 +107,6 @@ export class ConversationPage implements OnInit{
         var value = doc.data();
 
         if((value['utilisateur']==this.userId && value['destinataire']==this.destId) || (value['destinataire']==this.userId && value['utilisateur']==this.destId)){
-          this.messageVu(doc.id,value)        
         }
       });
     })
@@ -123,20 +118,6 @@ export class ConversationPage implements OnInit{
     })
   }
 
-
-  messageVu(id,message){
-    if(message['utilisateur']!=this.userId && message['destinataire']==this.userId && message['vu']==false){ //le message était pour moi, alors je l'ai vu 
-      this.changeMessageVu(id)
-    }
-  }
-
-
-  changeMessageVu(id){
-    this.firestore.collection("messages").doc(id).update({
-      vu:true
-    })
-    boole.notif = false;
-  }
 
   pressDown(){
     this.startPress = Date.now();
@@ -170,41 +151,10 @@ export class ConversationPage implements OnInit{
     this.duree2 = (this.endPress2 - this.startPress2)/1000;
 
   }
+
   
   getMessages(userId,destId) {
 
-    /*
-    var that = this;
-    const db = this.firestore;
-    
-    that.messagesView = [];
-    this.messages.subscribe(message =>{
-      console.log('subscribe')
-      that.messagesView = [];
-      message.forEach(value =>{
-        console.log('message')
-        if((value['utilisateur']==userId && value['destinataire']==destId) || (value['destinataire']==userId && value['utilisateur']==destId)){
-          
-          this.messagesView.push({
-            id: value['id'],
-            userId: value['utilisateur'],
-            destId: value['destinataire'],
-            text: value['message'],
-            date: value['date'],
-            vu: value['vu'],
-            archive: value['archive']
-          });
-        }
-      });
-      
-      
-      
-      that.trierMessage(this.messagesView);
-      this.messagesView.reverse();
-      
-    })
-    
-    */
     var that = this;
     this.test = this.firestore.collection("messages");
     this.test.ref.where("destinataire", "in", [destId, userId]);
@@ -212,11 +162,31 @@ export class ConversationPage implements OnInit{
     this.test.ref.orderBy('date')
     .onSnapshot(function(querySnapshot) {
       that.messagesView=[]
-        querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            //console.log(doc.id, " => ", doc.data());
-            //console.log(typeof(doc.data()))
 
+      var db = that.firestore;
+      var docRef = db.collection("messages_vu").doc(that.userId+that.destId);
+
+      docRef.ref.get().then((doc) => {
+          if (doc.exists) {
+              console.log("Document data:", doc.data());
+              db.collection("messages_vu").doc(that.destId+that.userId).update({
+                vu:true
+              })
+          } else {
+              // doc.data() n'est pas défini
+              //console.log("No such document!");
+              db.collection("messages_vu").doc(that.destId+that.userId).set({
+                id: that.destId+that.userId,
+                utilisateur: that.destId,
+                destinataire: that.userId,
+                vu:true
+              });
+          }
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });
+
+        querySnapshot.forEach(function(doc) {
 
             if((doc.data()['utilisateur']== destId && doc.data()['destinataire']== userId) || (doc.data()['utilisateur']== userId && doc.data()['destinataire']== destId)){
               that.messagesView.push(doc.data())
@@ -259,10 +229,43 @@ export class ConversationPage implements OnInit{
         destinataire: this.destId,
         message: this.messageText.trim(),
         date: new Date(),
-        vu: false,
         archive:false,
         archiveDest:false
       });
+
+      var that = this;
+      var db = this.firestore;
+      var docRef = db.collection("messages_vu").doc(this.userId+this.destId);
+
+      docRef.ref.get().then((doc) => {
+          if (doc.exists) {
+              console.log("Document data:", doc.data());
+              this.firestore.collection("messages_vu").doc(this.userId+this.destId).update({
+                vu:false
+              })
+              this.firestore.collection("messages_vu").doc(this.destId+this.userId).update({
+                vu:true
+              })
+          } else {
+              // doc.data() n'est pas défini
+              //console.log("No such document!");
+              db.collection("messages_vu").doc(this.userId+this.destId).set({
+                id: this.userId+this.destId,
+                utilisateur: this.userId,
+                destinataire: this.destId,
+                vu:false
+              });
+              db.collection("messages_vu").doc(this.destId+this.userId).set({
+                id: this.destId+this.userId,
+                utilisateur: this.destId,
+                destinataire: this.userId,
+                vu:true
+              });
+          }
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });
+
       this.messageText = '';
       var that = this;
       setTimeout(() => {
@@ -320,17 +323,6 @@ export class ConversationPage implements OnInit{
           that.firestore.collection("messages").doc(doc.id).update({
             archive:true
           })
-
-          /* this.messageiddata = doc.id;
-          this.message = {
-            archive: doc.data()['archive'],
-            date: doc.data()['date'],
-            destinataire: doc.data()['destinataire'],
-            id: doc.data()['id'],
-            message: doc.data()['message'],
-            utilisateur: doc.data()['utilisateur'],
-            vu: doc.data()['vu']
-          }; */
         }
       })
     })
@@ -364,17 +356,6 @@ export class ConversationPage implements OnInit{
           that.firestore.collection("messages").doc(doc.id).update({
             archiveDest:true
           })
-
-          /* this.messageiddata = doc.id;
-          this.message = {
-            archive: doc.data()['archive'],
-            date: doc.data()['date'],
-            destinataire: doc.data()['destinataire'],
-            id: doc.data()['id'],
-            message: doc.data()['message'],
-            utilisateur: doc.data()['utilisateur'],
-            vu: doc.data()['vu']
-          }; */
         }
       })
     })
