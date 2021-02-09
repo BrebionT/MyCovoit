@@ -157,7 +157,7 @@ getListUsers(){
   var that = this;
   this.utilisateurs.subscribe(utis =>{
     utis.forEach(uti => {
-      that.getImagesStorage(uti["photo"],uti.id);
+      //that.getImagesStorage(uti["photo"],uti.id);
       //console.log('photo : ',photo)
     });
   })

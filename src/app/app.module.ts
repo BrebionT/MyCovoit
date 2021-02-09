@@ -19,12 +19,19 @@ import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Camera } from '@ionic-native/camera/ngx';
 
 export const firebaseConfig ={
-  apiKey: "AIzaSyCTtxeeIH-8FAMODW5YoTfHHaFtSuBy3wo",
+    /*apiKey: "AIzaSyCTtxeeIH-8FAMODW5YoTfHHaFtSuBy3wo",
     authDomain: "mycovoit-6e725.firebaseapp.com",
     projectId: "mycovoit-6e725",
     storageBucket: "mycovoit-6e725.appspot.com",
     messagingSenderId: "5697256208",
-    appId: "1:5697256208:web:86ebf869169d70db280395"
+    appId: "1:5697256208:web:86ebf869169d70db280395"*/
+    apiKey: "AIzaSyD1_DBlCDGqBOm4JAIYIWq7_v7smv_dh1k",
+    authDomain: "mycovoit-314c0.firebaseapp.com",
+    projectId: "mycovoit-314c0",
+    storageBucket: "mycovoit-314c0.appspot.com",
+    messagingSenderId: "392458809336",
+    appId: "1:392458809336:web:79dea30a6d35dfb9fd300d",
+    measurementId: "G-F7B78KG2X6"
 };
 
 /* export const firebaseConfig2 ={
