@@ -1,11 +1,11 @@
 <ion-header [translucent]="true" *ngIf="returnConnected()">
 </ion-header>
 
-<ion-content [fullscreen]="true" *ngIf="utilisateur != undefined">
+<ion-content [fullscreen]="true">
 
   <!--Contenu de la page-->
   <section *ngIf="returnConnected()">
-    <div class="entete">
+    <div *ngIf="utilisateur != undefined" class="entete">
       <h1 class="presentation-util" style="color:#ffffff; margin:0;">
         <ion-avatar class="insert-photo">
           <img class="imgProfil" [src]="image"(click)="goProfil()">

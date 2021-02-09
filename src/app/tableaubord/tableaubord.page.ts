@@ -106,8 +106,10 @@ export class TableaubordPage implements OnInit{
     user = that.firestore.collection("utilisateurs").doc(userid);
     user.ref.get()
     .then((doc2)=>{
-      that.utilisateur = doc2.data()
-      getImagesStorage(that,doc2.data()['photo'],doc2.data()['id'])
+      if(doc2.data()!=undefined){
+        that.utilisateur = doc2.data()
+        getImagesStorage(that,doc2.data()['photo'],doc2.data()['id'])
+      }
     })
 
     /* this.utilisateurs.subscribe(uti =>{

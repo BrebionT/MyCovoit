@@ -88,7 +88,7 @@
 
   <ion-item>
     <ion-label>Nombre de place : </ion-label>
-    <ion-input type="number" value='0' min='0' max='8'></ion-input>
+    <ion-input type="number" value='0' min='0' max='8' [(ngModel)]="trajet.tra_nbPlaces"></ion-input>
   </ion-item>
     
     <ion-list margin-bottom>
@@ -121,5 +121,5 @@
       </ion-grid>
     </ion-list>
   </ion-card>
-  <center><ion-button id="bouton" (click)="heure(utilisateurTrajet,trajet)">Proposer</ion-button></center>
+  <center><ion-button id="bouton" (click)="formValidation(utilisateurTrajet,trajet)">Proposer</ion-button></center>
 </ion-content>

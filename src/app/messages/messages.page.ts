@@ -152,6 +152,7 @@ export class MessagesPage implements OnInit{
           
           
           querySnapshot.forEach(function(doc) {
+            if(doc.data() != undefined){
 
             var destTest = doc.data()['id'].slice(-28);
             
@@ -185,7 +186,7 @@ export class MessagesPage implements OnInit{
                 })
               }
             }
-            
+          }
           })
         })
 

@@ -91,97 +91,88 @@ export class ProposerPage implements OnInit{
     
   }
   ngOnInit() {}
-  async createTrajets(trajet: trajets) {
+  
+  async createTrajets(utilisateurTrajet: utilisateur_trajet,trajet: trajets) {
+    console.log("5.1")
     // console.log(post);
     trajet.tra_id = this.id;
-    if (this.formValidation()) {
-      // console.log("ready to submit");
-
-      // show loader
-      const loader = this.loadingCtrl.create({
-        message: 'Veuillez patienter...'
-      });
-      await (await loader).present();
-
-      try {
-        await this.firestore.collection('trajets').add(trajet);
-      } catch (e) {
-        this.showToast(e);
-      }
-
-      // dismiss loader
-      await (await loader).dismiss();
-
-      // redirect to home page
-      this.navCtrl.navigateRoot('tabs/tableaubord');
-    }
-
-    
+    this.firestore.collection('trajets').add(trajet);  
+    this.navCtrl.navigateRoot('tabs/tableaubord');
   }
 
 heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
-  if(this.trajet.tra_heureDepart > this.trajet.tra_heureArrivee ){
-    this.showToast("L'heure d'arrivée ne peut pas être inférieur à celle de départ !");
-  }
-  else{
-    this.date(utilisateurTrajet,trajet);
-  }
+  console.log("2")  
+      if(this.trajet.tra_heureDepart > this.trajet.tra_heureArrivee ){
+        this.showToast("L'heure d'arrivée ne peut pas être inférieur à celle de départ !");
+      }
+      else{
+        this.date(utilisateurTrajet,trajet);
+      }
 }
 
   date(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
+    console.log("3")
     var date1 = this.trajet.tra_dateDepart;
     var date = new Date (date1);
     var newDate = date ;
-    console.log("tratra"+newDate);
-    console.log("trotro"+this.today);
-    if( newDate.getDay() < this.today.getDay() && newDate.getMonth() < this.today.getMonth() && newDate.getFullYear() < this.today.getFullYear()){
-      this.showToast("Merci de rentrer une date ultérieur à celle d'aujourd'hui !");
+    var heure = newDate.getHours();
+    if( newDate > this.today){
+      //console.log(newDate.getDay()+ '//' +this.today.getDay() +'//'+newDate.getMonth() +"//"+ this.today.getMonth() +"//"+ newDate.getFullYear() +"//"+ this.today.getFullYear())
+      this.presentAlertConfirm(utilisateurTrajet,trajet);
     }
     else{
-      this.LancerFonction(utilisateurTrajet,trajet);
-      
+     // console.log(newDate +"///"+ this.today)
+      this.showToast("Merci de rentrer une date ultérieur à celle d'aujourd'hui !");
   }}
 
-  async createUtilisateur_trajet(utilisateurTrajet: utilisateur_trajet) {
+  async createUtilisateur_trajet(utilisateurTrajet: utilisateur_trajet,trajet: trajets) {
+    console.log("5.2")
     // console.log(post);
     utilisateurTrajet.uti_tra_idUti = this.userId;
     utilisateurTrajet.uti_tra_idTra = this.id;
     utilisateurTrajet.uti_tra_role = "Conducteur";
-    if (this.formValidation()) {
-      // console.log("ready to submit");
+    this.firestore.collection('utilisateur_trajet').add(utilisateurTrajet);
+    this.navCtrl.navigateRoot('tabs/tableaubord');
+    }
 
-      // show loader
-      const loader = this.loadingCtrl.create({
-        message: 'Veuillez patienter...'
-      });
-      await (await loader).present();
-
-      try {
-        await this.firestore.collection('utilisateur_trajet').add(utilisateurTrajet);
-      } catch (e) {
-        this.showToast(e);
-      }
-
-      // dismiss loader
-      await (await loader).dismiss();
-
-      // redirect to home page
-      this.navCtrl.navigateRoot('tabs/tableaubord');
-    }}
-
-  formValidation() {
-    if (!this.trajet.tra_lieuArrivee) {
+  formValidation(utilisateurTrajet: utilisateur_trajet,trajet: trajets) {
+    console.log("1")
+    if (!this.trajet.tra_lieuDepart) {
       // show toast message
       this.showToast('Entrez un lieu de départ');
       return false;
     }
-
-    if (!this.trajet.tra_lieuDepart) {
+    if (!this.trajet.tra_lieuArrivee) {
       // show toast message
-      this.showToast('Entrez un lieu d\'arrivée');
+      this.showToast('Entrez un lieu de d\'arrivée');
       return false;
     }
-
+    if (!this.trajet.tra_heureDepart) {
+      // show toast message
+      this.showToast('Entrez une heure de depart');
+      return false;
+    }
+    if (!this.trajet.tra_heureArrivee) {
+      // show toast message
+      this.showToast('Entrez une heure de d\'arrivée');
+      return false;
+    }
+    if (!this.trajet.tra_dateDepart) {
+      // show toast message
+      this.showToast('Entrez une date de départ');
+      return false;
+    }
+    if (!this.trajet.tra_dateDepart) {
+      // show toast message
+      this.showToast('Entrez une date de départ');
+      return false;
+    }
+    if (!this.trajet.tra_nbPlaces) {
+      // show toast message
+      this.showToast('Veuillez entrer le nombre de places disponibles');
+      return false;
+    }
+    this.heure(utilisateurTrajet, trajet)
     return true;
   }
 
@@ -195,21 +186,53 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
   }
 
   LancerFonction(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
-    
-    this.createUtilisateur_trajet(utilisateurTrajet);
-    this.createTrajets(trajet);
-    this.parcour();
+    console.log("4")   
+    this.createUtilisateur_trajet(utilisateurTrajet, trajet);
+    this.createTrajets(utilisateurTrajet, trajet);
+    this.listeEtapeBIS.forEach(element => {
+      if(element.value != ""){
+      this.createEtape(element.value)}})
   }
   
   async presentAlertConfirm(utilisateurTrajet: utilisateur_trajet,trajet: trajets) {
+    
+    var tra_lieuDepart = this.trajet.tra_lieuDepart
+    if(tra_lieuDepart == undefined){
+      tra_lieuDepart = ""
+    }
+    var tra_dateDepart
+    if(tra_dateDepart == undefined){
+      tra_dateDepart = ""
+    }
+    var tra_heureDepart
+    if(tra_heureDepart == undefined){
+      tra_heureDepart = ""
+    }
+    var tra_lieuArrivee
+    if(tra_lieuArrivee == undefined){
+      tra_lieuArrivee = ""
+    }
+    var tra_heureArrivee
+    if(tra_heureArrivee == undefined){
+      tra_heureArrivee = ""
+    }
+    var tra_nbPlaces
+    if(tra_nbPlaces == undefined){
+      tra_nbPlaces = ""
+    }
+    var tra_etape
+    if(tra_etape == undefined){
+      tra_etape = ""
+    }
     const alert = await this.alertController.create({
       header: 'Confirmation de trajet !',
-      message: `<p><strong>LIEU DE DEPART : </strong>`+this.trajet.tra_lieuDepart+`</p>`+
-      `<p><strong>DATE DE DEPART : </strong>`+this.trajet.tra_dateDepart+`</p>`+
-      `<p><strong>HEURE DE DEPART : </strong>`+this.trajet.tra_heureDepart+`</p>`+
+      message: `<p><strong>LIEU DE DEPART : </strong>`+tra_lieuDepart+`</p>`+
+      `<p><strong>DATE DE DEPART : </strong>`+this.trajet.tra_heureDepart+`</p>`+
       `<p><strong>LIEU D'ARRIVEE : </strong>`+this.trajet.tra_lieuArrivee+`</p>`+
+      `<p><strong>HEURE DE DEPART : </strong>`+this.trajet.tra_heureDepart+`</p>`+
       `<p><strong>HEURE D'ARRIVEE : </strong>`+this.trajet.tra_heureArrivee+`</p>`+
-      `<p><strong>LES ETAPES : </strong>`+this.trajet.tra_etape+`</p>`,
+      `<p><strong>NOMBRE DE PLACE(S) : </strong>`+this.trajet.tra_nbPlaces+`</p>`,
+     // `<p><strong>LES ETAPES : </strong>`+this.trajet.tra_etape+`</p>`,
       buttons: [
         {
           text: 'Annuler',
@@ -231,16 +254,20 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
     await alert.present();
   }
 
-addEtape(etape: etapes){
+addEtape(){
   this.beforeClick = false;
   //this.createEtape()
 }
 
-parcour(){
+/*parcour(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
   this.listeEtapeBIS.forEach(element => {
     if(element.value != ""){
-    this.createEtape(element.value)}});
+    this.createEtape(element.value)
+    this.LancerFonction(utilisateurTrajet,trajet);
 }
+this.LancerFonction(utilisateurTrajet,trajet);
+})
+}*/
 
 async createEtape(idx) { 
   if (this.etape.eta_ville != "") {
