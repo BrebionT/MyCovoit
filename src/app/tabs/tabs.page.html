@@ -13,9 +13,13 @@
       <ion-icon name="add-circle-outline"></ion-icon>
     </ion-tab-button>
 
-    <ion-tab-button tab="messages">
+    <ion-tab-button *ngIf="notif==true" tab="messages">
+      <ion-icon style="z-index:1;" name="chatbubbles-outline"></ion-icon>
+      <ion-badge class="bound"style="background-color: red;"><span>{{nb}}</span></ion-badge>
+    </ion-tab-button>
+
+    <ion-tab-button *ngIf="notif==false" tab="messages">
       <ion-icon name="chatbubbles-outline"></ion-icon>
-      <ion-badge *ngIf="notif" style="background-color: red;"></ion-badge>
     </ion-tab-button>
 
     <ion-tab-button tab="profil">

@@ -1,6 +1,4 @@
 .insert-photo {
-    background:#c7c9ff;
-    border:1px dashed #2f32a0;
     border-radius:50%;
     float:left;
     font-weight:bold;
@@ -10,7 +8,7 @@
     height:60px;
    }
 
-.insert-photo a {
+.insert-photo img {
     color:#2f32a0;
     display:table-cell;
     font-size:13px;
@@ -22,8 +20,8 @@
 }
 
 .dateDepart{
-    width:100%;
-    background-color: rgba(17,10,59,0.4);
+    width:120%;
+    //background-color: rgba(17,10,59,0.4);
     padding:0px 0px;
     margin:0px 0px;
     text-align: center;
@@ -60,4 +58,13 @@
 
 .accueil_trajet{
     margin:0px 15px;
+}
+
+ion-item, ion-list{
+    --padding-top:0px !important;
+    --padding-end:0px !important;
+    --padding-bottom:0px !important;
+    --padding-start:0px !important;
+    --margin:auto !important;
+    --width:100% !important;
 }

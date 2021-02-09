@@ -219,7 +219,7 @@ async uploadFirebase() {
                     if(this.user.tel.length == 10){
                       if(this.parcoursString(this.user.tel)){
                         
-                        this.firestore.collection('utilisateurs').add({
+                        this.firestore.collection('utilisateurs').doc(this.user.id).set({
                           nom: this.user.nom,
                           prenom: this.user.prenom,
                           date_naiss: this.user.date_naiss,

@@ -11,10 +11,9 @@
 
 <ion-content>
 
-  
   <ion-list>
-    <div *ngFor="let userShow of messagesView | async" >
-    <ion-item detail [routerLink]="['/conversation']" *ngIf="userShow[0]!=undefined" fragment="{{userShow[0]}}">
+    <ng-container *ngFor="let userShow of messagesView; let i=index" >
+    <ion-item detail (click)="goConvers(userShow[0])" *ngIf="userShow[0]!=userId">
       
         <ion-avatar slot="start" >
           <ng-container *ngFor="let userPhoto of photoView | async">
@@ -23,31 +22,17 @@
             </span>
           </ng-container>
         </ion-avatar>
-        <ion-label>
-          <div class="flex_box" *ngFor="let user of users | async">
-              <ion-label *ngIf="user.id!=userId && (user.id==userShow[0] || user.id==userShow[0])">{{user.prenom}} {{user.nom}}</ion-label>
-          </div>
-          <!--
-          <p *ngIf="userShow[3]==true && userShow[4]==userId">{{userShow[2]}}</p>
-          <p *ngIf="userShow[3]!=true && userShow[4]==userId" style="font-weight: bold;">{{userShow[2]}}</p>
-          <p *ngIf="userShow[3]==true && userShow[4]!=userId"><ion-icon class="text-icon" color="primary" name="checkmark"></ion-icon>{{userShow[2]}}</p>
-          <p *ngIf="userShow[3]!=true && userShow[4]!=userId">{{userShow[2]}}</p>
-          -->
-          <span *ngIf="userShow[4]==userId">
-            <span *ngIf="userShow[3]==true && userShow[4]==userId">
-              <p>{{userShow[2]}}</p>
-            </span>
-            <span *ngIf="userShow[3]!=true && userShow[4]==userId">
-              <p style="font-weight: bold;">{{userShow[2]}}</p>
+        <ion-label *ngIf="userShow[0]!=userId">
+          <ion-label>{{userShow[1]}} {{userShow[2]}}</ion-label>
+          
+          
+          <span>
+            <span *ngIf="userShow[5]==true && userShow[0]!=userId">
+              <p><ion-icon class="text-icon" color="primary" name="checkmark"></ion-icon>{{userShow[4]}}</p>
             </span>
 
-          </span>
-          <span *ngIf="userShow[4]!=userId">
-            <span *ngIf="userShow[3]==true && userShow[4]!=userId">
-              <p><ion-icon class="text-icon" color="primary" name="checkmark"></ion-icon>{{userShow[2]}}</p>
-            </span>
-            <span *ngIf="userShow[3]!=true && userShow[4]!=userId">
-              <p>{{userShow[2]}}</p>
+            <span *ngIf="userShow[5]!=true && userShow[0]!=userId">
+              <p>{{userShow[4]}}</p>
             </span>
           </span>
           
@@ -55,7 +40,7 @@
           
         </ion-label>
     </ion-item>
-  </div>
+  </ng-container>
   </ion-list>
 
 

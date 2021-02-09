@@ -6,7 +6,6 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
-import {boole} from '../../environments/environment';
 
 
 @Component({
@@ -19,7 +18,7 @@ export class MessagesPage implements OnInit{
   messages: Observable<any[]>;
   users: Observable<any[]>;
 
-  public messagesView : Observable<any[]>;
+  public messagesView;
   public photoView : Observable<any[]>;
   public userList = Array();
   public userList2 = Array();
@@ -30,7 +29,10 @@ export class MessagesPage implements OnInit{
   public destId;
 
   public update;
-  
+  test;
+  liste_vu;
+  notif;
+  liste_user;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -39,28 +41,60 @@ export class MessagesPage implements OnInit{
     private router: Router,
     public afSG: AngularFireStorage
   ) {
-    this.afAuth.authState.subscribe(auth => {
-      if (!auth) {
-        this.router.navigateByUrl('/connexion');
-        this.connected = false;
-      } else {
-        this.userId = auth.uid;
-        this.connected = true;
-        this.messages = this.firestore.collection("messages").valueChanges();
-        this.users = this.firestore.collection("utilisateurs").valueChanges();
-        this.getUsers(this.userId);
-      }});
-
+    if(this.userId == undefined || this.userId == null ){
+      this.afAuth.authState.subscribe(auth => {
+        if (!auth) {
+          this.router.navigateByUrl('/connexion');
+          this.connected = false;
+        } else {
+          this.userId = auth.uid;
+          this.connected = true;
+          this.userList2 = [];
+          this.liste_user = [];
+          if(this.userId!= undefined && this.userId!= null ){
+            this.getUsers(this.userId);
+          }
+          //this.messages = this.firestore.collection("messages").valueChanges();
+          //this.users = this.firestore.collection("utilisateurs").valueChanges();
+          //this.getUsers(this.userId);
+        }});
+      }
     
   }
 
   ngOnInit(){
-    this.firestore.collection("messages").valueChanges().subscribe(message =>{
-      this.update = message;
-    })
+    this.userList2 = [];
+    if(this.userId == undefined || this.userId == null ){
+      this.afAuth.authState.subscribe(auth => {
+        if (auth) {
+          this.userId = auth.uid;
+          this.getUsers(this.userId);
+        }});
+      }
+  }
+
+  goConvers(id){
+    this.userList2 = [];
+    this.liste_user = [];
+    this.router.navigateByUrl('/conversation#'+id);
+    
+  }
+
+  ionViewWillLeave(){
+    console.log('sortir page messages')
+    this.userList2 = [];
+    this.messagesView = [];
+    this.liste_user = [];
+    console.log('liste : ',this.messagesView)
   }
 
   ionViewWillEnter(){
+    console.log('entrer page messages')
+    this.userList2 = [];
+    this.liste_user = [];
+    if(this.userId!= undefined && this.userId!= null ){
+      this.getUsers(this.userId);
+    }
   }
 
   ngOnDestroy(){
@@ -104,12 +138,74 @@ export class MessagesPage implements OnInit{
     }
 
     var that = this;
-    this.userList = [];
-    this.userList2 = [];
     this.photoList = []; /// on aura : [{photo:......, user:......}]
+    this.liste_vu = [];
     var userSub = this.users;
-    this.messages.subscribe(message =>{
+
+    this.test = this.firestore.collection("messages_vu");
+    this.userList2 = [];
+    this.liste_user = [];
+        this.test.ref.where("destinataire", '==' , userId);
+        this.test.ref
+        .onSnapshot(function(querySnapshot) {
+
+          
+          
+          querySnapshot.forEach(function(doc) {
+
+            var destTest = doc.data()['id'].slice(-28);
+            
+
+            if(doc.data()['utilisateur'] != userId){
+              console.log('est inclus : ',that.liste_user.includes(destTest))
+              if(!that.liste_user.includes(destTest)){
+                that.liste_user.push(destTest)
+                console.log('dest : ',destTest)
+                var user;
+                user = that.firestore.collection("utilisateurs").doc(doc.data()['utilisateur']);
+                user.ref.get()
+                .then((doc2)=>{
+                  if (doc2.exists) {
+                    console.log('message : ',doc.data()['message'])
+                    if(doc.data()['archive']== false && doc.data()['archiveDest']== false){
+                      that.userList2.push([doc.data()['utilisateur'],doc2.data()['prenom'],doc2.data()['nom'],doc.data()['date'],doc.data()['message'],doc.data()['vu']])
+                    }else if(doc.data['archive']== false && doc.data['archiveDest']== true){
+                      that.userList2.push([doc.data()['utilisateur'],doc2.data()['prenom'],doc2.data()['nom'],doc.data()['date'],"Vous ne souhaitez pas afficher ce message"],doc.data()['vu'])
+                    }else if(doc.data['archive']== true){
+                      that.userList2.push([doc.data()['utilisateur'],doc2.data()['prenom'],doc2.data()['nom'],doc.data()['date'],"Ce message a été supprimé"],doc.data()['vu'])
+                    }
+                
+              } else {
+                  console.log("Document non trouvé!");
+              }
+          
+                 
+                  
+
+                })
+              }
+            }
+            
+          })
+        })
+
+
+    /* this.messages.subscribe(message =>{
       message.forEach(value =>{
+
+        const db = this.firestore;
+
+        this.test = this.firestore.collection("messages_vu");
+        this.test.ref.where("destinataire", 'in' , [value['destinataire'],value['utilisateur']]);
+        this.test.ref.where("utilisateur", 'in' , [value['destinataire'],value['utilisateur']]);
+        this.test.ref.orderBy('id')
+        .onSnapshot(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            if(doc.data()['vu']==false){
+              that.notif = true;
+            }
+          })
+        })
 
         if(value['utilisateur']==userId){  // J'ai envoyé un message
 
@@ -128,6 +224,9 @@ export class MessagesPage implements OnInit{
 
             /// On l'enregistre ///
             that.userList.push(value['destinataire']);
+
+           
+
             if(value['archive']==true){
               that.userList2.push([value['destinataire'],value['date'],"Ce message a été supprimé",value["vu"],value["utilisateur"]]);
             }else if(value['archiveDest']==true){
@@ -225,14 +324,16 @@ export class MessagesPage implements OnInit{
 
         }
 
-      });
+      }); 
     //console.log(that.userList);
     console.log(that.photoList);
     
     that.messagesView = of(that.userList2);
     that.photoView = of(that.photoList);
-      })
-    return true;
+      }) */
+      that.messagesView = that.userList2 ;
+      console.log(that.userList2)
+      return true;
     
   }
   

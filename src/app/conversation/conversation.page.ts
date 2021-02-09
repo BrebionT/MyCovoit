@@ -164,7 +164,7 @@ export class ConversationPage implements OnInit{
       that.messagesView=[]
 
       var db = that.firestore;
-      var docRef = db.collection("messages_vu").doc(that.userId+that.destId);
+      var docRef = db.collection("messages_vu").doc(that.destId+that.userId);
 
       docRef.ref.get().then((doc) => {
           if (doc.exists) {
@@ -172,6 +172,18 @@ export class ConversationPage implements OnInit{
               db.collection("messages_vu").doc(that.destId+that.userId).update({
                 vu:true
               })
+              db.collection("messages_vu").doc(that.destId+that.userId+"test").set({
+                id: that.destId+that.userId+"test",
+                utilisateur: "that.destId",
+                destinataire: "that.userId",
+                message: "test",
+                date: new Date(),
+                archive:false,
+                archiveDest:false,
+                vu:true
+              })
+              db.collection("messages_vu").doc(that.destId+that.userId+"test").delete()
+              
           } else {
               // doc.data() n'est pas défini
               //console.log("No such document!");
@@ -179,6 +191,10 @@ export class ConversationPage implements OnInit{
                 id: that.destId+that.userId,
                 utilisateur: that.destId,
                 destinataire: that.userId,
+                message: doc.data()['message'],
+                date: new Date(),
+                archive:false,
+                archiveDest:false,
                 vu:true
               });
           }
@@ -222,13 +238,15 @@ export class ConversationPage implements OnInit{
   }
 
   envoyerMessage(){
-    if(this.messageText != undefined && this.messageText.trim() != ""){
+    var date_envoie = new Date();
+    var message = this.messageText.trim()
+    if(this.messageText != undefined && message != ""){
       this.firestore.collection('messages').add({
         id: new Date().getTime(),
         utilisateur: this.userId,
         destinataire: this.destId,
-        message: this.messageText.trim(),
-        date: new Date(),
+        message: message,
+        date: date_envoie,
         archive:false,
         archiveDest:false
       });
@@ -241,11 +259,16 @@ export class ConversationPage implements OnInit{
           if (doc.exists) {
               console.log("Document data:", doc.data());
               this.firestore.collection("messages_vu").doc(this.userId+this.destId).update({
+                message: message,
+                date: date_envoie,
                 vu:false
               })
               this.firestore.collection("messages_vu").doc(this.destId+this.userId).update({
+                message: message,
+                date: date_envoie,
                 vu:true
               })
+              
           } else {
               // doc.data() n'est pas défini
               //console.log("No such document!");
@@ -253,12 +276,20 @@ export class ConversationPage implements OnInit{
                 id: this.userId+this.destId,
                 utilisateur: this.userId,
                 destinataire: this.destId,
+                message: message,
+                date: date_envoie,
+                archive:false,
+                archiveDest:false,
                 vu:false
               });
               db.collection("messages_vu").doc(this.destId+this.userId).set({
                 id: this.destId+this.userId,
                 utilisateur: this.destId,
                 destinataire: this.userId,
+                message: message,
+                date: date_envoie,
+                archive:false,
+                archiveDest:false,
                 vu:true
               });
           }
@@ -266,13 +297,14 @@ export class ConversationPage implements OnInit{
           console.log("Error getting document:", error);
       });
 
-      this.messageText = '';
+      
       var that = this;
       setTimeout(() => {
         that.content.scrollToBottom(300);
      }, 30);
       
     }
+    this.messageText = '';
     
   }
 

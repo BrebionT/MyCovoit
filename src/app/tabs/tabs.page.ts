@@ -20,7 +20,7 @@ export class TabsPage {
   userId;
 
   test;
-
+  nb;
   notif = false;
 
   messages;
@@ -39,18 +39,26 @@ export class TabsPage {
     const db = this.firestore;
 
     this.test = this.firestore.collection("messages_vu");
-    this.test.ref.where("destinataire", "==", this.userId);
+    this.test.ref.where("destinataire", "==", auth.uid);
     this.test.ref.orderBy('id')
     .onSnapshot(function(querySnapshot) {
+      that.nb=0;
       querySnapshot.forEach(function(doc) {
-        var value = doc.data();
-        console.log(value['destinataire'],that.userId)
-        if(value['destinataire']==that.userId){
-          if(value['vu']==false){
+        //var value = doc.data();
+        //console.log(value['destinataire'],auth.uid)
+        if(doc.data()['destinataire']==auth.uid){
+          if(doc.data()['vu']==false){
+            that.notif = true;
+            console.log('notif')
+            that.nb+=1;
             that.notif = true;
           }    
         }
       })
+      if(that.nb==0 || that.notif != true){
+        console.log("pas notif")
+        that.notif = false;
+      }
     })
       }
     })
@@ -58,34 +66,7 @@ export class TabsPage {
 
 
   ngOnInit() {
-    
-    
-    /* this.messages = this.firestore.collection("messages").valueChanges().subscribe(messages => {
-      messages.forEach(message =>{
-        if(message['destinataire']==that.userId){
-          if(message['vu']==false){
-            boole.notif = true;
-            this.boole.notif=true;
-            console.log('bool notif : ',boole.notif)
-          }  
-        }
-      }
-    )}) */
-    
-    /* const db = this.firestore;
-    
-    db.collection("messages").get().toPromise().then((snapshot)=>{
-      snapshot.docs.forEach(doc =>{
 
-        var value = doc.data();
-
-        if(value['destinataire']==that.userId){
-          if(value['vu']==false){
-            this.notif = true;
-          }    
-        }
-      });
-    }) */
   }
 
   

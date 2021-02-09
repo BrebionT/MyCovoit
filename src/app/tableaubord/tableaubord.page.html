@@ -1,17 +1,17 @@
 <ion-header [translucent]="true" *ngIf="returnConnected()">
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" *ngIf="utilisateur != undefined">
 
   <!--Contenu de la page-->
   <section *ngIf="returnConnected()">
     <div class="entete">
       <h1 class="presentation-util" style="color:#ffffff; margin:0;">
-        <span class="insert-photo">
-          <a (click)="goProfil()">Photo</a>
-        </span>
-        <div *ngFor='let item of utilisateurs | async'>
-          <p style="color:#ffffff; font-size:22px"  *ngIf='item.id == userid'>Bonjour {{item.prenom}} !</p>
+        <ion-avatar class="insert-photo">
+          <img class="imgProfil" [src]="image"(click)="goProfil()">
+        </ion-avatar>
+        <div>
+          <p style="color:#ffffff; font-size:22px">Bonjour {{utilisateur.prenom}} !</p>
         </div >
         
        
@@ -34,34 +34,34 @@
 
     <!-- Trajets disponibles -->
 
-    <div class="accueil_trajet" *ngIf="trajetprevus" >
+    <!-- <div class="accueil_trajet" *ngIf="trajetprevus" >
 
       
       <h3 class="titre1"><center>Liste des trajets prévus</center></h3>
         <div *ngFor="let trajets of liste_dates">
           <ion-list>
-          <ion-item style="width:100%; display:block; margin-bottom:20px;">
+          <ion-item style="width:100%; display:block; margin-bottom:20px; border:'1px solid black'" lines="none">
             
             <ion-list style="width:100%" class="force-black-font">
-            <ion-item>
-              <div class="dateDepart">
+            <ion-item style="width:100%" lines="none">
+              <ion-list class="dateDepart">
                 <ion-row>
-                  <ion-col>
+                  <ion-col size=6>
                     <p>{{trajets.role}} :</p>
                   </ion-col>
-                  <ion-col>
+                  <ion-col size=6>
                     <ion-datetime style="display:inline-block; padding-top: 18px;" class="force-black-font" display-format="DD MMM YYYY" monthShortNames='Janvier, Février, Mars, Avril, Mai, Juin, Juillet, Août, Septembre, Octobre, Novembre, Décembre' value={{trajets.date}} disabled></ion-datetime>
                   </ion-col>
                 </ion-row>
                 
                 
-              </div>
+              </ion-list>
             </ion-item>
-            <ion-item>
-              <p> 🚘 Départ : {{trajets.trajet.tra_lieuDepart}} à</p>
-              <p style="margin-top: 19px;"><ion-datetime class="force-black-font" display-format="H:mm" value={{trajets.trajet.tra_heureDepart}} disabled></ion-datetime></p>
+            <ion-item style="width:100%" lines="none">
+              <center><p> 🚘 Départ : {{trajets.trajet.tra_lieuDepart}} à</p>
+              <p style="margin-top: 19px;"><ion-datetime class="force-black-font" display-format="H:mm" value={{trajets.trajet.tra_heureDepart}} disabled></ion-datetime></p></center>
             </ion-item>
-            <ion-item>
+            <ion-item style="width:100%" lines="none">
               <p> 🏁 Arrivée : {{trajets.trajet.tra_lieuArrivee}} à</p>
               <p style="margin-top: 19px;"><ion-datetime class="force-black-font" display-format="H:mm" picker-format="H:mm" value={{trajets.trajet.tra_heureArrivee}} disabled></ion-datetime></p>
             </ion-item>
@@ -70,7 +70,57 @@
         </ion-item>
         </ion-list>
     </div>
+  </div> -->
+
+  <div class="accueil_trajet" *ngIf="trajetprevus" >
+ 
+    <h3 class="titre1" style="margin-bottom: 50px;"><center>Liste des trajets prévus</center></h3>
+
+    <div style="width: 100%; border-bottom:1px solid black;"></div>
+
+    <div *ngFor="let trajets of liste_dates">
+      <ion-list style="border-bottom: 1px solid black">
+        <ion-row>
+          <ion-col>
+            <p style="text-align: right; margin-right:15px">{{trajets.role}} :</p>
+          </ion-col>
+          <ion-col>
+            <ion-datetime style="display:inline-block; padding-top: 18px;" class="force-black-font" display-format="DD MMM YYYY" monthShortNames='Janvier, Février, Mars, Avril, Mai, Juin, Juillet, Août, Septembre, Octobre, Novembre, Décembre' value={{trajets.date}} disabled></ion-datetime>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <p size=4> 🚘 Départ : </p>
+          </ion-col>
+          <ion-col size=5>
+            <p style="margin-top: 19px;">{{trajets.trajet.tra_lieuDepart}}</p>
+          </ion-col>
+          <ion-col size=1>
+            <p style="margin-top: 19px;">à</p>
+          </ion-col>
+          <ion-col size=2>
+            <p style="margin-top: 19px;"><ion-datetime class="force-black-font" display-format="H:mm" value={{trajets.trajet.tra_heureDepart}} disabled></ion-datetime></p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <p> 🏁 Arrivée : </p>
+          </ion-col>
+          <ion-col size=5>
+            <p style="margin-top: 19px;">{{trajets.trajet.tra_lieuArrivee}}</p>
+          </ion-col>
+          <ion-col size=1>
+            <p style="margin-top: 19px;">à</p>
+          </ion-col>
+          <ion-col size=2>
+            <p style="margin-top: 19px;"><ion-datetime class="force-black-font" display-format="H:mm" picker-format="H:mm" value={{trajets.trajet.tra_heureArrivee}} disabled></ion-datetime></p>
+          </ion-col>
+          
+        </ion-row>
+      </ion-list>
+    </div>
   </div>
+        
       
   
 

@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class TableaubordPage implements OnInit{
   public trajet:any;
 
   utilisateurs: Observable<any[]>;
+  image;
   trajets: Observable<any[]>;
   uti_tra: Observable<any[]>;
 
@@ -38,7 +40,8 @@ export class TableaubordPage implements OnInit{
     private router: Router,
     public firestore: AngularFirestore,
     public afAuth: AngularFireAuth,
-    public afDB: AngularFireDatabase
+    public afDB: AngularFireDatabase,
+    public afSG: AngularFireStorage
     ) 
   {
     
@@ -47,12 +50,12 @@ export class TableaubordPage implements OnInit{
 
   ionViewWillEnter(){
     console.log("enter")
-    this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
+    //this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
     this.trajets = this.firestore.collection('trajets').valueChanges();
     this.uti_tra = this.firestore.collection('utilisateur_trajet').valueChanges();
 
     this.getAuth();
-    this.getUtilisateur();
+    
     this.liste_dates = [];
     this.trajet_a_venir = [];
     this.getTrajet();
@@ -79,20 +82,43 @@ export class TableaubordPage implements OnInit{
       } else {
         this.connected=true;
         this.userid = auth.uid;
+        this.getUtilisateur(this.userid);
       }
     });
   }
   
   
-  getUtilisateur(){
+  getUtilisateur(userid){
+
+    function getImagesStorage(that,image: any,id) {
+      var images;
+      //console.log("getImagesStorage")
+      that.afSG.ref('users/'+image).getDownloadURL().subscribe(imgUrl => {
+        images= imgUrl;
+        that.image = images;
+      });
+      return images;
+    }
+
     var that = this;
-    this.utilisateurs.subscribe(uti =>{
+
+    var user;
+    user = that.firestore.collection("utilisateurs").doc(userid);
+    user.ref.get()
+    .then((doc2)=>{
+      that.utilisateur = doc2.data()
+      getImagesStorage(that,doc2.data()['photo'],doc2.data()['id'])
+    })
+
+    /* this.utilisateurs.subscribe(uti =>{
       uti.forEach(value => {
-        if(value['tra_id']==that.userid){
+        if(value['id']==userid){
           that.utilisateur = value;
+          console.log('photo : ',value['photo'])
+          getImagesStorage(that,value['photo'],value['id'])
         }
       })
-    });
+    }); */
     
   }
 
