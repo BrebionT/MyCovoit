@@ -128,6 +128,7 @@ connected: boolean;
         //console.log('non connecté');
         this.connected = false;
       } else {
+        this.userid = auth.uid;
         //console.log('connecté: ' + auth.uid);
         this.connected = true;
       }
@@ -256,7 +257,7 @@ var that = this;
               that.utilisateurs.subscribe(utis =>{
                 utis.forEach(uti =>{
 
-                  if(uti_tra["uti_tra_idUti"]==uti['id'] && uti_tra["uti_tra_role"]=="Conducteur"){
+                  if(uti['id'] != that.userid && uti_tra["uti_tra_idUti"]==uti['id'] && uti_tra["uti_tra_role"]=="Conducteur"){
 
                     liste = that.getImagesStorage(doc.data(),uti,liste);
                     that.trajettrouve = true;
