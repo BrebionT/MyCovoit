@@ -50,7 +50,7 @@ export class AppComponent {
 
  
   {
-    console.log(this.userid)
+    //console.log(this.userid)
     this.navigate =
     [
       

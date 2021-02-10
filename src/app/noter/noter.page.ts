@@ -59,7 +59,7 @@ export class NoterPage {
       uti.forEach(value => {
         if(value['id']==that.destId){
           that.utilisateur = value;
-          console.log(value)
+          //console.log(value)
           that.getImagesStorage(value['photo'])
         }
       })
@@ -68,13 +68,13 @@ export class NoterPage {
   }
 
   getImagesStorage(image: any) {
-    console.log(image)
+    //console.log(image)
     this.afSG.ref('users/'+image).getDownloadURL().subscribe(imgUrl => {
-      console.log(imgUrl);
+      //console.log(imgUrl);
       this.images= imgUrl;
     });
-    console.log("liste images :")
-    console.log(this.images)
+    //console.log("liste images :")
+    //console.log(this.images)
   }
 
   rating(value){

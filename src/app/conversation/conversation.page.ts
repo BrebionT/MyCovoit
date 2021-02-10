@@ -121,13 +121,13 @@ export class ConversationPage implements OnInit{
 
   pressDown(){
     this.startPress = Date.now();
-    console.log('press')
+    //console.log('press')
   }
 
   pressUp(){
     var that = this;
     this.endPress = Date.now();
-    console.log('up')
+    //console.log('up')
 
     this.duree = (this.endPress - this.startPress)/1000;
     
@@ -140,13 +140,13 @@ export class ConversationPage implements OnInit{
 
   pressDown2(){
     this.startPress2 = Date.now();
-    console.log('press')
+    //console.log('press')
   }
 
   pressUp2(){
     var that = this;
     this.endPress2 = Date.now();
-    console.log('up')
+    //console.log('up')
 
     this.duree2 = (this.endPress2 - this.startPress2)/1000;
 
@@ -168,7 +168,7 @@ export class ConversationPage implements OnInit{
 
       docRef.ref.get().then((doc) => {
           if (doc.exists) {
-              console.log("Document data:", doc.data());
+              //console.log("Document data:", doc.data());
               db.collection("messages_vu").doc(that.destId+that.userId).update({
                 vu:true
               })
@@ -199,7 +199,7 @@ export class ConversationPage implements OnInit{
               });
           }
       }).catch((error) => {
-          console.log("Error getting document:", error);
+          //console.log("Error getting document:", error);
       });
 
         querySnapshot.forEach(function(doc) {
@@ -213,7 +213,7 @@ export class ConversationPage implements OnInit{
   }
 
   presentPopover(message){
-    console.log(message.id)
+    //console.log(message.id)
   }
 
   getDest(destId){
@@ -257,7 +257,7 @@ export class ConversationPage implements OnInit{
 
       docRef.ref.get().then((doc) => {
           if (doc.exists) {
-              console.log("Document data:", doc.data());
+              //console.log("Document data:", doc.data());
               this.firestore.collection("messages_vu").doc(this.userId+this.destId).update({
                 message: message,
                 date: date_envoie,
@@ -294,7 +294,7 @@ export class ConversationPage implements OnInit{
               });
           }
       }).catch((error) => {
-          console.log("Error getting document:", error);
+          //console.log("Error getting document:", error);
       });
 
       
@@ -309,7 +309,7 @@ export class ConversationPage implements OnInit{
   }
 
   getTrail(value){
-    console.log(value)
+    //console.log(value)
     if(this.selected.includes(value)==false){
       this.selected.push(value)
     }else{
@@ -324,7 +324,7 @@ export class ConversationPage implements OnInit{
     }
     this.selected.sort();
     this.selected2.sort()
-    console.log(this.selected)
+    //console.log(this.selected)
     
   }
 
@@ -361,12 +361,12 @@ export class ConversationPage implements OnInit{
   }
 
   supprimer(selected){
-    console.log('selected : ',selected)
-    console.log('select length : ',selected.length)
+    //console.log('selected : ',selected)
+    //console.log('select length : ',selected.length)
     for(var i=0;i<selected.length;i++){
-      console.log(i)
+      //console.log(i)
       var sel = selected[i];
-      console.log(selected[i])
+      //console.log(selected[i])
       this.supprimerMessage(sel)
       
     }
@@ -394,12 +394,12 @@ export class ConversationPage implements OnInit{
   }
 
   supprimer2(selected){
-    console.log('selected : ',selected)
-    console.log('select length : ',selected.length)
+    //console.log('selected : ',selected)
+    //console.log('select length : ',selected.length)
     for(var i=0;i<selected.length;i++){
-      console.log(i)
+      //console.log(i)
       var sel = selected[i];
-      console.log(selected[i])
+      //console.log(selected[i])
       this.supprimerMessage2(sel)
       
     }

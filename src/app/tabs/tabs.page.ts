@@ -49,14 +49,14 @@ export class TabsPage {
         if(doc.data()['destinataire']==auth.uid){
           if(doc.data()['vu']==false){
             that.notif = true;
-            console.log('notif')
+            //console.log('notif')
             that.nb+=1;
             that.notif = true;
           }    
         }
       })
       if(that.nb==0 || that.notif != true){
-        console.log("pas notif")
+        //console.log("pas notif")
         that.notif = false;
       }
     })
