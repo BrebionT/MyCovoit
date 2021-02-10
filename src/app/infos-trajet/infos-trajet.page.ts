@@ -61,9 +61,9 @@ export class InfosTrajetPage implements OnInit {
 
           this.firestore.collection("etapes").get().toPromise().then((snapshot1)=>{
             snapshot1.docs.forEach(doc1 =>{
-              console.log("trajet ?")
+              //console.log("trajet ?")
               if(doc1.data()['eta_idTra']== doc.data()['tra_id']){
-                console.log("ok")
+                //console.log("ok")
                 this.etapes.push(doc1.data());
               }
 

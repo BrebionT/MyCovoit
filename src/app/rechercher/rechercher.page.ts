@@ -122,10 +122,10 @@ connected: boolean;
 
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
-        console.log('non connecté');
+        //console.log('non connecté');
         this.connected = false;
       } else {
-        console.log('connecté: ' + auth.uid);
+        //console.log('connecté: ' + auth.uid);
         this.connected = true;
       }
     });
@@ -194,20 +194,20 @@ var that = this;
     that.test.ref.orderBy('tra_dateDepart')
     .onSnapshot(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-    console.log(doc.data())
+    //console.log(doc.data())
 
     that.test2 = that.firestore.collection("etapes");
     that.test2.ref.onSnapshot(function(querySnapshot2) {
         querySnapshot2.forEach(function(doc2) {
-    console.log(doc.data())
+    //console.log(doc.data())
 
     that.test3 = that.firestore.collection("etapes");
     that.test3.ref.onSnapshot(function(querySnapshot3) {
         querySnapshot3.forEach(function(doc3) {
-    console.log(doc.data())
-    //console.log(traj['tra_lieuDepart']+"/////" + this.Tra_lieuDepart)
-    //console.log(traj['tra_dateDepart'] +"/////"+ this.Tra_dateDepart.slice(0,-19));
-    //console.log(traj['tra_lieuArrivee']+ "/////" + this.Tra_lieuArrivee );
+    //console.log(doc.data())
+    //console.log(traj['tra_lieuDepart']+"///" + this.Tra_lieuDepart)
+    //console.log(traj['tra_dateDepart'] +"///"+ this.Tra_dateDepart.slice(0,-19));
+    //console.log(traj['tra_lieuArrivee']+ "///" + this.Tra_lieuArrivee );
     if((doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart && doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
     || (doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart && (doc2.data()['eta_ville'] == that.Tra_lieuArrivee && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
     || (doc2.data()['eta_ville'] == that.Tra_lieuDepart && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19)
@@ -215,7 +215,7 @@ var that = this;
       var date = new Date(doc.data()['tra_dateDepart'])
       if(date >= new Date){
 
-        console.log(doc.data()['etapes.eta_ville'])
+        //console.log(doc.data()['etapes.eta_ville'])
 
         that.uti_tras.subscribe(uti_tras => {
           uti_tras.forEach(uti_tra =>{
@@ -280,12 +280,12 @@ getVilleDepart(event){
 
     fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
       this.liste_depart=results
-      console.log(results);
+      //console.log(results);
       
       
     }).catch(err => {
       this.liste_depart=[{nom:''}]
-      console.log(err);
+      //console.log(err);
     });
 }
 
@@ -334,12 +334,12 @@ getVilleArrivee(event){
 
     fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
       this.liste_arrivee=results
-      console.log(results);
+      //console.log(results);
       
       
     }).catch(err => {
       this.liste_arrivee=[{nom:''}]
-      console.log(err);
+      //console.log(err);
     });
 }
 

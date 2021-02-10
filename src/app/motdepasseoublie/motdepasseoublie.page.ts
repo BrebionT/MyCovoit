@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import { ToastController } from '@ionic/angular';
-
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-motdepasseoublie',
@@ -17,13 +18,12 @@ export class MotdepasseoubliePage implements OnInit {
   constructor(
     public afAuth: AngularFireAuth,
     public toastController: ToastController,
+    private router: Router,
+    public alertController: AlertController
   ) { }
 
   ngOnInit() {
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.resetEmail();
-      }})
+
   }
   async newMessage(messages){
     const toast = await this.toastController.create({
@@ -40,16 +40,32 @@ export class MotdepasseoubliePage implements OnInit {
     var that = this;
     console.log(this.email)
     if(this.email!="" && this.email != undefined){
-      this.afAuth.authState.subscribe(user => {
-        if(this.afAuth.currentUser){
-            this.afAuth.sendPasswordResetEmail(this.email).then(
-              auth => {that.newMessage("Un mail vous a été envoyé.");}).catch(
-              err => {that.newMessage("Vous n'avez pas de compte avec cette adresse.");});
-            //that.newMessage("Un mail vous a été envoyé.");
-        }else{
-          console.log("test")
+
+      this.afAuth.sendPasswordResetEmail(this.email).then(
+        async () => {
+          const alert = await this.alertController.create({
+            message: 'Un mail vous a été envoyé à l\'adresse : '+this.email,
+            buttons: [
+              {
+                text: 'Ok',
+                role: 'cancel',
+                handler: () => {
+                  this.router.navigateByUrl('/connexion');
+                },
+              },
+            ],
+          });
+          await alert.present();
+        },
+        async error => {
+          const errorAlert = await this.alertController.create({
+            message: error.message,
+            buttons: [{ text: 'Ok', role: 'cancel' }],
+          });
+          await errorAlert.present();
         }
-      });
+      );
+      
     }else{
       that.newMessage("Vous n'avez pas mis votre email.");
     }

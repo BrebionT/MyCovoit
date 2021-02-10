@@ -93,15 +93,15 @@ export class ProposerPage implements OnInit{
   ngOnInit() {}
   
   async createTrajets(utilisateurTrajet: utilisateur_trajet,trajet: trajets) {
-    console.log("5.1")
-    // console.log(post);
+    //console.log("5.1")
+    // //console.log(post);
     trajet.tra_id = this.id;
     this.firestore.collection('trajets').add(trajet);  
     this.navCtrl.navigateRoot('tabs/tableaubord');
   }
 
 heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
-  console.log("2")  
+  //console.log("2")  
       if(this.trajet.tra_heureDepart > this.trajet.tra_heureArrivee ){
         this.showToast("L'heure d'arrivée ne peut pas être inférieur à celle de départ !");
       }
@@ -111,7 +111,7 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
 }
 
   date(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
-    console.log("3")
+    //console.log("3")
     var date1 = this.trajet.tra_dateDepart;
     var date = new Date (date1);
     var newDate = date ;
@@ -121,13 +121,13 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
       this.presentAlertConfirm(utilisateurTrajet,trajet);
     }
     else{
-     // console.log(newDate +"///"+ this.today)
+     // //console.log(newDate +"///"+ this.today)
       this.showToast("Merci de rentrer une date ultérieur à celle d'aujourd'hui !");
   }}
 
   async createUtilisateur_trajet(utilisateurTrajet: utilisateur_trajet,trajet: trajets) {
-    console.log("5.2")
-    // console.log(post);
+    //console.log("5.2")
+    // //console.log(post);
     utilisateurTrajet.uti_tra_idUti = this.userId;
     utilisateurTrajet.uti_tra_idTra = this.id;
     utilisateurTrajet.uti_tra_role = "Conducteur";
@@ -136,7 +136,7 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
     }
 
   formValidation(utilisateurTrajet: utilisateur_trajet,trajet: trajets) {
-    console.log("1")
+    //console.log("1")
     if (!this.trajet.tra_lieuDepart) {
       // show toast message
       this.showToast('Entrez un lieu de départ');
@@ -186,7 +186,7 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
   }
 
   LancerFonction(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
-    console.log("4")   
+    //console.log("4")   
     this.createUtilisateur_trajet(utilisateurTrajet, trajet);
     this.createTrajets(utilisateurTrajet, trajet);
     this.listeEtapeBIS.forEach(element => {
@@ -239,13 +239,13 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
-            console.log('Confirm Cancel: blah');
+            //console.log('Confirm Cancel: blah');
           }
         }, {
           text: 'Confirmer',
           handler: () => {
             this.LancerFonction(utilisateurTrajet,trajet);
-            console.log('Confirm Okay');
+            //console.log('Confirm Okay');
           }
         }
       ]
@@ -278,13 +278,13 @@ async createEtape(idx) {
         eta_ville: idx,
       });
   //  });
-    // console.log("ready to submit");
+    // //console.log("ready to submit");
    
   }}
 
 
 goTo(){
-    console.log('this.anArray',this.anArray);
+    //console.log('this.anArray',this.anArray);
     this.data=true;
    }
 Add(){
@@ -451,7 +451,7 @@ this.disabledEtape[idx].value = true;
 }
 
 showVilleEtape(val,idx){
-  console.log(this.listeEtapeBIS)
+  //console.log(this.listeEtapeBIS)
 if(this.disabledEtape[idx].value==false){
   this.showvilleEtape[idx]=val;
 }

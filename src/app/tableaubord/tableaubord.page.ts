@@ -49,7 +49,7 @@ export class TableaubordPage implements OnInit{
   }
 
   ionViewWillEnter(){
-    console.log("enter")
+    //console.log("enter")
     //this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
     this.trajets = this.firestore.collection('trajets').valueChanges();
     this.uti_tra = this.firestore.collection('utilisateur_trajet').valueChanges();
@@ -62,7 +62,7 @@ export class TableaubordPage implements OnInit{
   }
 
   ionViewWillLeave(){
-    console.log("quitter")
+    //console.log("quitter")
     this.liste_dates = [];
     this.trajet_a_venir = [];
     this.utilisateurs=null;
@@ -116,7 +116,7 @@ export class TableaubordPage implements OnInit{
       uti.forEach(value => {
         if(value['id']==userid){
           that.utilisateur = value;
-          console.log('photo : ',value['photo'])
+          //console.log('photo : ',value['photo'])
           getImagesStorage(that,value['photo'],value['id'])
         }
       })
@@ -125,7 +125,7 @@ export class TableaubordPage implements OnInit{
   }
 
   ngOnDestroy(){
-    console.log("detruit");
+    //console.log("detruit");
     this.liste_dates=[];
     this.trajet_a_venir = [];
     this.trajetprevus=false;

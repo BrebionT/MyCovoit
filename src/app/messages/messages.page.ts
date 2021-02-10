@@ -18,7 +18,7 @@ export class MessagesPage implements OnInit{
   messages: Observable<any[]>;
   users: Observable<any[]>;
 
-  public messagesView;
+  public messagesView :Observable<any[]>;
   public photoView : Observable<any[]>;
   public userList = Array();
   public userList2 = Array();
@@ -81,15 +81,15 @@ export class MessagesPage implements OnInit{
   }
 
   ionViewWillLeave(){
-    console.log('sortir page messages')
+    //console.log('sortir page messages')
     this.userList2 = [];
-    this.messagesView = [];
+    this.messagesView = null;
     this.liste_user = [];
-    console.log('liste : ',this.messagesView)
+    //console.log('liste : ',this.messagesView)
   }
 
   ionViewWillEnter(){
-    console.log('entrer page messages')
+    //console.log('entrer page messages')
     this.userList2 = [];
     this.liste_user = [];
     if(this.userId!= undefined && this.userId!= null ){
@@ -132,6 +132,7 @@ export class MessagesPage implements OnInit{
         }
 
         that.photoList.push({photo:images, user:id})
+        //console.log(that.photoList)
 
       });
       return images;
@@ -152,22 +153,25 @@ export class MessagesPage implements OnInit{
           
           
           querySnapshot.forEach(function(doc) {
-            if(doc.data() != undefined){
-
+            if(doc.exists){
+              //console.log('existe')
+            //console.log(doc.data()['id'])
             var destTest = doc.data()['id'].slice(-28);
             
 
             if(doc.data()['utilisateur'] != userId){
-              console.log('est inclus : ',that.liste_user.includes(destTest))
+              //console.log('est inclus : ',that.liste_user.includes(destTest))
               if(!that.liste_user.includes(destTest)){
                 that.liste_user.push(destTest)
-                console.log('dest : ',destTest)
+                
+                //console.log('dest : ',destTest)
                 var user;
                 user = that.firestore.collection("utilisateurs").doc(doc.data()['utilisateur']);
                 user.ref.get()
                 .then((doc2)=>{
                   if (doc2.exists) {
-                    console.log('message : ',doc.data()['message'])
+                    //console.log('message : ',doc.data()['message'])
+                    getImagesStorage(that,doc2.data()['photo'],doc2.data()['id'])
                     if(doc.data()['archive']== false && doc.data()['archiveDest']== false){
                       that.userList2.push([doc.data()['utilisateur'],doc2.data()['prenom'],doc2.data()['nom'],doc.data()['date'],doc.data()['message'],doc.data()['vu']])
                     }else if(doc.data['archive']== false && doc.data['archiveDest']== true){
@@ -177,7 +181,7 @@ export class MessagesPage implements OnInit{
                     }
                 
               } else {
-                  console.log("Document non trouvé!");
+                  //console.log("Document non trouvé!");
               }
           
                  
@@ -188,6 +192,8 @@ export class MessagesPage implements OnInit{
             }
           }
           })
+          that.messagesView = of(that.userList2) ;
+          that.photoView = of(that.photoList);
         })
 
 
@@ -327,13 +333,13 @@ export class MessagesPage implements OnInit{
 
       }); 
     //console.log(that.userList);
-    console.log(that.photoList);
+    //console.log(that.photoList);
     
     that.messagesView = of(that.userList2);
     that.photoView = of(that.photoList);
       }) */
-      that.messagesView = that.userList2 ;
-      console.log(that.userList2)
+      
+      //console.log(that.userList2)
       return true;
     
   }

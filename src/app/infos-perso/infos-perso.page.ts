@@ -95,15 +95,15 @@ export class InfosPersoPage{
 
     
     
-    console.log(this.maxDate,this.minDate);
+    //console.log(this.maxDate,this.minDate);
   }
   async addPhoto(source: string) {
     if (source === 'camera') {
-      console.log('camera');
+      //console.log('camera');
       const cameraPhoto = await this.openCamera();
       this.image = 'data:image/jpg;base64,' + cameraPhoto;
     } else {
-      console.log('library');
+      //console.log('library');
       const libraryImage = await this.openLibrary();
       this.image = 'data:image/jpg;base64,' + libraryImage;
     }
@@ -333,7 +333,7 @@ async uploadFirebase() {
   }
 
   showVille(val){
-    console.log(val)
+    //console.log(val)
     if(this.disabled==false){
       this.showville=val;
     }
@@ -361,12 +361,12 @@ async uploadFirebase() {
 
         fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
           this.liste_ville=results
-          console.log(results);
+          //console.log(results);
           
           
         }).catch(err => {
           this.liste_ville=[{nom:''}]
-          console.log(err);
+          //console.log(err);
         });
   }
 
@@ -386,12 +386,12 @@ async uploadFirebase() {
 
       fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
         this.liste_cp=results
-        console.log(results);
+        //console.log(results);
         
         
       }).catch(err => {
         this.liste_cp=[{nom:''}]
-        console.log(err);
+        //console.log(err);
       });
     
   }

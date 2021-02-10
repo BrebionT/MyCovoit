@@ -5,14 +5,13 @@
         Messages
       </ion-title>
     </ion-toolbar>
-        <ion-searchbar></ion-searchbar>
   </ion-header>
  
 
 <ion-content>
 
   <ion-list>
-    <ng-container *ngFor="let userShow of messagesView; let i=index" >
+    <ng-container *ngFor="let userShow of messagesView | async; let i=index" >
     <ion-item detail (click)="goConvers(userShow[0])" *ngIf="userShow[0]!=userId">
       
         <ion-avatar slot="start" >
@@ -28,11 +27,11 @@
           
           <span>
             <span *ngIf="userShow[5]==true && userShow[0]!=userId">
-              <p><ion-icon class="text-icon" color="primary" name="checkmark"></ion-icon>{{userShow[4]}}</p>
+              <p><!-- <ion-icon class="text-icon" color="primary" name="checkmark"></ion-icon> -->{{userShow[4]}}</p>
             </span>
 
             <span *ngIf="userShow[5]!=true && userShow[0]!=userId">
-              <p>{{userShow[4]}}</p>
+              <p style="font-weight: bold;">{{userShow[4]}}</p>
             </span>
           </span>
           

@@ -340,12 +340,12 @@ export class ModifProfilPage {
 
         fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
           this.liste_ville=results
-          console.log(results);
+          //console.log(results);
           
           
         }).catch(err => {
           this.liste_ville=[{nom:''}]
-          console.log(err);
+          //console.log(err);
         });
   }
 
@@ -365,12 +365,12 @@ export class ModifProfilPage {
 
       fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
         this.liste_cp=results
-        console.log(results);
+        //console.log(results);
         
         
       }).catch(err => {
         this.liste_cp=[{nom:''}]
-        console.log(err);
+        //console.log(err);
       });
     
   }

@@ -46,10 +46,10 @@ connected: boolean;
 
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
-        console.log('non connecté');
+        //console.log('non connecté');
         this.connected = false;
       } else {
-        console.log('connecté: ' + auth.uid);
+        //console.log('connecté: ' + auth.uid);
         this.connected = true;
       }
     });

@@ -97,7 +97,7 @@ export class ListeAvisPage implements OnInit {
           
         })
       })
-      console.log(this.listeAvis)
+      //console.log(this.listeAvis)
     }
     
   }

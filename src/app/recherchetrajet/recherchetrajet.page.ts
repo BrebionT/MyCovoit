@@ -46,7 +46,7 @@ export class RecherchetrajetPage implements OnInit{
 
 
   ionViewWillEnter(){
-    console.log("enter")
+    //console.log("enter")
     this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
     this.trajets = this.firestore.collection('trajets').valueChanges();
     this.uti_tra = this.firestore.collection('utilisateur_trajet').valueChanges();
@@ -58,7 +58,7 @@ export class RecherchetrajetPage implements OnInit{
   }
 
   ionViewWillLeave(){
-    console.log("quitter")
+    //console.log("quitter")
     this.liste_dates = [];
     this.trajet_a_venir = [];
     this.utilisateurs=null;
@@ -86,7 +86,7 @@ export class RecherchetrajetPage implements OnInit{
 
 
   ngOnDestroy(){
-    console.log("detruit");
+    //console.log("detruit");
     this.liste_dates=[];
     this.trajet_a_venir = [];
     this.trajetprevus=false;
