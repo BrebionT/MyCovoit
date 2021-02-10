@@ -1,12 +1,10 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { of } from 'rxjs';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { NgForOf } from '@angular/common';
-import {LoadingController, ToastController, NavController} from '@ionic/angular';
+import {ToastController, NavController} from '@ionic/angular';
 import {trajets} from '../models/trajets.model';
 import {utilisateur_trajet} from '../models/utilisateur_trajet.model';
 import { AlertController } from '@ionic/angular';
@@ -62,7 +60,6 @@ export class ProposerPage implements OnInit{
   constructor(
     public alertController: AlertController,
     private toastCtrl: ToastController,
-    private loadingCtrl: LoadingController,
     private navCtrl: NavController,
     public afAuth: AngularFireAuth,
     public firestore: AngularFirestore,
@@ -259,15 +256,6 @@ addEtape(){
   //this.createEtape()
 }
 
-/*parcour(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
-  this.listeEtapeBIS.forEach(element => {
-    if(element.value != ""){
-    this.createEtape(element.value)
-    this.LancerFonction(utilisateurTrajet,trajet);
-}
-this.LancerFonction(utilisateurTrajet,trajet);
-})
-}*/
 
 async createEtape(idx) { 
   if (this.etape.eta_ville != "") {
@@ -296,9 +284,9 @@ Add(){
     this.showvilleEtape.push(false)
    }
 Remove(){
+    this.suppVilleEtape(this.listeEtapeBIS.length-1);
     this.listeEtape.pop();
     this.anArray.pop();
-
     this.listeEtapeBIS.pop();
     this.disabledEtape.pop();
     this.liste_etape.pop();

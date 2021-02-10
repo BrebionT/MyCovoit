@@ -14,6 +14,8 @@ import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { LoadingController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-rechercher',
@@ -95,6 +97,7 @@ connected: boolean;
 
 
   constructor(
+    public loadingController: LoadingController,
     private router: Router,
     public toastController: ToastController,
     public afAuth: AngularFireAuth,
@@ -145,12 +148,19 @@ formatDate(date) {
 
   return [year, month, day].join('-');
 }
-getImagesStorage(traj, uti) {
+getImagesStorage(traj, uti, liste_trajetdispo) {
   var that = this;
+  var liste = liste_trajetdispo
+
   var img = uti['photo'];
+  console.log('liste trajet : ',liste,liste.length )
   this.afSG.ref('users/'+img).getDownloadURL().subscribe(imgUrl => {
-    that.liste_trajetdispo.push({trajet:traj, utilisateur:uti, photo:imgUrl});
+    if(!liste.includes({trajet:traj, utilisateur:uti, photo:imgUrl})){
+      liste.push({trajet:traj, utilisateur:uti, photo:imgUrl});
+    }
+    
   });
+  return liste;
 }
 
 getListUsers(){
@@ -175,10 +185,31 @@ async errorValue(messages) {
   await toast.present();
 }
 
+
+async showHideAutoLoader() {
+
+  const loading = await this.loadingController.create({
+    message: 'Recherche en cours...',
+    duration: 2000
+  });
+  await loading.present();
+
+  const { role, data } = await loading.onDidDismiss();
+  console.log('Loading dismissed! after 2 Seconds', { role, data });
+  if(this.trajettrouve == true){
+    this.changement();
+  }else{
+    this.errorValue("Aucun trajet trouvé !")
+  }
+  
+}
+
 recherche(){
   
 this.liste_trajetdispo = [];
 this.beforesearch=true;
+this.trajettrouve=false;
+var liste = this.liste_trajetdispo;
 
 var that = this;
 
@@ -227,9 +258,11 @@ var that = this;
 
                   if(uti_tra["uti_tra_idUti"]==uti['id'] && uti_tra["uti_tra_role"]=="Conducteur"){
 
-                    that.getImagesStorage(doc.data(),uti);
+                    liste = that.getImagesStorage(doc.data(),uti,liste);
                     that.trajettrouve = true;
-                    that.changement();
+                    
+                    
+                    
                   }
 
                 })
@@ -238,15 +271,16 @@ var that = this;
           })
         })
       }
+
     }
   })})
   })})
   })})
+  that.showHideAutoLoader();
+  that.liste_trajetdispo = liste;
 }
 
 ngOnInit(){
-  //console.log(this.etape[''])
-
 }
 
 redirectiontrajettrouve(){
@@ -259,7 +293,6 @@ redirectiontrajettrouve(){
 
 fonctionstrouvertrajets(){
   this.recherche();
-  this.redirectiontrajettrouve();
 }
 
 changement(){
