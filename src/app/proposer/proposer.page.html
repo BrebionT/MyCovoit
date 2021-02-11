@@ -27,7 +27,7 @@
         <div>
             <h4><ion-label color="dark" position="floating">D'où partez-vous ? :</ion-label></h4>
             <ion-input readonly="{{isDisabledDepart()}}" style="width:80%; display:inline-block;" (ngModelChange)="getVilleDepart($event)" (ionFocus)="showVilleDepart(true)"id="test" placeholder="Ville de départ" [(ngModel)]="Tra_lieuDepartBIS" type="string" ></ion-input>
-            <ion-icon (click)="suppVilleDepart()" *ngIf="Tra_lieuDepartBIS != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+            <ion-icon (click)="suppVilleDepart()" *ngIf="Tra_lieuDepartBIS != []" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
             <div *ngIf="liste_depart.length>0 && showvilleDepart==true && Tra_lieuDepartBIS.length>=3">
               <ion-list>
                 <ion-item (click)="addVilleDepart(liste_depart[0])" *ngIf="liste_depart[0] != undefined && liste_depart[0].codeDepartement != undefined">{{liste_depart[0].nom}} ( {{liste_depart[0].codeDepartement}} )</ion-item>

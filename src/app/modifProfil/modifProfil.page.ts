@@ -42,7 +42,7 @@ export class ModifProfilPage {
   public userid;
   public useriddata;
   public connected: boolean = false;
-  utilisateur: Observable<any[]>;
+  utilisateur: {prenom:"",nom:"",sexe:"",photo:"",bio:"",mail:"",cp:"",date_naiss:"",parle:true,musique:true,cigarette:true,animal:true};
 
   minDate: String;
   maxDate: String;

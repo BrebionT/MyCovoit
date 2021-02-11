@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "mycovoit-6e725"
+    "default": "mycovoit-314c0",
+    "mycovoittest": "mycovoit-314c0",
+    "mycovoit": "mycovoit-314c0",
+    "mycovoit1": "mycovoit-314c0"
   }
 }

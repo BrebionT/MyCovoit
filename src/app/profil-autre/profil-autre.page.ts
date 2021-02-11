@@ -30,7 +30,7 @@ export class ProfilAutrePage implements OnInit {
   public nbAvis =0;
   public avisTotal;
   public connected: boolean = false;
-  utilisateur: Observable<any[]>;
+  utilisateur: {prenom:"",nom:"",sexe:"",photo:"",parle:true,musique:true,cigarette:true,animal:true};
 
   constructor(public firestore: AngularFirestore,
     public afAuth: AngularFireAuth,

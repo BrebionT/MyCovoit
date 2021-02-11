@@ -94,6 +94,9 @@ export class ConversationPage implements OnInit{
   {
      
   }
+  back(){
+    console.log("back")
+  }
 
   
   ngOnInit() {
