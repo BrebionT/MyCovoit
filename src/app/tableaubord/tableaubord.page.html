@@ -90,29 +90,29 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <p size=4> 🚘 Départ : </p>
+            <p size=3 style="text-align: center;"> 🚘 Départ: </p>
           </ion-col>
           <ion-col size=5>
-            <p style="margin-top: 19px;">{{trajets.trajet.tra_lieuDepart}}</p>
+            <p style="text-align: center; margin-top: 19px;">{{trajets.trajet.tra_lieuDepart}}</p>
           </ion-col>
           <ion-col size=1>
             <p style="margin-top: 19px;">à</p>
           </ion-col>
-          <ion-col size=2>
+          <ion-col size=3>
             <p style="margin-top: 19px;"><ion-datetime class="force-black-font" display-format="H:mm" value={{trajets.trajet.tra_heureDepart}} disabled></ion-datetime></p>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size=4>
-            <p> 🏁 Arrivée : </p>
+          <ion-col size=3 style="text-align: center;">
+            <p> 🏁 Arrivée: </p>
           </ion-col>
           <ion-col size=5>
-            <p style="margin-top: 19px;">{{trajets.trajet.tra_lieuArrivee}}</p>
+            <p style="text-align: center; margin-top: 19px;">{{trajets.trajet.tra_lieuArrivee}}</p>
           </ion-col>
           <ion-col size=1>
-            <p style="margin-top: 19px;">à</p>
+            <p style="vertical-align:middle;margin-top: 19px;">à</p>
           </ion-col>
-          <ion-col size=2>
+          <ion-col size=3>
             <p style="margin-top: 19px;"><ion-datetime class="force-black-font" display-format="H:mm" picker-format="H:mm" value={{trajets.trajet.tra_heureArrivee}} disabled></ion-datetime></p>
           </ion-col>
           

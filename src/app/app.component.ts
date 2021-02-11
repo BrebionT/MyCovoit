@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import {Observable} from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -20,7 +19,6 @@ export class AppComponent {
     public firestore: AngularFirestore,
     public afAuth: AngularFireAuth,
     private platform: Platform,
-    private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
     
@@ -41,7 +39,6 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
     });
   }
 

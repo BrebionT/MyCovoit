@@ -329,6 +329,12 @@ addVilleDepart(val){
   
   this.showvilleDepart=false;
   this.disabledDepart=true;
+
+  this.Tra_lieuArrivee = "Lycée Jean Rostand";
+  this.Tra_lieuArriveeBIS = "Lycée Jean Rostand";
+  
+  this.showvilleArrivee=false;
+  this.disabledArrivee=true;
 }
 
 showVilleDepart(val){
@@ -342,6 +348,11 @@ suppVilleDepart(){
   this.Tra_lieuDepartBIS = "";
 
   this.disabledDepart=false;
+
+  this.Tra_lieuArrivee="";
+  this.Tra_lieuArriveeBIS = "";
+
+  this.disabledArrivee=false;
 }
 
 isDisabledDepart(){
@@ -383,6 +394,12 @@ addVilleArrivee(val){
   
   this.showvilleArrivee=false;
   this.disabledArrivee=true;
+
+  this.Tra_lieuDepart="Lycée Jean Rostand";
+  this.Tra_lieuDepartBIS = "Lycée Jean Rostand";
+  
+  this.showvilleDepart=false;
+  this.disabledDepart=true;
 }
 
 showVilleArrivee(val){
@@ -397,6 +414,11 @@ suppVilleArrivee(){
   this.Tra_lieuArriveeBIS = "";
 
   this.disabledArrivee=false;
+
+  this.Tra_lieuDepart="";
+  this.Tra_lieuDepartBIS = "";
+
+  this.disabledDepart=false;
 }
 
 isDisabledArrivee(){
