@@ -12,6 +12,11 @@
       </ion-item>
       <ion-item class="ligne"></ion-item>
       <ion-item class="champ" lines="none">
+            <ion-label floating color="light">Code d'inscription :</ion-label>
+            <ion-input placeholder="Code d'inscription" no-lines type="text" color="light" minlength="10" [(ngModel)]="dataUser.code"></ion-input>
+      </ion-item>
+      <ion-item class="ligne"></ion-item>
+      <ion-item class="champ" lines="none">
             <ion-label floating color="light">Mot de passe :</ion-label>
             <ion-input placeholder="Mot de passe" no-lines [type]="passwordType" color="light" minlength="8" [(ngModel)]="dataUser.password"></ion-input>
             <ion-icon color="light" item-end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>  

@@ -44,13 +44,6 @@ export class TableaubordPage implements OnInit{
     public afSG: AngularFireStorage
     ) 
   {
-    
-    
-  }
-
-  ionViewWillEnter(){
-    //console.log("enter")
-    //this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
     this.trajets = this.firestore.collection('trajets').valueChanges();
     this.uti_tra = this.firestore.collection('utilisateur_trajet').valueChanges();
 
@@ -59,6 +52,13 @@ export class TableaubordPage implements OnInit{
     this.liste_dates = [];
     this.trajet_a_venir = [];
     this.getTrajet();
+    
+  }
+
+  ionViewWillEnter(){
+    //console.log("enter")
+    //this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
+    
   }
 
   ionViewWillLeave(){

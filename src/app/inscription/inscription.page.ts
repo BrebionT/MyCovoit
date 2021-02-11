@@ -26,7 +26,8 @@ export class InscriptionPage {
 dataUser = {
   email: '',
   password: '',
-  password2: ''
+  password2: '',
+  code:''
 };
 
 passwordType: string = 'password';
@@ -85,7 +86,8 @@ connected: boolean;
             this.dataUser = {
               email: '',
               password: '',
-              password2: ''
+              password2: '',
+              code:''
             };
             this.afAuth.signInWithEmailAndPassword(this.dataUser.email, this.dataUser.password)
             .then(auth => {
@@ -104,7 +106,8 @@ connected: boolean;
             this.dataUser = {
               email: '',
               password: '',
-              password2: ''
+              password2: '',
+              code:''
             };
           });
       }else{
@@ -112,7 +115,8 @@ connected: boolean;
         this.dataUser = {
           email: '',
           password: '',
-          password2: ''
+          password2: '',
+          code:''
         };
       }
         
@@ -121,7 +125,8 @@ connected: boolean;
         this.dataUser = {
           email: '',
           password: '',
-          password2: ''
+          password2: '',
+          code:''
         };
       }
     }else{
@@ -129,7 +134,8 @@ connected: boolean;
       this.dataUser = {
         email: '',
         password: '',
-        password2: ''
+        password2: '',
+        code:''
       };
     }    
     
