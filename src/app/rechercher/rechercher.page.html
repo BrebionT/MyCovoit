@@ -56,8 +56,8 @@
     </ion-item>
   -->
   </ion-card>
-  </ion-content>
-  <ion-content class="padding" *ngIf="beforesearch">  
+  
+  <div class="padding" *ngIf="beforesearch">  
       <ion-grid>
         <ion-row>
           <ion-col class ="case">   
@@ -65,7 +65,8 @@
             </ion-col>
         </ion-row>
       </ion-grid>
-    </ion-content>
+    </div>
+  </ion-content>
 
     <ion-content class="padding" *ngIf="!beforesearch">   <!--*ngIf="!beforesearch"-->
       <Center><strong><h1>Trajets disponibles</h1></strong></Center>
