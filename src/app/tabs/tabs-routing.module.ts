@@ -73,6 +73,10 @@ const routes: Routes = [
         loadChildren: () => import('../profil-autre/profil-autre.module').then( m => m.ProfilAutrePageModule)
       },
       {
+        path: 'trajet-detail',
+        loadChildren: () => import('../trajet-detail/trajet-detail.module').then( m => m.TrajetDetailPageModule)
+      },
+      {
 
         path: '',
         redirectTo: '/connexion',

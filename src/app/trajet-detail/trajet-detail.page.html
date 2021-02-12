@@ -1,10 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="dark">
     <ion-buttons slot="start">
-      <ion-back-button style="color:white" defaultHref="/tabs/rechercher"></ion-back-button>
+      <ion-back-button style="color:white" defaultHref="/tabs/tableaubord"></ion-back-button>
     </ion-buttons>
     <ion-title>
-      Rechercher un trajet
+      Information sur le trajet
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -47,9 +47,8 @@
   </div>
 
   <div *ngIf="etapes.length > 0" style="width:80%; margin: 15px 10%; border-bottom: lightgray 1px solid;"></div>
-  <div *ngIf="etapes.length > 0" style="width:80%; margin: 15px 10%; border-bottom: lightgray 1px solid;"></div>
 
-  <div style="width:95%; margin:auto;" [routerLink]="['/profil-autre']" fragment="{{utilisateur.id}}">
+  <div *ngIf="roles=='Passager'" style="width:95%; margin:auto;" [routerLink]="['/profil-autre']" fragment="{{utilisateur.id}}">
 
     <ion-grid>
       <ion-row>
@@ -76,7 +75,7 @@
     </ion-grid>
     </div>
 
-    <div style="width:100%;height:42px;">
+    <div *ngIf="roles=='Passager'" style="width:100%;height:42px;">
       <div style="max-width:70%; margin:auto; height:auto; background-color:#110A3B; border-radius: 5px;"  [routerLink]="['/conversation']" fragment="{{utilisateur.id}}">
         <!-- <p style="color:#110A3B; width: 36px; margin:0; display:inline-block;text-align: center; vertical-align: middle;"><ion-icon name="chatbubble-ellipses-outline" style="width: 36px; height: 36px;"></ion-icon></p> -->
         <p style="color:white; width: 42px; margin:0; display:inline-block;text-align: center; vertical-align: middle;"><img src="../assets/pixel-speech-bubble.gif"></p>
@@ -84,7 +83,7 @@
       </div>
     </div>
 
-    <div style="width:80%; margin: 20px 10%; border-bottom: lightgray 1px solid;"></div>
+    <div *ngIf="roles=='Passager'" style="width:80%; margin: 20px 10%; border-bottom: lightgray 1px solid;"></div>
 
     <div>
       <ion-grid>
@@ -137,8 +136,8 @@
       <h4>Voiture</h4>
     </div>
 
-    <ion-button color='dark' style="border-radius: 5px; max-width:70%; margin:auto; display:block" (click)="reserver()">Réserver</ion-button>
-
+    <ion-button *ngIf="roles=='Passager'" color='dark' style="border-radius: 5px; max-width:70%; margin:auto; display:block" (click)="annuler()">Annuler</ion-button>
+    <ion-button *ngIf="roles=='Conducteur'" color='dark' style="border-radius: 5px; max-width:70%; margin:auto; display:block" (click)="supprimer()">Supprimer</ion-button>
   
 
 </ion-content>

@@ -72,14 +72,14 @@
     </div>
   </div> -->
 
-  <div class="accueil_trajet" *ngIf="trajetprevus" >
+  <div class="accueil_trajet" style="margin-bottom: 50px;" *ngIf="trajetprevus" >
  
     <h3 class="titre1" style="margin-bottom: 50px;"><center>Liste des trajets prévus</center></h3>
 
     <div style="width: 100%; border-bottom:1px solid black;"></div>
 
     <div *ngFor="let trajets of liste_dates">
-      <ion-list style="border-bottom: 1px solid black">
+      <ion-list (click)="goDetail(trajets.trajet.tra_id)" style="border-bottom: 1px solid black">
         <ion-row>
           <ion-col>
             <p style="text-align: right; margin-right:15px">{{trajets.role}} :</p>

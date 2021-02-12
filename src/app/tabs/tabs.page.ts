@@ -39,9 +39,7 @@ export class TabsPage {
     const db = this.firestore;
 
     this.test = this.firestore.collection("messages_vu");
-    this.test.ref.where("destinataire", "==", auth.uid);
-    this.test.ref.orderBy('id')
-    .onSnapshot(function(querySnapshot) {
+    this.test.ref.where("destinataire", "==", auth.uid).onSnapshot(function(querySnapshot) {
       that.nb=0;
       querySnapshot.forEach(function(doc) {
         //var value = doc.data();

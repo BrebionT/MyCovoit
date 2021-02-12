@@ -49,7 +49,11 @@ const routes: Routes = [
   {
     path: 'infos-trajet',
     loadChildren: () => import('./infos-trajet/infos-trajet.module').then( m => m.InfosTrajetPageModule)
+  },  {
+    path: 'trajet-detail',
+    loadChildren: () => import('./trajet-detail/trajet-detail.module').then( m => m.TrajetDetailPageModule)
   }
+
 
 
 

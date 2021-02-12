@@ -44,6 +44,19 @@ export class TableaubordPage implements OnInit{
     public afSG: AngularFireStorage
     ) 
   {
+    
+    
+  }
+
+  ionViewWillEnter(){
+    //console.log("enter")
+    //this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
+    this.liste_dates = [];
+    this.trajet_a_venir = [];
+    this.utilisateurs=null;
+    this.trajets=null;
+    this.uti_tra=null;
+
     this.trajets = this.firestore.collection('trajets').valueChanges();
     this.uti_tra = this.firestore.collection('utilisateur_trajet').valueChanges();
 
@@ -52,12 +65,6 @@ export class TableaubordPage implements OnInit{
     this.liste_dates = [];
     this.trajet_a_venir = [];
     this.getTrajet();
-    
-  }
-
-  ionViewWillEnter(){
-    //console.log("enter")
-    //this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
     
   }
 
@@ -134,11 +141,13 @@ export class TableaubordPage implements OnInit{
 
   getTrajet(){
     var that = this;
+    
     this.trajet_a_venir = [];
     this.liste_dates = [];
   
     if(this.uti_tra != null){
       this.uti_tra.subscribe(uti =>{
+        that.trajetprevus=false;
         
         uti.forEach(value2=> {
           if(value2['uti_tra_idUti']==that.userid){
@@ -173,6 +182,11 @@ export class TableaubordPage implements OnInit{
   goProfil(){
     var route = this.router;
     route.navigateByUrl('/tabs/profil');
+  }
+
+  goDetail(id){
+    var route = this.router;
+    route.navigateByUrl('/tabs/trajet-detail#'+id);
   }
   
   

@@ -156,8 +156,12 @@ getImagesStorage(traj, uti, liste_trajetdispo) {
   var img = uti['photo'];
   console.log('liste trajet : ',liste,liste.length )
   this.afSG.ref('users/'+img).getDownloadURL().subscribe(imgUrl => {
+
+
+    
     if(!liste.includes({trajet:traj, utilisateur:uti, photo:imgUrl})){
       liste.push({trajet:traj, utilisateur:uti, photo:imgUrl});
+      that.trajettrouve = true;
     }
     
   });
@@ -260,7 +264,7 @@ var that = this;
                   if(uti['id'] != that.userid && uti_tra["uti_tra_idUti"]==uti['id'] && uti_tra["uti_tra_role"]=="Conducteur"){
 
                     liste = that.getImagesStorage(doc.data(),uti,liste);
-                    that.trajettrouve = true;
+                    
                     
                     
                     
