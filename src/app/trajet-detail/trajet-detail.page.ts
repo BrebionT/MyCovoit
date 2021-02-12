@@ -57,75 +57,80 @@ export class TrajetDetailPage implements OnInit {
 
     var that = this;
 
-    this.firestore.collection("trajets").get().toPromise().then((snapshot)=>{
+    that.firestore.collection("trajets").get().toPromise().then((snapshot)=>{
       snapshot.docs.forEach(doc =>{
         if(doc.data()['tra_id']==that.trajet_id){
-          this.trajetId = doc.id;
-          this.trajet = doc.data();
+          that.trajetId = doc.id;
+          that.trajet = doc.data();
 
-          this.trajet.tra_dateDepart = new Date(this.trajet.tra_dateDepart).toLocaleString('fr-FR',{
+          that.trajet.tra_dateDepart = new Date(that.trajet.tra_dateDepart).toLocaleString('fr-FR',{
             weekday: 'long',
             year: 'numeric',
             month: 'long',
             day: 'numeric',
             });
 
-          this.firestore.collection("etapes").get().toPromise().then((snapshot1)=>{
+            that.firestore.collection("etapes").get().toPromise().then((snapshot1)=>{
             snapshot1.docs.forEach(doc1 =>{
               //console.log("trajet ?")
               if(doc1.data()['eta_idTra']== doc.data()['tra_id']){
                 //console.log("ok")
-                if(!this.etapesId.includes(doc1.id)){
-                  this.etapesId.push(doc1.id)
+                if(!that.etapesId.includes(doc1.id)){
+                  that.etapesId.push(doc1.id)
                 }
-                this.etapes.push(doc1.data());
+                that.etapes.push(doc1.data());
               }
 
-                this.trajet.tra_dateDepart = this.trajet.tra_dateDepart.charAt(0).toUpperCase()+this.trajet.tra_dateDepart.substr(1)
+              that.trajet.tra_dateDepart = that.trajet.tra_dateDepart.charAt(0).toUpperCase()+that.trajet.tra_dateDepart.substr(1)
                 //console.log(this.trajet.tra_dateDepart);
                 
-                this.firestore.collection("utilisateur_trajet").get().toPromise().then((snapshot2)=>{
+                that.firestore.collection("utilisateur_trajet").get().toPromise().then((snapshot2)=>{
                   snapshot2.docs.forEach(doc2 =>{
                     if(doc2.data()['uti_tra_idTra']==doc.data()['tra_id']){
                       if(doc2.data()['uti_tra_role']=="Conducteur"){
                         that.uti_trajet = doc2.data()['uti_tra_idUti']
                       }
 
-                      if(!this.uti_traId.includes({id:doc2.id,uti:doc2.data()['uti_tra_idUti']})){
-                        this.uti_traId.push({id:doc2.id,uti:doc2.data()['uti_tra_idUti']})
+                      if(!that.uti_traId.includes({id:doc2.id,uti:doc2.data()['uti_tra_idUti']})){
+                        that.uti_traId.push({id:doc2.id,uti:doc2.data()['uti_tra_idUti']})
                       }
-                      this.uti_traId.push({id:doc2.id,uti:doc2.data()['uti_tra_idUti']})
+                      that.uti_traId.push({id:doc2.id,uti:doc2.data()['uti_tra_idUti']})
 
                       if(doc2.data()['uti_tra_idUti']==that.userid){
                         that.roles = doc2.data()['uti_tra_role']
-                      }
+                      
 
-                      this.firestore.collection("utilisateurs").get().toPromise().then((snapshot3)=>{
-                        snapshot3.docs.forEach(doc3 =>{
-                          if(doc3.data()['id']==doc2.data()['uti_tra_idUti']){
+                        that.firestore.collection("utilisateurs").get().toPromise().then((snapshot3)=>{
+                          snapshot3.docs.forEach(doc3 =>{
+                            if(doc3.data()['id']==that.uti_trajet){
 
-                            this.utilisateur = doc3.data()
-                            this.afSG.ref('users/'+doc3.data()['photo']).getDownloadURL().subscribe(imgUrl => {
-                              this.utilisateur['photo'] = imgUrl;
-                            })
-
-                            this.firestore.collection("avis").get().toPromise().then((snapshot4)=>{
-                              snapshot4.docs.forEach(doc4=>{
-                                if(doc4.data()['destinataire']==doc3.data()['id']){
-                                  this.nbAvis+=1;
-                                  this.avisValue+=doc4.data()['note'];
-                                  this.avisTotal = (this.avisValue / this.nbAvis)
-                                  //console.log(this.avisTotal.toString().indexOf('.'))
-                                  if(this.avisTotal.toString().indexOf('.') != -1){
-                                    this.avisTotal=this.avisTotal.toFixed(2);
-                                  }
-                                }
+                              that.utilisateur = doc3.data()
+                              that.afSG.ref('users/'+doc3.data()['photo']).getDownloadURL().subscribe(imgUrl => {
+                                that.utilisateur['photo'] = imgUrl;
                               })
-                            })
 
-                          }
+                              that.firestore.collection("avis").get().toPromise().then((snapshot4)=>{
+                                that.nbAvis =0;
+                                that.avisValue=0;
+                                that.avisTotal=0;
+                                snapshot4.docs.forEach(doc4=>{
+                                  if(doc4.data()['destinataire']==that.uti_trajet){
+                                    console.log('avis +1')
+                                    that.nbAvis+=1;
+                                    that.avisValue+=doc4.data()['note'];
+                                    that.avisTotal = (that.avisValue / that.nbAvis)
+                                    //console.log(this.avisTotal.toString().indexOf('.'))
+                                    if(that.avisTotal.toString().indexOf('.') != -1){
+                                      that.avisTotal=that.avisTotal.toFixed(2);
+                                    }
+                                  }
+                                })
+                              })
+
+                            }
+                          })
                         })
-                      })
+                      }
                     }
                   })
                 })

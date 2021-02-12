@@ -149,20 +149,48 @@ formatDate(date) {
 
   return [year, month, day].join('-');
 }
-getImagesStorage(traj, uti, liste_trajetdispo) {
+
+getImagesStorage(traj, uti, liste_trajetdispo,nbplace) {
   var that = this;
   var liste = liste_trajetdispo
-
+  var nb = 0;
+  
   var img = uti['photo'];
   console.log('liste trajet : ',liste,liste.length )
   this.afSG.ref('users/'+img).getDownloadURL().subscribe(imgUrl => {
+    
+     var test = that.firestore.collection("utilisateur_trajet");
 
+    console.log(traj['tra_id'])
+    var utiId="";
+  
+   
+    test.ref.where("uti_tra_idTra","==",traj['tra_id']).onSnapshot(function(trajettt){
+      trajettt.forEach(function(untrajet){
+        console.log('//////////////////////')
+        nb = nb + 1;
+        console.log('nb : ',nb)
+        console.log(untrajet.data()['uti_tra_idUti'],"///",that.userid)
+        if(untrajet.data()['uti_tra_idUti']==that.userid){
+          console.log("passage")
+          utiId="deja"
+        }
+      })
+      console.log(nb)
+      
+    if(utiId!="deja"){
+      if(nb < nbplace){
+      
+        if(!liste.includes({trajet:traj, utilisateur:uti, photo:imgUrl})){
+          liste.push({trajet:traj, utilisateur:uti, photo:imgUrl});
+          that.trajettrouve = true;
+        }
+      }
+      
+    }
 
     
-    if(!liste.includes({trajet:traj, utilisateur:uti, photo:imgUrl})){
-      liste.push({trajet:traj, utilisateur:uti, photo:imgUrl});
-      that.trajettrouve = true;
-    }
+    })
     
   });
   return liste;
@@ -263,8 +291,8 @@ var that = this;
 
                   if(uti['id'] != that.userid && uti_tra["uti_tra_idUti"]==uti['id'] && uti_tra["uti_tra_role"]=="Conducteur"){
 
-                    liste = that.getImagesStorage(doc.data(),uti,liste);
-                    
+                    liste = that.getImagesStorage(doc.data(),uti,liste,doc.data()['tra_nbPlaces']);
+                  
                     
                     
                     
