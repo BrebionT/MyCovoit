@@ -101,6 +101,7 @@ export class NoterPage {
           date: new Date().getTime(),
           note: this.value,
           commentaire: this.commentaire,
+          
         });
         this.commentaire="";
         this.value=0;

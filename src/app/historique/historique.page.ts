@@ -12,7 +12,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import {Observable} from 'rxjs';
 import { Router } from '@angular/router';
 
-
+import {NavController, NavParams} from '@ionic/angular';
 
 
 @Component({
@@ -46,11 +46,14 @@ export class HistoriquePage implements OnInit{
     public afAuth: AngularFireAuth,
     public afDB: AngularFireDatabase,
     public firestore: AngularFirestore,
-    public alertController: AlertController
+    public alertController: AlertController,
+    public navCtrl:NavController
   ) {
     
     
   }
+
+
 
   ionViewWillEnter(){
     console.log("enter")
@@ -104,6 +107,16 @@ export class HistoriquePage implements OnInit{
       })
     });
     
+  }
+
+
+  
+  goDetail(id){
+    var route = this.router;
+   // this.navCtrl.push(app-trajet-detail,{
+      
+      //)
+    route.navigateByUrl('/tabs/trajet-detail#'+id);
   }
 
   ngOnDestroy(){

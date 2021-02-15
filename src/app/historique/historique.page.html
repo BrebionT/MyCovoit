@@ -41,7 +41,7 @@
     <div style="margin-top:20px"></div>
 
     <ng-container *ngFor='let trajets of liste_dates'>
-        <div class="item" *ngIf="trajets.role=='Passager'" (click)="showTrajet(trajets)">
+        <div class="item" *ngIf="trajets.role=='Passager'" (click)="goDetail(trajets.trajet.tra_id)">
         <ion-label>
           <center><p class="emplacement">{{trajets.role}}</p></center>
           <label for="Départ">🏃🏻‍♂️<h3 id="Départ">{{ trajets.trajet.tra_lieuDepart}}</h3></label> <h3 class="date"><ion-datetime style="display:inline-block; margin-top:10px;" class="force-black-font" display-format="DD/MM/YYYY" value={{trajets.date}} disabled></ion-datetime></h3> <br/>

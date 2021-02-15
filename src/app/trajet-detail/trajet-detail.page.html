@@ -135,9 +135,11 @@
     <div>
       <h4>Voiture</h4>
     </div>
-
+<div *ngIf="test()==false">
     <ion-button *ngIf="roles=='Passager'" color='dark' style="border-radius: 5px; max-width:70%; margin:auto; display:block" (click)="annuler()">Annuler</ion-button>
     <ion-button *ngIf="roles=='Conducteur'" color='dark' style="border-radius: 5px; max-width:70%; margin:auto; display:block" (click)="supprimer()">Supprimer</ion-button>
-  
-
+  </div>
+<div *ngIf="test()==true">
+  <ion-button color='dark' style="border-radius: 5px; max-width:70%; margin:auto; display:block" (click)="showTrajet(trajet)">Noter</ion-button>
+</div>
 </ion-content>
