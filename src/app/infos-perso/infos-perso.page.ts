@@ -40,12 +40,10 @@ export class InfosPersoPage{
     nom: '',
     prenom: '',
     date_naiss: '',
-    adresse: '',
     ville: '',
     cp: '',
     sexe: '',
     tel: '',
-    classe: '',
     photo: '',
     id: '',
     bio: '',
@@ -203,7 +201,6 @@ async uploadFirebase() {
       if(this.user.prenom.trim()!=""){
         if(this.user.date_naiss.trim() >= this.minDate && this.user.date_naiss <= this.maxDate){
           if(this.user.ville.trim()!=""){
-            if(this.user.adresse.trim()!=""){
 
               // traitement code postal
 
@@ -211,7 +208,7 @@ async uploadFirebase() {
               if(this.user.cp.length == 5){
                 var reste = this.user.cp.substr(2,3)
                 if(this.parcoursString(reste)){
-                  if(this.user.adresse.trim()!=""){
+                  if(this.user.sexe.trim()!=""){
 
                     // traitement telephone
 
@@ -223,12 +220,10 @@ async uploadFirebase() {
                           nom: this.user.nom,
                           prenom: this.user.prenom,
                           date_naiss: this.user.date_naiss,
-                          adresse: this.user.adresse,
                           ville: this.user.ville,
                           cp: this.user.cp,
                           sexe: this.user.sexe,
                           tel: this.user.tel,
-                          classe: this.user.classe,
                           photo: this.image,
                           id: this.user.id,
                           bio: this.user.bio,
@@ -257,9 +252,7 @@ async uploadFirebase() {
               }else{
                 this.errorValue("Ce n'est pas la longueur d'un code postal ça ...")
               }
-            }else{
-              this.errorValue("Un doute sur ton adresse ?")
-            }
+            
           }else{
             this.errorValue("Tu as honte de ta ville ? Tu dois l'indiquer.")
           }
@@ -276,7 +269,7 @@ async uploadFirebase() {
   }
 
   ionViewWillLeave(){
-    if(this.user.nom=='' || this.user.prenom=='' || this.user.date_naiss=='' || this.user.ville=='' || this.user.adresse=='' || this.user.cp=='' || this.user.sexe=='' || this.user.tel==''){
+    if(this.user.nom=='' || this.user.prenom=='' || this.user.date_naiss=='' || this.user.ville=='' || this.user.cp=='' || this.user.sexe=='' || this.user.tel==''){
       this.errorValue("Tu n'as pas inscrit tes données.")
       this.router.navigateByUrl('/tabs/infos-perso');
     }
@@ -316,12 +309,6 @@ async uploadFirebase() {
     this.user.cp="";
     this.cp="";
     this.disabled=false;
-  }
-
-
-
-  suppAdresse(){
-    this.user.adresse="";
   }
 
   suppNom(){

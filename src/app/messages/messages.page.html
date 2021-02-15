@@ -12,7 +12,9 @@
 
   <ion-list>
     <ng-container *ngFor="let userShow of messagesView | async; let i=index" >
-    <ion-item detail (click)="goConvers(userShow[0])" *ngIf="userShow[0]!=userId">
+    
+    <ion-item-sliding>
+    <ion-item detail (click)="goConvers(userShow[0])" *ngIf="userShow[6]==userId">
       
         <ion-avatar slot="start" >
           <ng-container *ngFor="let userPhoto of photoView | async">
@@ -21,16 +23,18 @@
             </span>
           </ng-container>
         </ion-avatar>
-        <ion-label *ngIf="userShow[0]!=userId">
+        
+        <ion-label *ngIf="userShow[6]==userId">
+          
           <ion-label>{{userShow[1]}} {{userShow[2]}}</ion-label>
           
           
           <span>
-            <span *ngIf="userShow[5]==true && userShow[0]!=userId">
+            <span *ngIf="userShow[5]==true">
               <p><!-- <ion-icon class="text-icon" color="primary" name="checkmark"></ion-icon> -->{{userShow[4]}}</p>
             </span>
 
-            <span *ngIf="userShow[5]!=true && userShow[0]!=userId">
+            <span *ngIf="userShow[5]!=true">
               <p style="font-weight: bold;">{{userShow[4]}}</p>
             </span>
           </span>
@@ -39,6 +43,10 @@
           
         </ion-label>
     </ion-item>
+    <ion-item-options>
+      <button ion-button color="danger" style="background-color: red" (click)="delete(userShow[7])"><ion-icon style="width:30px; height:30px; color:white" name="trash-outline"></ion-icon></button>
+    </ion-item-options>
+  </ion-item-sliding>
   </ng-container>
   </ion-list>
 

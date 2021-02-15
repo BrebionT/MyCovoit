@@ -16,7 +16,7 @@ import {etapes} from '../models/etapes.model';
   styleUrls: ['./proposer.page.scss'],
 })
 export class ProposerPage implements OnInit{
-  trajet = {tra_lieuDepart:"", tra_lieuArrivee:""} as trajets;
+  trajet = {tra_lieuDepart:"", tra_lieuArrivee:"", tra_villeArrivee:"", tra_villeDepart:""} as trajets;
   utilisateurTrajet = {} as utilisateur_trajet;
   etape = {eta_ville:""} as etapes;
   messages: Observable<any[]>;
@@ -46,6 +46,7 @@ export class ProposerPage implements OnInit{
 
   Tra_lieuDepartBIS="";
   Tra_lieuArriveeBIS="";
+  
   listeEtapeBIS=[];
 
   liste_depart;
@@ -56,6 +57,8 @@ export class ProposerPage implements OnInit{
   public list = [{value:'listeEtape'}];;
  
   public listeEtape = [{value:''}];
+  Tra_villeDepart=""
+  Tra_villeArrivee=""
 
   constructor(
     public alertController: AlertController,
@@ -67,9 +70,9 @@ export class ProposerPage implements OnInit{
     private router: Router
   ) {
 
-    this.liste_depart=[{nom:''}]
-    this.liste_arrivee=[{nom:''}]
-    this.liste_etape=[{nom:''}]
+    this.liste_depart=[{name:'',city:''}]
+    this.liste_arrivee=[{name:'',city:''}]
+    this.liste_etape=[{name:'',city:''}]
 
 
     this.afAuth.authState.subscribe(auth => {
@@ -297,12 +300,13 @@ Remove(){
       if(this.Tra_lieuDepartBIS.trim()==""){
         this.Tra_lieuDepartBIS="";
       }
-      const apiUrl2 = 'https://geo.api.gouv.fr/communes?nom='
+      const apiUrl2 = 'https://api-adresse.data.gouv.fr/search/?q='
       const format = '&format=json';
       
       let Tra_lieuDepartBIS = event;
+      Tra_lieuDepartBIS.replace(/\s/g, '+')
       //let ville = this.user.ville;
-      let url2 = apiUrl2+Tra_lieuDepartBIS+'&limit=3'+format;
+      let url2 = apiUrl2+Tra_lieuDepartBIS+'&limit=3&type=street&autocomplete=1'+format;
     
     
         fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
@@ -311,17 +315,19 @@ Remove(){
           
           
         }).catch(err => {
-          this.liste_depart=[{nom:''}]
+          this.liste_depart=[{label:'', city:''}]
           //console.log(err);
         });
   }
   
   addVilleDepart(val){
-    this.trajet.tra_lieuDepart=val.nom;
-    this.Tra_lieuDepartBIS = val.nom;
+    this.trajet.tra_lieuDepart=val.name;
+    this.Tra_lieuDepartBIS = val.label;
+    this.trajet.tra_villeDepart = val.city
 
     this.trajet.tra_lieuArrivee="Lycée Jean Rostand";
     this.Tra_lieuArriveeBIS = "Lycée Jean Rostand";
+    this.trajet.tra_villeArrivee = "Caen"
     
     this.showvilleDepart=false;
     this.disabledDepart=true;
@@ -347,6 +353,9 @@ Remove(){
     this.Tra_lieuArriveeBIS = "";
   
     this.disabledArrivee=false;
+
+    this.Tra_villeDepart="";
+    this.Tra_villeArrivee="";
   }
   
   isDisabledDepart(){
@@ -364,12 +373,13 @@ Remove(){
     if(this.Tra_lieuArriveeBIS.trim()==""){
       this.Tra_lieuArriveeBIS="";
     }
-    const apiUrl2 = 'https://geo.api.gouv.fr/communes?nom='
+    const apiUrl2 = 'https://api-adresse.data.gouv.fr/search/?q='
     const format = '&format=json';
     
     let Tra_lieuArriveeBIS = event;
+    Tra_lieuArriveeBIS.replace(/\s/g, '+')
     //let ville = this.user.ville;
-    let url2 = apiUrl2+Tra_lieuArriveeBIS+'&limit=3'+format;
+    let url2 = apiUrl2+Tra_lieuArriveeBIS+'&limit=3&type=street&autocomplete=1'+format;
   
   
       fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
@@ -378,17 +388,19 @@ Remove(){
         
         
       }).catch(err => {
-        this.liste_arrivee=[{nom:''}]
+        this.liste_arrivee=[{label:'', city:''}]
         //console.log(err);
       });
 }
 
 addVilleArrivee(val){
-  this.trajet.tra_lieuArrivee=val.nom;
-  this.Tra_lieuArriveeBIS = val.nom;
+  this.trajet.tra_lieuArrivee=val.name;
+  this.Tra_lieuArriveeBIS = val.label;
+  this.trajet.tra_villeArrivee = val.city
 
   this.trajet.tra_lieuDepart="Lycée Jean Rostand";
   this.Tra_lieuDepartBIS = "Lycée Jean Rostand";
+  this.trajet.tra_villeDepart = "Caen"
   
   this.showvilleArrivee=false;
   this.disabledArrivee=true;
@@ -414,6 +426,9 @@ suppVilleArrivee(){
   this.Tra_lieuDepartBIS = "";
   
   this.disabledDepart=false;
+
+  this.Tra_villeDepart="";
+  this.Tra_villeArrivee="";
 }
 
 isDisabledArrivee(){
