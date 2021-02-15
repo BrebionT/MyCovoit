@@ -178,11 +178,6 @@ export class TrajetDetailPage implements OnInit {
                 date: date_envoie,
                 vu:false
               })
-              this.firestore.collection("messages_vu").doc(destId+userId).update({
-                message: message,
-                date: date_envoie,
-                vu:true
-              })
               
           } else {
               // doc.data() n'est pas défini
@@ -197,6 +192,24 @@ export class TrajetDetailPage implements OnInit {
                 archiveDest:false,
                 vu:false
               });
+          }
+      }).catch((error) => {
+          //console.log("Error getting document:", error);
+      });
+      
+      var docRef2 = db.collection("messages_vu").doc(destId+userId);
+
+      docRef2.ref.get().then((doc2) => {
+          if (doc2.exists) {
+              //console.log("Document data:", doc.data());
+              this.firestore.collection("messages_vu").doc(destId+userId).update({
+                message: message,
+                date: date_envoie,
+                vu:true
+              })
+              
+          } else {
+              
               db.collection("messages_vu").doc(destId+userId).set({
                 id: destId+userId,
                 utilisateur: destId,
@@ -210,7 +223,7 @@ export class TrajetDetailPage implements OnInit {
           }
       }).catch((error) => {
           //console.log("Error getting document:", error);
-      });      
+      });
     
   }
 

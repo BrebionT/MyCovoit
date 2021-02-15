@@ -3,6 +3,8 @@ export interface trajets {
     tra_heureDepart: string;
     tra_heureArrivee: string;
     tra_lieuDepart: string;
+    tra_villeArrivee: string;
+    tra_villeDepart: string;
     tra_lieuArrivee: string;
     tra_dateDepart: string;
     tra_nbPlaces: number;

@@ -38,16 +38,7 @@
         <ion-select-option value="autres">Autres</ion-select-option>
     </ion-select></div></ion-col>
     </ion-row>
-  
-    <ion-row>
-      <ion-col><label class="important">Adresse : </label></ion-col>
-      <ion-col size=7><div id="bordure">
-        <ion-input style="width:70%; display:inline-block;" [(ngModel)]="user.adresse" type="text" id="adresse" size=20 name="adresse"></ion-input>
-        <ion-icon (click)="suppAdresse()" *ngIf="user.adresse != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
-      </div>
-    </ion-col>
-    
-    </ion-row>
+
   
     <ion-row>
       <ion-col><label class="important">Ville : </label></ion-col>

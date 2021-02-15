@@ -12,26 +12,51 @@
 <ion-content *ngIf="trajet != undefined && utilisateur != undefined ">
   <h3 style="height:25px;margin:35px 0px 20px 25px; font-weight: bold;">{{trajet.tra_dateDepart}}</h3>
   <div position='relative'>
-    <ion-item lines="none">
-      <span class="important" style="width:15px">&nbsp;</span>
-      <p style="width:50px" class="force-black-font" > &nbsp; {{trajet.tra_heureDepart | date : 'HH:mm'}}</p>
-      <p class="force-black-font" >&nbsp; ➜ &nbsp;</p>
-      <p>{{trajet.tra_lieuDepart }}</p>
-    </ion-item>
-    
-    <ion-item lines="none">
-      <span class="important" style="width:15px">&nbsp;</span>
-      <p style="width:50px" class="force-black-font" > &nbsp; {{trajet.tra_heureArrivee | date : 'HH:mm'}}</p>
-      <p class="force-black-font" >&nbsp; ➜ &nbsp;</p>
-      <p >{{trajet.tra_lieuArrivee }}</p>
-    </ion-item>
+  <ion-list>
+    <ion-row>
+      <ion-col size=3>
+        <p style="margin-bottom: 0; text-align: right;" class="force-black-font" > <span style="font-size: 20px; font-weight: bold;">•</span>  {{trajet.tra_heureDepart | date : 'HH:mm'}} ➜ </p>
+      </ion-col>
+      <ion-col size=9>
+        <p style=" margin-bottom: 0;">{{trajet.tra_lieuDepart }}</p>
+      </ion-col>
+    </ion-row>
 
-    <svg height='65' width='65' style='z-index:1000; position:"absolute"; top:102px'>
-      
-      <line x1='25' y1='5' x2='25' y2='60' style='stroke:rgb(0,0,0);stroke-width:2' />
-      <circle cx='25' cy='5' r='2' stroke='black' stroke-width='4' fill='black' />
-      <circle cx='25' cy='60' r='2' stroke='black' stroke-width='4' fill='black' />
-   </svg>
+    <ion-row>
+      <ion-col size=3>
+        <p class="force-black-font" style="margin-top:0; font-weight: bold; font-size: larger; text-align: right;">	↳</p>
+      </ion-col>
+      <ion-col size=9>
+        <p style="margin-top:5px;"> ( {{trajet.tra_villeDepart }} )</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size=3>
+        <p style="margin-bottom: 0; text-align: right;" class="force-black-font" > <span style="font-size: 20px; font-weight: bold;">•</span>  {{trajet.tra_heureArrivee | date : 'HH:mm'}} ➜ </p>
+      </ion-col>
+      <ion-col size=9>
+        <p style=" margin-bottom: 0;">{{trajet.tra_lieuArrivee }}</p>
+      </ion-col>
+    </ion-row>
+    
+    <ion-row>
+      <ion-col size=3>
+        <p class="force-black-font" style="margin-top:0; font-weight: bold; font-size: larger; text-align: right;">	↳</p>
+      </ion-col>
+      <ion-col size=9>
+        <p style="margin-top:5px;"> ( {{trajet.tra_villeArrivee }} )</p>
+      </ion-col>
+    </ion-row>
+    
+  </ion-list>
+
+  <!-- <svg height='65' width='65' style='z-index:1000; position:"absolute"; top:102px'>
+    
+    <line x1='25' y1='5' x2='25' y2='60' style='stroke:rgb(0,0,0);stroke-width:2' />
+    <circle cx='25' cy='5' r='2' stroke='black' stroke-width='4' fill='black' />
+    <circle cx='25' cy='60' r='2' stroke='black' stroke-width='4' fill='black' />
+ </svg> -->
   </div>
 
   <div style="width:80%; margin: 15px 10%; border-bottom: lightgray 1px solid;"></div>

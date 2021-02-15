@@ -85,7 +85,7 @@ export class RechercherPage {
   test2;
   test3;
 
-  listeUser_Photo = []
+listeUser_Photo = []
 
 dataUser = {
   email: '',
@@ -94,7 +94,6 @@ dataUser = {
 beforesearch:boolean = true;
 
 connected: boolean;
-
 
   constructor(
     public loadingController: LoadingController,
@@ -179,7 +178,7 @@ getImagesStorage(traj, uti, liste_trajetdispo,nbplace) {
       console.log(nb)
       
     if(utiId!="deja"){
-      if(nb < nbplace){
+      if(nb <= nbplace){
       
         if(!liste.includes({trajet:traj, utilisateur:uti, photo:imgUrl})){
           liste.push({trajet:traj, utilisateur:uti, photo:imgUrl});
@@ -272,9 +271,9 @@ var that = this;
     //console.log(traj['tra_lieuDepart']+"///" + this.Tra_lieuDepart)
     //console.log(traj['tra_dateDepart'] +"///"+ this.Tra_dateDepart.slice(0,-19));
     //console.log(traj['tra_lieuArrivee']+ "///" + this.Tra_lieuArrivee );
-    if((doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart && doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
-    || (doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart && (doc2.data()['eta_ville'] == that.Tra_lieuArrivee && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
-    || (doc2.data()['eta_ville'] == that.Tra_lieuDepart && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19)
+    if(((doc.data()['tra_villeDepart'] == that.Tra_lieuDepart || doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart ) && (doc.data()['tra_villeArrivee'] == that.Tra_lieuArrivee || doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee) && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
+    || (doc.data()['tra_villeDepart'] == that.Tra_lieuDepart && (doc2.data()['eta_ville'] == that.Tra_lieuArrivee && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
+    || (doc2.data()['eta_ville'] == that.Tra_lieuDepart && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_villeArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19)
     || (doc2.data()['eta_ville'] == that.Tra_lieuDepart && doc3.data()['eta_ville'] == that.Tra_lieuArrivee  && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19) && doc3.data()['eta_idTra'] == doc2.data()['eta_idTra'] && doc3.data()['eta_idTra'] == doc.data()['tra_id'] && doc2.data()['eta_idTra'] == doc.data()['tra_id'])){
       var date = new Date(doc.data()['tra_dateDepart'])
       if(date >= new Date){
@@ -358,6 +357,7 @@ getVilleDepart(event){
 addVilleDepart(val){
   this.Tra_lieuDepart=val.nom;
   this.Tra_lieuDepartBIS = val.nom;
+  
   
   this.showvilleDepart=false;
   this.disabledDepart=true;
@@ -463,6 +463,8 @@ isDisabledArrivee(){
     return false;
   }
 }
+
+
 
 retour(){
   this.beforesearch=true;

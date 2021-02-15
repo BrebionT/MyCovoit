@@ -266,11 +266,7 @@ export class ConversationPage implements OnInit{
                 date: date_envoie,
                 vu:false
               })
-              this.firestore.collection("messages_vu").doc(this.destId+this.userId).update({
-                message: message,
-                date: date_envoie,
-                vu:true
-              })
+              
               
           } else {
               // doc.data() n'est pas défini
@@ -285,6 +281,25 @@ export class ConversationPage implements OnInit{
                 archiveDest:false,
                 vu:false
               });
+              
+          }
+      }).catch((error) => {
+          //console.log("Error getting document:", error);
+      });
+
+      var docRef2 = db.collection("messages_vu").doc(this.destId+this.userId);
+
+      docRef2.ref.get().then((doc2) => {
+          if (doc2.exists) {
+              
+              this.firestore.collection("messages_vu").doc(this.destId+this.userId).update({
+                message: message,
+                date: date_envoie,
+                vu:true
+              })
+              
+          } else {
+              
               db.collection("messages_vu").doc(this.destId+this.userId).set({
                 id: this.destId+this.userId,
                 utilisateur: this.destId,

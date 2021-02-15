@@ -108,15 +108,6 @@ export class MessagesPage implements OnInit{
     this.router.navigateByUrl('/tabs/conversation');
   }
 
-  trierMessage(messages){
-    var newMessageList = Array();
-
-    messages.sort(function(a,b){
-      return b[1]-a[1];
-    })
-    //console.log(messages);
-  }
-
   getUsers(userId){
 
     function getImagesStorage(that,image: any,id) {
@@ -147,7 +138,7 @@ export class MessagesPage implements OnInit{
     this.userList2 = [];
     this.liste_user = [];
         this.test.ref.where("destinataire", '==' , userId);
-        this.test.ref
+        this.test.ref.orderBy('date', "desc")
         .onSnapshot(function(querySnapshot) {
 
           
@@ -157,12 +148,13 @@ export class MessagesPage implements OnInit{
               //console.log('existe')
             //console.log(doc.data()['id'])
             var destTest = doc.data()['id'].slice(-28);
+            //console.log('destid : ',destTest)
             
 
             if(doc.data()['utilisateur'] != userId){
-              //console.log('est inclus : ',that.liste_user.includes(destTest))
-              if(!that.liste_user.includes(destTest)){
-                that.liste_user.push(destTest)
+              //console.log(destTest,'est inclus : ',that.liste_user.includes(destTest))
+              if(!that.liste_user.includes(doc.data()['utilisateur'])){
+                that.liste_user.push(doc.data()['utilisateur'])
                 
                 //console.log('dest : ',destTest)
                 var user;
@@ -173,25 +165,22 @@ export class MessagesPage implements OnInit{
                     //console.log('message : ',doc.data()['message'])
                     getImagesStorage(that,doc2.data()['photo'],doc2.data()['id'])
                     if(doc.data()['archive']== false && doc.data()['archiveDest']== false){
-                      that.userList2.push([doc.data()['utilisateur'],doc2.data()['prenom'],doc2.data()['nom'],doc.data()['date'],doc.data()['message'],doc.data()['vu']])
+                      that.userList2.push([doc.data()['utilisateur'],doc2.data()['prenom'],doc2.data()['nom'],doc.data()['date'],doc.data()['message'],doc.data()['vu'],doc.data()['destinataire'],doc.data()['id']])
                     }else if(doc.data['archive']== false && doc.data['archiveDest']== true){
-                      that.userList2.push([doc.data()['utilisateur'],doc2.data()['prenom'],doc2.data()['nom'],doc.data()['date'],"Vous ne souhaitez pas afficher ce message"],doc.data()['vu'])
+                      that.userList2.push([doc.data()['utilisateur'],doc2.data()['prenom'],doc2.data()['nom'],doc.data()['date'],"Vous ne souhaitez pas afficher ce message",doc.data()['vu'],doc.data()['destinataire'],doc.data()['id']])
                     }else if(doc.data['archive']== true){
-                      that.userList2.push([doc.data()['utilisateur'],doc2.data()['prenom'],doc2.data()['nom'],doc.data()['date'],"Ce message a été supprimé"],doc.data()['vu'])
+                      that.userList2.push([doc.data()['utilisateur'],doc2.data()['prenom'],doc2.data()['nom'],doc.data()['date'],"Ce message a été supprimé",doc.data()['vu'],doc.data()['destinataire'],doc.data()['id']])
                     }
                 
               } else {
                   //console.log("Document non trouvé!");
               }
-          
-                 
-                  
-
                 })
               }
             }
           }
           })
+          //that.userList2.reverse()
           that.messagesView = of(that.userList2) ;
           that.photoView = of(that.photoList);
         })
@@ -343,6 +332,16 @@ export class MessagesPage implements OnInit{
       return true;
     
   }
+
+  delete(id){
+    //console.log(id)
+    this.firestore.collection("messages_vu").doc(id).delete().then(() => {
+      console.log("Message_vu supprimé");
+    }).catch((error) => {
+        console.error("Erreur : ", error);
+    });
+  }
+  
   
 
 }

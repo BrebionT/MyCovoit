@@ -20,7 +20,6 @@ export class ModifProfilPage {
     nom: '',
     prenom: '',
     date_naiss: '',
-    adresse: '',
     ville: '',
     cp: '',
     sexe: '',
@@ -147,7 +146,6 @@ export class ModifProfilPage {
             nom: doc.data()['nom'],
             prenom: doc.data()['prenom'],
             date_naiss: doc.data()['date_naiss'],
-            adresse: doc.data()['adresse'],
             ville: doc.data()['ville'],
             cp: doc.data()['cp'],
             sexe: doc.data()['sexe'],
@@ -183,7 +181,6 @@ export class ModifProfilPage {
       if(this.user.prenom.trim()!=""){
         if(this.user.date_naiss.trim() >= this.minDate && this.user.date_naiss <= this.maxDate){
           if(this.user.ville.trim()!=""){
-            if(this.user.adresse.trim()!=""){
 
               // traitement code postal
 
@@ -201,7 +198,6 @@ export class ModifProfilPage {
                         nom: this.user.nom,
                         prenom: this.user.prenom,
                         date_naiss: this.user.date_naiss,
-                        adresse: this.user.adresse,
                         ville: this.user.ville,
                         cp: this.user.cp,
                         sexe: this.user.sexe,
@@ -218,7 +214,7 @@ export class ModifProfilPage {
                   }
                 }
               }
-            }
+            
           }
         }
       }
@@ -296,12 +292,6 @@ export class ModifProfilPage {
     this.user.cp="";
     this.cp="";
     this.disabled=false;
-  }
-
-
-
-  suppAdresse(){
-    this.user.adresse="";
   }
 
   suppNom(){
