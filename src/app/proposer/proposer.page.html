@@ -27,7 +27,7 @@
         <div style="width:100%">
             <h4><ion-label color="dark" position="floating">D'où partez-vous ? :</ion-label></h4>
             <ion-input readonly="{{isDisabledDepart()}}" style="width:90%; display:inline-block;" (ngModelChange)="getVilleDepart($event)" (ionFocus)="showVilleDepart(true)"id="test" placeholder="Ville de départ" [(ngModel)]="Tra_lieuDepartBIS" type="string" ></ion-input>
-            <ion-icon (click)="suppVilleDepart()" *ngIf="Tra_lieuDepartBIS != []" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+            <ion-icon (click)="suppVilleDepart()" *ngIf="Tra_lieuDepartBIS.length>0" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
             <div *ngIf="liste_depart.features != undefined && showvilleDepart==true && Tra_lieuDepartBIS.length>=3">
               <ion-list>
                 <ion-item (click)="addVilleDepart(liste_depart.features[0].properties)" *ngIf="liste_depart.features[0] != undefined">{{liste_depart.features[0].properties.label}}</ion-item>
@@ -41,7 +41,7 @@
         <div> 
             <h4><ion-label color="dark" position="floating">Où allez-vous ? :</ion-label></h4>
             <ion-input readonly="{{isDisabledArrivee()}}" style="width:80%; display:inline-block;" (ngModelChange)="getVilleArrivee($event)" (ionFocus)="showVilleArrivee(true)"id="test" placeholder="Ville d'arrivée" [(ngModel)]="Tra_lieuArriveeBIS" type="string" ></ion-input>
-            <ion-icon (click)="suppVilleArrivee()" *ngIf="Tra_lieuArriveeBIS != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+            <ion-icon (click)="suppVilleArrivee()" *ngIf="Tra_lieuArriveeBIS.length>0" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
             <div *ngIf="liste_arrivee.features != undefined && showvilleArrivee==true && Tra_lieuArriveeBIS.length>=3">
               <ion-list>
                 <ion-item (click)="addVilleArrivee(liste_arrivee.features[0].properties)" *ngIf="liste_arrivee.features[0] != undefined">{{liste_arrivee.features[0].properties.label}}</ion-item>
@@ -71,7 +71,7 @@
     <ion-item *ngFor="let att of anArray; let idx = index">
       <ion-label>Étape {{idx+1}} :</ion-label>
       <ion-input readonly="{{disabledEtape[idx].value}}" style="width:80%; display:inline-block;" (ngModelChange)="getVilleEtape($event,idx)" (ionFocus)="showVilleEtape(true,idx)"id="test" placeholder="Etape" [(ngModel)]="listeEtapeBIS[idx].value" type="string" ></ion-input>
-      <ion-icon (click)="suppVilleEtape(idx)" *ngIf="listeEtapeBIS != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+      <ion-icon (click)="suppVilleEtape(idx)" *ngIf="listeEtapeBIS.length>0" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
       <div *ngIf="liste_etape[idx].length>0 && showvilleEtape[idx]==true && listeEtapeBIS[idx].value.length>=3">
        
         <ion-list>

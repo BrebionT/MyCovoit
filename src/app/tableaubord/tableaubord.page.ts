@@ -23,7 +23,7 @@ export class TableaubordPage implements OnInit{
   trajets: Observable<any[]>;
   uti_tra: Observable<any[]>;
 
-  utilisateur: Observable<any[]>;
+  utilisateur: {prenom:String,nom:String,sexe:String,ville:String,cp:String,mail:String,tel:String,bio:String,photo:String,parle:boolean,musique:boolean,cigarette:boolean,animal:boolean};
 
 
   public trajet_a_venir : [] = [];
