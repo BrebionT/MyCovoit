@@ -18,6 +18,10 @@ import {etapes} from '../models/etapes.model';
 export class ProposerPage implements OnInit{
   trajet = {tra_lieuDepart:"", tra_lieuArrivee:"", tra_villeArrivee:"", tra_villeDepart:""} as trajets;
   utilisateurTrajet = {} as utilisateur_trajet;
+
+  date_naiss;
+  age;
+
   etape = {eta_ville:""} as etapes;
   messages: Observable<any[]>;
   users: Observable<any[]>;
@@ -82,8 +86,9 @@ export class ProposerPage implements OnInit{
       } else {
         this.userId = auth.uid;
         this.connected = true;
-        this.users = this.firestore.collection("utilisateurs").valueChanges();
-        this.users = this.firestore.collection("etapes").valueChanges();
+        //this.users = this.firestore.collection("utilisateurs").valueChanges();
+        //this.users = this.firestore.collection("etapes").valueChanges();
+        this.getUserAge()
         this.id = new Date().toISOString();
         
       }});
@@ -108,6 +113,30 @@ heure(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
       else{
         this.date(utilisateurTrajet,trajet);
       }
+}
+
+getUserAge(){
+  var that = this;
+  this.firestore.collection("utilisateurs").get().toPromise().then((snapshot)=>{
+    snapshot.docs.forEach(doc =>{
+      if(doc.data()['id']==that.userId){
+        that.date_naiss = doc.data()['date_naiss']
+        that.detectermineur()
+      }
+    })
+  })
+}
+
+detectermineur(){
+  var that = this;
+  var today = new Date();
+        var birthDate = new Date(that.date_naiss);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age = age - 1;
+        }
+        that.age = age;
 }
 
   date(utilisateurTrajet: utilisateur_trajet,trajet: trajets){
@@ -499,6 +528,10 @@ if(this.etape.eta_ville!=""){
   this.disabledEtape[idx].value=false;
   return false;
 }
+}
+
+ionViewWillEnter(){
+  this.getUserAge()
 }
 
 }

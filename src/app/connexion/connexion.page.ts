@@ -45,7 +45,7 @@ public charge: boolean = false;
     public afDB: AngularFireDatabase,
     public firestore: AngularFirestore,
     public platform: Platform,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
   ) {
     
     }
@@ -82,14 +82,33 @@ public charge: boolean = false;
   
 
   
-  login() {
+  async login() {
     var route = this.router;
+    var that = this;
+
     this.afAuth.signInWithEmailAndPassword(this.dataUser.email, this.dataUser.password)
     .then(auth => {
       //console.log('utilisateur connecté');
       this.connected=true;
 
-      this.platform.ready().then(()=>{        //Creation d'une plateforme d'attente pour la connexion
+      async function presentLoading(){
+        const loadingElement = await that.loadingController.create({
+          message:"🚗 En route..."
+        })
+        loadingElement.dismiss();
+        await loadingElement.present();
+        setTimeout(() => {
+          loadingElement.dismiss();
+          route.navigateByUrl('/tabs/tableaubord',{
+            replaceUrl : true
+           });
+        }, 1000);
+      }
+
+      
+      presentLoading()
+
+      /* this.platform.ready().then(()=>{        //Creation d'une plateforme d'attente pour la connexion
         this.loadingController.create({
           message:"🚗 En route..."
         }).then((loadingElement)=>{
@@ -102,7 +121,7 @@ public charge: boolean = false;
              });
           },1000)
         })  
-      })
+      }) */
     })
     .catch(err => {
       //console.log('Erreur: ' + err);

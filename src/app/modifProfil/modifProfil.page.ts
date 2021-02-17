@@ -32,6 +32,8 @@ export class ModifProfilPage {
     parle:true
   };
 
+  age; // va permettre de savoir si l'utilisateur est majeur ou mineur
+
   image = '';
   imagePath:string;
   upload: any;
@@ -132,6 +134,18 @@ export class ModifProfilPage {
     };
     return await this.camera.getPicture(options);
     
+  }
+
+  detectermineur(){
+    var that = this;
+    var today = new Date();
+          var birthDate = new Date(that.user.date_naiss);
+          var age = today.getFullYear() - birthDate.getFullYear();
+          var m = today.getMonth() - birthDate.getMonth();
+          if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+              age = age - 1;
+          }
+          that.age = age;
   }
 
   

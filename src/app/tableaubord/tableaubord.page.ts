@@ -51,6 +51,7 @@ export class TableaubordPage implements OnInit{
   ionViewWillEnter(){
     //console.log("enter")
     //this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
+    console.log('entrer tableaubord')
     this.liste_dates = [];
     this.trajet_a_venir = [];
     this.utilisateurs=null;
@@ -69,7 +70,7 @@ export class TableaubordPage implements OnInit{
   }
 
   ionViewWillLeave(){
-    //console.log("quitter")
+    console.log("quitter tableaubord")
     this.liste_dates = [];
     this.trajet_a_venir = [];
     this.utilisateurs=null;

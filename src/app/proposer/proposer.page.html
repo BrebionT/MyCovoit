@@ -6,7 +6,7 @@
   </ion-toolbar>
 
 </ion-header>
-<ion-content>
+<ion-content *ngIf="age>=18">
   <ion-card class="bg-white" no-margin>
     <ion-card-content>
       <h1 margin-bottom>
@@ -122,4 +122,7 @@
     </ion-list>
   </ion-card>
   <center><ion-button id="bouton" (click)="formValidation(utilisateurTrajet,trajet)">Proposer</ion-button></center>
+</ion-content>
+<ion-content *ngIf="age<18">
+  <center><p>Vous ne pouvez pas proposer un trajet si vous êtes mineur.</p></center>
 </ion-content>

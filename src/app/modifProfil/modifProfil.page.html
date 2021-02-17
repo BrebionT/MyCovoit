@@ -40,7 +40,7 @@
 
   <ion-row>
     <ion-col><label class="important">Naissance : </label></ion-col>
-    <ion-col size=7><div id="bordure" style="height:100%"><ion-input [(ngModel)]="user.date_naiss" style="float: left;" size=20 type="date" id="date_naiss" name="date_naiss" [value]=item.date_naiss [min]=minDate [max]=maxDate required></ion-input></div></ion-col>
+    <ion-col size=7><div id="bordure" style="height:100%"><ion-input (ngModelChange)="detectermineur()" [(ngModel)]="user.date_naiss" style="float: left;" size=20 type="date" id="date_naiss" name="date_naiss" [value]=item.date_naiss [min]=minDate [max]=maxDate required></ion-input></div></ion-col>
   </ion-row>
 
   <ion-row>
