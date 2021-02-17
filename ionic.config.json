@@ -1,5 +1,5 @@
 {
-  "name": "myApp",
+  "name": "MyCovoit",
   "integrations": {
     "capacitor": {
       "enabled": false
