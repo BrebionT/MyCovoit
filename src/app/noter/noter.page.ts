@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { TrajetDetailPage } from '../trajet-detail/trajet-detail.page';
 
 
 @Component({
@@ -18,11 +19,12 @@ export class NoterPage {
   connected= true;
   public userId;
   public destId;
+  public traid;
 
   utilisateurs: Observable<any[]>;
   utilisateur: Observable<any[]>;
   public images = "";
-
+  trajet: Observable<any[]>;
 
   public value = 0;
   public commentaire = "";
@@ -36,7 +38,7 @@ export class NoterPage {
     public afSG: AngularFireStorage,
     public toastController: ToastController
   ) {
-
+    
     this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
     this.getUtilisateur();
 
@@ -48,6 +50,8 @@ export class NoterPage {
         this.userId = auth.uid;
         this.connected = true;
         this.destId = this.router.url.slice(-28);
+        this.traid = this.router.url.slice(-52,-28)
+        console.log(this.router.url.slice(-52,-28))
       }
    })
   }
@@ -101,6 +105,7 @@ export class NoterPage {
           date: new Date().getTime(),
           note: this.value,
           commentaire: this.commentaire,
+          idTra:this.traid,
           
         });
         this.commentaire="";

@@ -47,7 +47,8 @@ export class InfosPersoPage{
     photo: '',
     id: '',
     bio: '',
-    mail: ''
+    mail: '',
+    voiture:'',
   };
 
   public disabled=false;
@@ -228,11 +229,14 @@ async uploadFirebase() {
                           id: this.user.id,
                           bio: this.user.bio,
                           mail: this.user.mail,
+                          
 
                           animal:this.animal,
                           cigarette:this.cigarette,
                           musique:this.musique,
-                          parle:this.parle
+                          parle:this.parle,
+
+                          voiture: this.user.voiture
                           
                         });
                         this.uploadFirebase()

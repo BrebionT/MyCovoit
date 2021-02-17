@@ -49,6 +49,8 @@ export class TrajetDetailPage implements OnInit {
 
   dateTrajet;
 
+  buttonAvis = true;
+
   
 
   constructor(
@@ -68,6 +70,7 @@ export class TrajetDetailPage implements OnInit {
     this.afAuth.authState.subscribe(auth => {
       if (auth) {
         this.userid = auth.uid;
+        console.log('user : ',this.userid)
       }
     })
     //console.log(this.trajet)
@@ -109,6 +112,7 @@ export class TrajetDetailPage implements OnInit {
       uti.forEach(value => {
         if(value['tra_id']==that.userid){
           that.utilisateur = value;
+          
         }
       })
     });
@@ -196,6 +200,11 @@ export class TrajetDetailPage implements OnInit {
                                 that.avisValue=0;
                                 that.avisTotal=0;
                                 snapshot4.docs.forEach(doc4=>{
+                                  if(doc4.data()['idTra']==that.trajet_id && doc4.data()['utilisateur']==that.userid){
+                                    
+                                    that.buttonAvis = false;
+                                  }
+
                                   if(doc4.data()['destinataire']==that.uti_trajet){
                                     console.log('avis +1')
                                     that.nbAvis+=1;
@@ -260,7 +269,8 @@ export class TrajetDetailPage implements OnInit {
             handler: data => {
               //console.log(data);
               if(data!=undefined){
-                const path = '/noter#'+data;
+                console.log(trajet.tra_id.length)
+                const path = '/noter#'+trajet.tra_id+data;
                 this.router.navigateByUrl(path);
               }
               
@@ -446,11 +456,13 @@ export class TrajetDetailPage implements OnInit {
   }
 
   test(){
-    console.log(new Date(this.dateTrajet))
-    console.log(this.today)
+    
+    //console.log(new Date(this.dateTrajet))
+    //console.log(this.today)
     if(new Date(this.dateTrajet) < this.today){
         return true;
     }
+    
     return false;
   }
 
