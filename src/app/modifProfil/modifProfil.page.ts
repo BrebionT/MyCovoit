@@ -26,6 +26,7 @@ export class ModifProfilPage {
     tel: '',
     bio: '',
     photo: '',
+    voiture:'',
     animal:true,
     cigarette:true,
     musique:true,
@@ -41,7 +42,7 @@ export class ModifProfilPage {
   public userid;
   public useriddata;
   public connected: boolean = false;
-  utilisateur: {prenom:"",nom:"",sexe:"",photo:"",bio:"",mail:"",cp:"",date_naiss:"",parle:true,musique:true,cigarette:true,animal:true};
+  utilisateur: {prenom:"",nom:"",sexe:"",photo:"",bio:"",mail:"",cp:"",date_naiss:"",voiture:"",parle:true,musique:true,cigarette:true,animal:true};
 
   minDate: String;
   maxDate: String;
@@ -155,7 +156,8 @@ export class ModifProfilPage {
             animal: doc.data()['animal'],
             cigarette: doc.data()['cigarette'],
             musique: doc.data()['musique'],
-            parle: doc.data()['parle']
+            parle: doc.data()['parle'],
+            voiture: doc.data()['voiture']
 
           };
         }
@@ -207,7 +209,8 @@ export class ModifProfilPage {
                         animal: this.user.animal,
                         cigarette: this.user.cigarette,
                         musique: this.user.musique,
-                        parle: this.user.parle
+                        parle: this.user.parle,
+                        voiture: this.user.voiture
                       })
                       this.router.navigateByUrl('/tabs/profil');
                     }

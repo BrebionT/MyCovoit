@@ -65,7 +65,7 @@ export class ProfilPage implements OnInit {
           that.utilisateur = value;
           //console.log(value)
           that.getImagesStorage(value['photo'])
-
+          
           var today = new Date();
           var birthDate = new Date(that.utilisateur["date_naiss"]);
           var age = today.getFullYear() - birthDate.getFullYear();

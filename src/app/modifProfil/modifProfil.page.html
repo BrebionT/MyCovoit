@@ -100,6 +100,13 @@
     <ion-col size=7><div id="bordure"><ion-input [(ngModel)]="user.tel" type="text" id="tel" size=20 name="tel" [value]=item.tel maxlength="10" required></ion-input></div></ion-col>
   </ion-row>
   <ion-row>
+    <ion-col><label class="important">Véhicule : </label></ion-col>
+    <ion-col size=7><div id="bordure" style="width:100%">
+      <ion-input style="width:50%; display:inline-block;" [(ngModel)]="user.voiture" type="text" id="voiture" name="voiture" [value]=item.voiture size=20 required></ion-input>
+      <ion-icon (click)="suppVoiture()" *ngIf="user.voiture != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+    </div></ion-col>
+  </ion-row>
+  <ion-row>
     <ion-col><label class="important" style="display:block; width:100%; margin-left: -10px; text-align: center;">Bio : </label></ion-col>
   </ion-row>
   <ion-row>
