@@ -49,6 +49,8 @@ export class RechercherPage {
   public trajet_a_venir2 : []= [];
   liste_dates = [];
   liste_trajetdispo = [];
+  liste_trajetdispo_id = [];
+
 
   public images = "";
   
@@ -180,7 +182,11 @@ getImagesStorage(traj, uti, liste_trajetdispo,nbplace) {
     if(utiId!="deja"){
       if(nb <= nbplace){
       
-        if(!liste.includes({trajet:traj, utilisateur:uti, photo:imgUrl})){
+        console.log(that.liste_trajetdispo_id)
+        var inclus = that.liste_trajetdispo_id.includes(traj['tra_id'])
+        console.log(inclus)
+        if(inclus==false){
+          that.liste_trajetdispo_id.push(traj['tra_id'])
           liste.push({trajet:traj, utilisateur:uti, photo:imgUrl});
           that.trajettrouve = true;
         }
@@ -239,6 +245,8 @@ async showHideAutoLoader() {
 recherche(){
   
 this.liste_trajetdispo = [];
+this.liste_trajetdispo_id = [];
+
 this.beforesearch=true;
 this.trajettrouve=false;
 var liste = this.liste_trajetdispo;
@@ -475,6 +483,8 @@ suppValue(){
   this.suppVilleArrivee();
   this.Tra_dateDepart="";
   this.liste_trajetdispo=[];
+  this.liste_trajetdispo_id = [];
+
   this.beforesearch=true;
 }
 

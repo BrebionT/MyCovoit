@@ -40,7 +40,7 @@
 
   <ion-row>
     <ion-col><label class="important">Naissance : </label></ion-col>
-    <ion-col size=7><div id="bordure" style="height:100%"><ion-input (ngModelChange)="detectermineur()" [(ngModel)]="user.date_naiss" style="float: left;" size=20 type="date" id="date_naiss" name="date_naiss" [value]=item.date_naiss [min]=minDate [max]=maxDate required></ion-input></div></ion-col>
+    <ion-col size=7><div id="bordure" style="height:100%"><ion-input (ngModelChange)="detectermineur($event)" [(ngModel)]="user.date_naiss" style="float: left;" size=20 type="date" id="date_naiss" name="date_naiss" [value]=item.date_naiss [min]=minDate [max]=maxDate required></ion-input></div></ion-col>
   </ion-row>
 
   <ion-row>
@@ -99,11 +99,11 @@
     <ion-col><label class="important">Téléphone : </label></ion-col>
     <ion-col size=7><div id="bordure"><ion-input [(ngModel)]="user.tel" type="text" id="tel" size=20 name="tel" [value]=item.tel maxlength="10" required></ion-input></div></ion-col>
   </ion-row>
-  <ion-row>
+  <ion-row *ngIf="age>=18 && age <100">
     <ion-col><label class="important">Véhicule : </label></ion-col>
     <ion-col size=7><div id="bordure" style="width:100%">
       <ion-input style="width:50%; display:inline-block;" [(ngModel)]="user.voiture" type="text" id="voiture" name="voiture" [value]=item.voiture size=20 required></ion-input>
-      <ion-icon (click)="suppVoiture()" *ngIf="user.voiture != ''" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
+      <ion-icon (click)="suppVoiture()" *ngIf="user.voiture != '' && user.voiture != undefined" style="width: 25px;height: 25px;float: right;display: block;margin-top: 7px;" name="close"></ion-icon>
     </div></ion-col>
   </ion-row>
   <ion-row>

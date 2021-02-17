@@ -29,6 +29,7 @@ export class TableaubordPage implements OnInit{
   public trajet_a_venir : [] = [];
   public trajet_a_venir2 : []= [];
   liste_dates = [];
+  liste_dates_id = [];
   
   public connected: boolean = false;
 
@@ -65,6 +66,7 @@ export class TableaubordPage implements OnInit{
     
     this.liste_dates = [];
     this.trajet_a_venir = [];
+    this.liste_dates_id = [];
     this.getTrajet();
     
   }
@@ -76,6 +78,7 @@ export class TableaubordPage implements OnInit{
     this.utilisateurs=null;
     this.trajets=null;
     this.uti_tra=null;
+    this.liste_dates_id = [];
 
   }
 
@@ -83,6 +86,7 @@ export class TableaubordPage implements OnInit{
   getAuth(){
     this.trajet_a_venir = [];
     this.liste_dates = [];
+    this.liste_dates_id = [];
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
         this.connected=false;
@@ -135,6 +139,7 @@ export class TableaubordPage implements OnInit{
   ngOnDestroy(){
     //console.log("detruit");
     this.liste_dates=[];
+    this.liste_dates_id = [];
     this.trajet_a_venir = [];
     this.trajetprevus=false;
   }
@@ -145,6 +150,7 @@ export class TableaubordPage implements OnInit{
     
     this.trajet_a_venir = [];
     this.liste_dates = [];
+    this.liste_dates_id = [];
   
     if(this.uti_tra != null){
       this.uti_tra.subscribe(uti =>{
@@ -162,10 +168,17 @@ export class TableaubordPage implements OnInit{
                     if(newDate>=this.today){
                       that.trajetprevus=true;
                      // this.trajet_a_venir.push([value2, value3]);
-                      this.liste_dates.push({date:newDate, trajet:value3, role:value2['uti_tra_role']});
-                      this.liste_dates.sort(function(a,b){
-                        return a.date - b.date;
-                      });
+                      console.log(this.liste_dates_id)
+                      var inclus = this.liste_dates_id.includes(value3['tra_id'])
+                      console.log(inclus)
+                      if(inclus==false){
+                        this.liste_dates_id.push(value3['tra_id']);
+                        this.liste_dates.push({date:newDate, trajet:value3, role:value2['uti_tra_role']});
+                        this.liste_dates.sort(function(a,b){
+                          return a.date - b.date;
+                        });
+                      }
+                      
                       //console.log(this.liste_dates)
                     }
                   }

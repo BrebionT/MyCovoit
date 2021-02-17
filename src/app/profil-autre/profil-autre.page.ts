@@ -30,7 +30,7 @@ export class ProfilAutrePage implements OnInit {
   public nbAvis =0;
   public avisTotal;
   public connected: boolean = false;
-  utilisateur: {prenom:String,nom:String,sexe:String,ville:String,cp:String,mail:String,tel:String,bio:String,photo:String,parle:boolean,musique:boolean,cigarette:boolean,animal:boolean};
+  utilisateur: {prenom:String,nom:String,sexe:String,voiture:String,ville:String,cp:String,mail:String,tel:String,bio:String,photo:String,parle:boolean,musique:boolean,cigarette:boolean,animal:boolean};
   age;
   constructor(public firestore: AngularFirestore,
     public afAuth: AngularFireAuth,

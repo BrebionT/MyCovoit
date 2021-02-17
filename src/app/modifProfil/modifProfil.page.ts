@@ -137,7 +137,10 @@ export class ModifProfilPage {
     
   }
 
-  detectermineur(){
+  detectermineur(value){
+    var that = this
+    that.user.date_naiss = value
+    that.age = 0
     var that = this;
     var today = new Date();
           var birthDate = new Date(that.user.date_naiss);
@@ -174,6 +177,7 @@ export class ModifProfilPage {
             voiture: doc.data()['voiture']
 
           };
+          that.detectermineur(doc.data()['date_naiss'])
         }
       })
     })
@@ -331,6 +335,10 @@ export class ModifProfilPage {
       this.showvillebycp=val;
     }
     
+  }
+
+  suppVoiture(){
+    this.user.voiture="";
   }
 
   getVille(){
