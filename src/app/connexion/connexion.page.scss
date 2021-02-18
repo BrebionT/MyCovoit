@@ -29,3 +29,7 @@ margin-top: 20%;
 .champ{
     margin-right:5%;
 }
+
+.native-input.sc-ion-input-md:-webkit-autofill {
+    background-color: transparent;
+}
