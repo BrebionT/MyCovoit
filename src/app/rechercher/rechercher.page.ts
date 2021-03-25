@@ -1,17 +1,9 @@
 import { Component, OnInit  } from '@angular/core';
-
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 import { ToastController } from '@ionic/angular';
-
 import { AngularFireDatabase } from '@angular/fire/database';
-
 import {AngularFirestore} from '@angular/fire/firestore';
-
 import { AngularFireAuth } from '@angular/fire/auth';
-
 import { Router } from '@angular/router';
-
 import { Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { LoadingController } from '@ionic/angular';
@@ -26,51 +18,45 @@ import { LoadingController } from '@ionic/angular';
 
 
 export class RechercherPage {
+
+  // id
   public userid;
-  public destId;
 
-  public destView = {
-    nom: '',
-    prenom: ''
-  };
 
-  lieudepartRemplacé: string;
-
+  // Date pour recherche
   today;
-
   datemax;
 
-  
+  // Variable pour afficher
   utilisateurs: Observable<any[]>;
   trajets: Observable<any[]>;
   etapes: Observable<any[]>;
   uti_tras: Observable<any[]>;
-  public trajet_a_venir : [] = [];
-  public trajet_a_venir2 : []= [];
-  liste_dates = [];
+
+  // Liste qui servira à afficher les trajets 
   liste_trajetdispo = [];
   liste_trajetdispo_id = [];
-
-
-  public images = "";
   
-  public trajetprevus :boolean = false;
-
   public trajettrouve : boolean = false;
 
+  // Déclaration des variables pour les boucles
   public etape;
   public trajet;
   public uti_tra;
   public uti;
 
+  //Variable pour afficher les villes, bloquer la saisie
   showvilleDepart=false;
   disabledDepart;
 
   showvilleArrivee=false;
   disabledArrivee;
 
+  // Double variables : variable de saisie du champ ET une variable de sécurité après avoir choisi le lieu ( si une personne modifie)
   Tra_lieuDepart="";
   Tra_lieuDepartBIS="";
+
+  //Liste des lieux que l'API proposera
   liste_depart;
 
   Tra_lieuArrivee="";
@@ -79,23 +65,16 @@ export class RechercherPage {
 
   Tra_dateDepart: string;
 
-  Tra_heureDepart: string;
+  // Variable pour de futur collection BDD
+  traj;
+  etape1;
+  etape2;
 
-  //tra_nbPassager: string;
+  
+  listeUser_Photo = []
 
-  test;
-  test2;
-  test3;
+  beforesearch:boolean = true;
 
-listeUser_Photo = []
-
-dataUser = {
-  email: '',
-  password: ''
-};
-beforesearch:boolean = true;
-
-connected: boolean;
 
   constructor(
     public loadingController: LoadingController,
@@ -106,15 +85,13 @@ connected: boolean;
     public firestore: AngularFirestore,
     public afSG: AngularFireStorage
   ) {
-    
-    this.trajet = firestore.collection('trajets').valueChanges();
-    this.uti_tras = firestore.collection('utilisateur_trajet').valueChanges();
-    this.utilisateurs = firestore.collection('utilisateurs').valueChanges();
-    this.etape = firestore.collection('etapes').valueChanges();
 
+    // Liste que l'API nous proposera
     this.liste_depart=[{nom:''}]
     this.liste_arrivee=[{nom:''}]
 
+
+    // Date pour les recherches ( de aujourd'hui à l'année prochaine max )
     this.today = new Date();
     this.today = this.formatDate(this.today)
 
@@ -122,21 +99,18 @@ connected: boolean;
     this.datemax.setDate(this.datemax.getDate()+360);
     this.datemax = this.formatDate(this.datemax)
 
-    //this.getListUsers()
-
+    // Est-ce qu'on est connecté ?
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
-        //console.log('non connecté');
-        this.connected = false;
+        this.router.navigateByUrl('/connexion');
       } else {
         this.userid = auth.uid;
-        //console.log('connecté: ' + auth.uid);
-        this.connected = true;
       }
     });
 
 }
 
+//Fonction pour avoir le format yyyy-mm-dd
 formatDate(date) {
   var d = new Date(date),
       month = '' + (d.getMonth() + 1),
@@ -151,66 +125,46 @@ formatDate(date) {
   return [year, month, day].join('-');
 }
 
+// Fonction avec plusieurs fonctionnalités 
 getImagesStorage(traj, uti, liste_trajetdispo,nbplace) {
   var that = this;
   var liste = liste_trajetdispo
   var nb = 0;
-  
+
+  // On va récupérer la photo de l'utilisateur
   var img = uti['photo'];
-  console.log('liste trajet : ',liste,liste.length )
+  //console.log('liste trajet : ',liste,liste.length )
   this.afSG.ref('users/'+img).getDownloadURL().subscribe(imgUrl => {
     
-     var test = that.firestore.collection("utilisateur_trajet");
-
-    console.log(traj['tra_id'])
+    var uti_tra = that.firestore.collection("utilisateur_trajet");
     var utiId="";
-  
-   
-    test.ref.where("uti_tra_idTra","==",traj['tra_id']).onSnapshot(function(trajettt){
+
+    //On va compter combien de personne on réservait
+    uti_tra.ref.where("uti_tra_idTra","==",traj['tra_id']).onSnapshot(function(trajettt){
       trajettt.forEach(function(untrajet){
-        console.log('//////////////////////')
         nb = nb + 1;
-        console.log('nb : ',nb)
-        console.log(untrajet.data()['uti_tra_idUti'],"///",that.userid)
-        if(untrajet.data()['uti_tra_idUti']==that.userid){
-          console.log("passage")
+        if(untrajet.data()['uti_tra_idUti']==that.userid){ // Est-ce que j'ai déjà réservé ?
           utiId="deja"
         }
       })
-      console.log(nb)
       
-    if(utiId!="deja"){
-      if(nb <= nbplace){
-      
-        console.log(that.liste_trajetdispo_id)
-        var inclus = that.liste_trajetdispo_id.includes(traj['tra_id'])
-        console.log(inclus)
-        if(inclus==false){
-          that.liste_trajetdispo_id.push(traj['tra_id'])
-          liste.push({trajet:traj, utilisateur:uti, photo:imgUrl});
-          that.trajettrouve = true;
+      if(utiId!="deja"){
+        if(nb <= nbplace){
+        
+          var inclus = that.liste_trajetdispo_id.includes(traj['tra_id']) //On vérifie si le trajet n'est pas dans la liste à afficher
+          if(inclus==false){
+            that.liste_trajetdispo_id.push(traj['tra_id'])
+            liste.push({trajet:traj, utilisateur:uti, photo:imgUrl});
+            that.trajettrouve = true;
+          }
         }
       }
-      
-    }
-
-    
     })
-    
   });
   return liste;
 }
 
-getListUsers(){
-  var that = this;
-  this.utilisateurs.subscribe(utis =>{
-    utis.forEach(uti => {
-      //that.getImagesStorage(uti["photo"],uti.id);
-      //console.log('photo : ',photo)
-    });
-  })
-}
-
+// Fonction message erreur
 async errorValue(messages) {
   const toast = await this.toastController.create({
     message: messages,
@@ -224,6 +178,7 @@ async errorValue(messages) {
 }
 
 
+// Animation de recherche
 async showHideAutoLoader() {
 
   const loading = await this.loadingController.create({
@@ -233,7 +188,6 @@ async showHideAutoLoader() {
   await loading.present();
 
   const { role, data } = await loading.onDidDismiss();
-  console.log('Loading dismissed! after 2 Seconds', { role, data });
   if(this.trajettrouve == true){
     this.changement();
   }else{
@@ -253,92 +207,64 @@ var liste = this.liste_trajetdispo;
 
 var that = this;
 
+  that.traj = that.firestore.collection("trajets");
+  that.traj.ref.orderBy('tra_dateDepart')
+  .onSnapshot(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) { //On parcours tous les trajets
 
+    that.etape1 = that.firestore.collection("etapes");
+    that.etape1.ref.onSnapshot(function(querySnapshot2) {
+      querySnapshot2.forEach(function(doc2) { //On parcours les étapes
 
-/* this.trajet.subscribe(tra =>{
-  tra.forEach(traj=> { */
-
-
-
-
-    that.test = that.firestore.collection("trajets");
-    that.test.ref.orderBy('tra_dateDepart')
-    .onSnapshot(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-    //console.log(doc.data())
-
-    that.test2 = that.firestore.collection("etapes");
-    that.test2.ref.onSnapshot(function(querySnapshot2) {
-        querySnapshot2.forEach(function(doc2) {
-    //console.log(doc.data())
-
-    that.test3 = that.firestore.collection("etapes");
-    that.test3.ref.onSnapshot(function(querySnapshot3) {
-        querySnapshot3.forEach(function(doc3) {
-    //console.log(doc.data())
-    //console.log(traj['tra_lieuDepart']+"///" + this.Tra_lieuDepart)
-    //console.log(traj['tra_dateDepart'] +"///"+ this.Tra_dateDepart.slice(0,-19));
-    //console.log(traj['tra_lieuArrivee']+ "///" + this.Tra_lieuArrivee );
-    if(((doc.data()['tra_villeDepart'] == that.Tra_lieuDepart || doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart ) && (doc.data()['tra_villeArrivee'] == that.Tra_lieuArrivee || doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee) && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
-    || (doc.data()['tra_villeDepart'] == that.Tra_lieuDepart && (doc2.data()['eta_ville'] == that.Tra_lieuArrivee && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
-    || (doc2.data()['eta_ville'] == that.Tra_lieuDepart && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_villeArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19)
-    || (doc2.data()['eta_ville'] == that.Tra_lieuDepart && doc3.data()['eta_ville'] == that.Tra_lieuArrivee  && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19) && doc3.data()['eta_idTra'] == doc2.data()['eta_idTra'] && doc3.data()['eta_idTra'] == doc.data()['tra_id'] && doc2.data()['eta_idTra'] == doc.data()['tra_id'])){
-      var date = new Date(doc.data()['tra_dateDepart'])
-      if(date >= new Date){
-
-        //console.log(doc.data()['etapes.eta_ville'])
-
-        that.uti_tras.subscribe(uti_tras => {
-          uti_tras.forEach(uti_tra =>{
-
-            if(uti_tra["uti_tra_idTra"]==doc.data()['tra_id']){
-
-              that.utilisateurs.subscribe(utis =>{
-                utis.forEach(uti =>{
-
-                  if(uti['id'] != that.userid && uti_tra["uti_tra_idUti"]==uti['id'] && uti_tra["uti_tra_role"]=="Conducteur"){
-
-                    liste = that.getImagesStorage(doc.data(),uti,liste,doc.data()['tra_nbPlaces']);
-                  
-                    
-                    
-                    
+        that.etape2 = that.firestore.collection("etapes");
+        that.etape2.ref.onSnapshot(function(querySnapshot3) { //On parcours les étapes une deuxième fois ( pour étape vers étape )
+          querySnapshot3.forEach(function(doc3) {
+            if(((doc.data()['tra_villeDepart'] == that.Tra_lieuDepart || doc.data()['tra_lieuDepart'] == that.Tra_lieuDepart ) && (doc.data()['tra_villeArrivee'] == that.Tra_lieuArrivee || doc.data()['tra_lieuArrivee'] == that.Tra_lieuArrivee) && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
+              || (doc.data()['tra_villeDepart'] == that.Tra_lieuDepart && (doc2.data()['eta_ville'] == that.Tra_lieuArrivee && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19))
+              || (doc2.data()['eta_ville'] == that.Tra_lieuDepart && doc2.data()['eta_idTra']==doc.data()['tra_id']) && doc.data()['tra_villeArrivee'] == that.Tra_lieuArrivee && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19)
+              || (doc2.data()['eta_ville'] == that.Tra_lieuDepart && doc3.data()['eta_ville'] == that.Tra_lieuArrivee  && doc.data()['tra_dateDepart'] == that.Tra_dateDepart.slice(0,-19) && doc3.data()['eta_idTra'] == doc2.data()['eta_idTra'] && doc3.data()['eta_idTra'] == doc.data()['tra_id'] && doc2.data()['eta_idTra'] == doc.data()['tra_id'])){
+                
+                var date = new Date(doc.data()['tra_dateDepart'])
+                  if(date >= new Date){ //Est ce que les trajets est plus tard ou il est aujourd'hui
+                    that.uti_tras.subscribe(uti_tras => { //On parcourt les uti_tra
+                      uti_tras.forEach(uti_tra =>{
+                        if(uti_tra["uti_tra_idTra"]==doc.data()['tra_id']){ // Est-ce que l'id de uti_tra correspond à ce trajet
+                          that.utilisateurs.subscribe(utis =>{
+                            utis.forEach(uti =>{
+                              if(uti['id'] != that.userid && uti_tra["uti_tra_idUti"]==uti['id'] && uti_tra["uti_tra_role"]=="Conducteur"){ // On récupère l'utilisateur qui est conducteur de ce trajet
+                                liste = that.getImagesStorage(doc.data(),uti,liste,doc.data()['tra_nbPlaces']); // On va effectuer plusieurs actions avec ces valeurs
+                              }
+                            })
+                          })
+                        }
+                      })
+                    })
                   }
-
-                })
+                }
               })
-            }
+            })
           })
         })
-      }
-
-    }
-  })})
-  })})
-  })})
-  that.showHideAutoLoader();
+      })
+    })
+  that.showHideAutoLoader(); // On anime la recherche
   that.liste_trajetdispo = liste;
 }
 
 ngOnInit(){
 }
 
-redirectiontrajettrouve(){
-  if(this.trajettrouve == true){
-  }
-  else{
-    this.errorValue("Aucun trajet trouvé !")
-  }
-}
 
 fonctionstrouvertrajets(){
   this.recherche();
 }
 
+// Fonction qui va changer l'apparence de la page lorsqu'il y a un trajet à afficher
 changement(){
     this.beforesearch=false;
 }
 
+// On récupère les villes avec une API.
 getVilleDepart(event){
   if(this.Tra_lieuDepartBIS.trim()==""){
     this.Tra_lieuDepartBIS="";
@@ -347,26 +273,20 @@ getVilleDepart(event){
   const format = '&format=json';
   
   let Tra_lieuDepartBIS = event;
-  //let ville = this.user.ville;
   let url2 = apiUrl2+Tra_lieuDepartBIS+'&limit=3'+format;
-
 
     fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
       this.liste_depart=results
-      //console.log(results);
-      
-      
     }).catch(err => {
       this.liste_depart=[{nom:''}]
-      //console.log(err);
     });
 }
 
+// On ajoute les valeurs dans les variables
 addVilleDepart(val){
   this.Tra_lieuDepart=val.nom;
   this.Tra_lieuDepartBIS = val.nom;
-  
-  
+
   this.showvilleDepart=false;
   this.disabledDepart=true;
 
@@ -377,12 +297,14 @@ addVilleDepart(val){
   this.disabledArrivee=true;
 }
 
+// On affiche les villes que l'API nous propose ?
 showVilleDepart(val){
   if(this.disabledDepart==false){
     this.showvilleDepart=val;
   }
 }
 
+//On supprime toutes les valeurs de départ
 suppVilleDepart(){
   this.Tra_lieuDepart="";
   this.Tra_lieuDepartBIS = "";
@@ -395,6 +317,7 @@ suppVilleDepart(){
   this.disabledArrivee=false;
 }
 
+// Est-ce qu'on peut cliquer sur le champ ?
 isDisabledDepart(){
   if(this.Tra_lieuDepart!=""){
     this.disabledDepart=true;
@@ -413,19 +336,14 @@ getVilleArrivee(event){
   const format = '&format=json';
   
   let Tra_lieuArriveeBIS = event;
-  //let ville = this.user.ville;
   let url2 = apiUrl2+Tra_lieuArriveeBIS+'&limit=3'+format;
 
+  fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
+    this.liste_arrivee=results
 
-    fetch(url2, {method: 'get'}).then(response => response.json()).then(results => {
-      this.liste_arrivee=results
-      //console.log(results);
-      
-      
-    }).catch(err => {
-      this.liste_arrivee=[{nom:''}]
-      //console.log(err);
-    });
+  }).catch(err => {
+    this.liste_arrivee=[{nom:''}]
+  });
 }
 
 addVilleArrivee(val){
@@ -446,7 +364,6 @@ showVilleArrivee(val){
   if(this.disabledArrivee==false){
     this.showvilleArrivee=val;
   }
-  
 }
 
 suppVilleArrivee(){
@@ -462,7 +379,6 @@ suppVilleArrivee(){
 }
 
 isDisabledArrivee(){
-  //console.log(this.Tra_lieuDepart);
   if(this.Tra_lieuArrivee!=""){
     this.disabledArrivee=true;
     return true;
@@ -473,11 +389,12 @@ isDisabledArrivee(){
 }
 
 
-
+// On affiche à nouveau les champs à saisir
 retour(){
   this.beforesearch=true;
 }
 
+//On supprime toutes les valeurs
 suppValue(){
   this.suppVilleDepart();
   this.suppVilleArrivee();
@@ -487,8 +404,6 @@ suppValue(){
 
   this.beforesearch=true;
 }
-
-
 }
 
 

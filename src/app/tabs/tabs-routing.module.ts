@@ -17,10 +17,6 @@ const routes: Routes = [
         loadChildren: () => import('../proposer/proposer.module').then(m => m.ProposerPageModule)
       },
       {
-        path: 'accueil',
-        loadChildren: () => import('../accueil/accueil.module').then(m => m.AccueilPageModule)
-      },
-      {
         path: 'conversation',
         loadChildren: () => import('../conversation/conversation.module').then(m => m.ConversationPageModule)
       },

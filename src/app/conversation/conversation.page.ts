@@ -15,43 +15,42 @@ import { AngularFireStorage } from '@angular/fire/storage';
 })
 export class ConversationPage implements OnInit{
   
-  @ViewChild(IonContent) content: IonContent;
+  @ViewChild(IonContent) content: IonContent; //On déclare la vue pour le scroll
 
-  startPress;
-  endPress;
-  public duree;
+  // Supprimer nos messages
+  startPress; // "date" quand on appuye sur un message
+  endPress; // "date" quand on lache l'appuye
+  duree; // Durée du clic -> pour un long clic
 
+  // Cacher les messages reçus
   startPress2;
   endPress2;
-  public duree2;
+  duree2;
 
-  selected=[];
-  selected2=[];
+  selected=[]; // Liste des messages que je souhaite supprimer
+  selected2=[]; // Liste des messages que je souhaite cacher
 
-  public messageiddata;
-  public message;
+  public message; // On utilise cette variable lorsqu'on parcourt la liste des messages dans la page HTML
 
-  connected= true;
+  // ID des 2 utilisateurs
   public userId;
   public destId;
 
-  test;
+  messagesSelect; // Variable contenant les messages dont je suis le destinataire ou l'expéditeur
 
-  public images = "";
+  public images = ""; // Url de l'image de l'autre utilisateur
 
-  messageText: any;
+  messageText: any; // Texte que l'on écrit pour envoyer
   
-  public messagesView;
-  public messagesViewBIS = Array();
-  public destView = {
+  public messagesView; // Liste des messages qu'on va afficher
+
+  public destView = { // Autres informations de l'autre utilisateur
     nom: '',
     prenom: ''
   };
 
 
-  public messages: Observable<any[]>;
-  public utilisateurs : Observable<any[]>;
-  public messagesTest;
+  public utilisateurs : Observable<any[]>; // Variable pour trouver l'autre utilisateur
   
 
   constructor(
@@ -66,18 +65,17 @@ export class ConversationPage implements OnInit{
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {
         this.router.navigateByUrl('/connexion');
-        this.connected = false;
       } else {
         this.userId = auth.uid;
-        this.connected = true;
-        this.destId = this.router.url.slice(-28);
+        this.destId = this.router.url.slice(-28); // On récupère l'id de l'autre destinataire dans l'url
 
-        this.messages = this.firestore.collection('messages').valueChanges();
         this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
-        this.getDest(this.destId);
+
+        // On récupère toutes les informations de l'autre utilisateur
+        this.getDest(this.destId); 
+        
+        //On récupère tous les messages
         this.getMessages(this.userId,this.destId);
-        var that=this;
-        //this.messagesView.forEach((message)=> that.selected[message.id]=false)
         
         setTimeout(() => {
           this.content.scrollToBottom(300);
@@ -159,10 +157,10 @@ export class ConversationPage implements OnInit{
   getMessages(userId,destId) {
 
     var that = this;
-    this.test = this.firestore.collection("messages");
-    this.test.ref.where("destinataire", "in", [destId, userId]);
-    this.test.ref.where("utilisateur", "in", [destId, userId]);
-    this.test.ref.orderBy('date')
+    this.messagesSelect = this.firestore.collection("messages");
+    this.messagesSelect.ref.where("destinataire", "in", [destId, userId]);
+    this.messagesSelect.ref.where("utilisateur", "in", [destId, userId]);
+    this.messagesSelect.ref.orderBy('date')
     .onSnapshot(function(querySnapshot) {
       that.messagesView=[]
 

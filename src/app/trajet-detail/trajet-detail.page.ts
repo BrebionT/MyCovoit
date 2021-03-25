@@ -70,14 +70,14 @@ export class TrajetDetailPage implements OnInit {
     this.afAuth.authState.subscribe(auth => {
       if (auth) {
         this.userid = auth.uid;
-        console.log('user : ',this.userid)
+        //console.log('user : ',this.userid)
       }
     })
     //console.log(this.trajet)
   }
 
   ngOnDestroy(){
-    console.log("detruit");
+    //console.log("detruit");
     this.liste_dates=[];
     this.liste_users = [];
     this.trajetfait=false;
@@ -206,7 +206,7 @@ export class TrajetDetailPage implements OnInit {
                                   }
 
                                   if(doc4.data()['destinataire']==that.uti_trajet){
-                                    console.log('avis +1')
+                                    //console.log('avis +1')
                                     that.nbAvis+=1;
                                     that.avisValue+=doc4.data()['note'];
                                     that.avisTotal = (that.avisValue / that.nbAvis)
@@ -261,7 +261,7 @@ export class TrajetDetailPage implements OnInit {
             text: 'Quitter',
             role: 'cancel',
             handler: () => {
-              console.log('Cancel clicked');
+              //console.log('Cancel clicked');
             }
           },
           {
@@ -269,7 +269,7 @@ export class TrajetDetailPage implements OnInit {
             handler: data => {
               //console.log(data);
               if(data!=undefined){
-                console.log(trajet.tra_id.length)
+                //console.log(trajet.tra_id.length)
                 const path = '/noter#'+trajet.tra_id+data;
                 this.router.navigateByUrl(path);
               }
@@ -285,15 +285,15 @@ export class TrajetDetailPage implements OnInit {
       if(liste_user_trajet.length>0){
         for(var i=0; i< liste_user_trajet.length; i++) {
           let role = "";
-          console.log('role dans liste : ',liste_user_trajet[i].role)
+          //('role dans liste : ',liste_user_trajet[i].role)
           if(liste_user_trajet[i].role){
             role=liste_user_trajet[i].role;
-            console.log('role : ',role)
+            //console.log('role : ',role)
           
           var test = this.firestore.collection("utilisateurs",ref =>ref.where("id", "==", liste_user_trajet[i].user)).valueChanges()
           test.subscribe(utis =>{
             utis.forEach(uti=> {
-              console.log('option')
+              //console.log('option')
               options['inputs'].push({ name : 'options', value: uti['id'], label: uti['prenom'] + " " + uti['nom']+" ( "+role+" )", type: 'radio' })
             })
           })
@@ -397,14 +397,14 @@ export class TrajetDetailPage implements OnInit {
 
     // trajetId : id à supprimer
     this.firestore.collection("trajets").doc(this.trajetId).delete().then(() => {
-      console.log("Trajet supprimé");
+      //console.log("Trajet supprimé");
     }).catch((error) => {
         console.error("Erreur : ", error);
     });
 
     for(var i =0; i<this.etapesId.length;i++){
       this.firestore.collection("etapes").doc(this.etapesId[i]).delete().then(() => {
-        console.log("Etape supprimé");
+        //console.log("Etape supprimé");
       }).catch((error) => {
           console.error("Erreur : ", error);
       });
@@ -413,14 +413,14 @@ export class TrajetDetailPage implements OnInit {
     var liste_user = [];
     for(var j =0; j<this.uti_traId.length;j++){
       if(this.uti_traId[j].uti != this.userid){
-        console.log(this.uti_traId[j].uti , this.userid)
+        //(this.uti_traId[j].uti , this.userid)
         if(!liste_user.includes(this.uti_traId[j].uti)){
           liste_user.push(this.uti_traId[j].uti)
           this.envoyerMessage(this.userid,this.uti_traId[j].uti,"IMPORTANT : Le trajet a été supprimé.")
         }
       }
       this.firestore.collection("utilisateur_trajet").doc(this.uti_traId[j].id).delete().then(() => {
-        console.log("Utilisateur_Trajet supprimé");
+        //console.log("Utilisateur_Trajet supprimé");
       }).catch((error) => {
           console.error("Erreur : ", error);
       });
@@ -436,7 +436,7 @@ export class TrajetDetailPage implements OnInit {
     for(var j =0; j<this.uti_traId.length;j++){
       if(this.uti_traId[j].uti == this.userid){
         this.firestore.collection("utilisateur_trajet").doc(this.uti_traId[j].id).delete().then(() => {
-          console.log("Utilisateur_Trajet supprimé");
+          //("Utilisateur_Trajet supprimé");
         }).catch((error) => {
             console.error("Erreur : ", error);
         });
@@ -459,7 +459,7 @@ export class TrajetDetailPage implements OnInit {
     
     //console.log(new Date(this.dateTrajet))
     //console.log(this.today)
-    if(new Date(this.dateTrajet) < this.today){
+    if(new Date(this.dateTrajet) <= this.today){
         return true;
     }
     
@@ -523,7 +523,7 @@ export class TrajetDetailPage implements OnInit {
                         
                         if(value3['tra_id']==uti_tra2['uti_tra_idTra']){
                           if(uti_tra2['uti_tra_idUti'] != this.userid){
-                            console.log(uti_tra2)
+                            //console.log(uti_tra2)
                             this.liste_users.push({trajet:value3, user:uti_tra2['uti_tra_idUti'], role:uti_tra2['uti_tra_role']});
                             
                           }

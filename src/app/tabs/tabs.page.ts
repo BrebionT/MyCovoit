@@ -1,7 +1,5 @@
 import { Component, NgModule } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { MessagerieModalComponent } from '../messagerie-modal/messagerie-modal.component';
-import { ProfilModalComponent } from '../profil-modal/profil-modal.component';
 import {AngularFirestore} from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 //import {boole} from '../../environments/environment';
@@ -65,24 +63,6 @@ export class TabsPage {
 
   ngOnInit() {
 
-  }
-
-  
-
-  async openProfilModal() {
-    const modal = await this.modalCtrl.create({
-      component: ProfilModalComponent
-    });
-
-    await modal.present();
-  }
-
-  async openMessagerieModal() {
-    const modal = await this.modalCtrl.create({
-      component: MessagerieModalComponent
-    });
-
-    await modal.present();
   }
 
 

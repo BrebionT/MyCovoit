@@ -51,7 +51,7 @@ export class NoterPage {
         this.connected = true;
         this.destId = this.router.url.slice(-28);
         this.traid = this.router.url.slice(-52,-28)
-        console.log(this.router.url.slice(-52,-28))
+        //console.log(this.router.url.slice(-52,-28))
       }
    })
   }

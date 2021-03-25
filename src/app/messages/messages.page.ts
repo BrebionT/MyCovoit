@@ -336,7 +336,7 @@ export class MessagesPage implements OnInit{
   delete(id){
     //console.log(id)
     this.firestore.collection("messages_vu").doc(id).delete().then(() => {
-      console.log("Message_vu supprimé");
+      //console.log("Message_vu supprimé");
     }).catch((error) => {
         console.error("Erreur : ", error);
     });

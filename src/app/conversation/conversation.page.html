@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/messages" (click)="back()"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/messages"></ion-back-button>
     </ion-buttons>
     <ion-title style="padding-left:0; text-align:center;">{{destView.prenom}} {{destView.nom}}</ion-title>
     <ion-avatar [routerLink]="['/profil-autre']" fragment="{{destId}}" slot="end">
@@ -17,13 +17,11 @@
     <ion-radio-group (ionChange)="getTrail($event.detail.value)">
       <div *ngFor="let message of messagesView">
     <ion-item lines="none" *ngIf="(message.archiveDest==false && message.utilisateur != userId) || message.utilisateur == userId || message.destinatire == userId">
-      <!--<ion-icon (click)="presentPopover(message)" style="margin-right:0" *ngIf="message.userId != userId && message.text.length>15" slot="start" name="ellipsis-horizontal-outline" [ngClass]="duree>=1?'delete':'nodelete'"></ion-icon>-->
       <ion-checkbox *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length>15" class='' [ngClass]="duree2>=0.3?'delete':'nodelete'" slot="start" [value]="message.id"></ion-checkbox><ion-badge (mousedown)="pressDown2()" (mouseup)="pressUp2()" style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length>15"><p color="primary">{{ message.message }}</p><ion-note color="primary">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge>
       <ion-checkbox *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length<=15" class='' [ngClass]="duree2>=0.3?'delete':'nodelete'" slot="start" [value]="message.id"></ion-checkbox><ion-badge (mousedown)="pressDown2()" (mouseup)="pressUp2()" style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length<=15"><p color="primary">{{ message.message }}<ion-note color="primary"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
       <ion-badge (mousedown)="pressDown()" (mouseup)="pressUp()" style="text-align: left; width:auto; height:auto; max-width: 300px; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.archive==false && message.utilisateur == userId && message.message.length>15"><p>{{ message.message }}</p><ion-note color="light">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge><ion-checkbox *ngIf="message.archive==false && message.utilisateur == userId && message.message.length>15" [class]='' [ngClass]="duree>=0.3?'delete':'nodelete'" slot="end" [value]="message.id"></ion-checkbox>
       <ion-badge (mousedown)="pressDown()" (mouseup)="pressUp()" style="text-align: left; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.archive==false && message.utilisateur == userId && message.message.length<=15"><p>{{ message.message }}<ion-note color="light"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge><ion-checkbox *ngIf="message.archive==false && message.utilisateur == userId && message.message.length<=15" [class]='' [ngClass]="duree>=0.3?'delete':'nodelete'" slot="end" [value]="message.id"></ion-checkbox>
       
-      <!--<ion-badge *ngIf="message.archiveDest==true && message.utilisateur != userId" text-wrap slot="start" style="color:black;background-color:#F0F0F0"><p>Vous avez caché ce message</p></ion-badge>-->
       
       <ion-badge *ngIf="message.archive==true && message.utilisateur == userId" text-wrap slot="end" style="color:black;background-color:#E0E0E0"><p>Ce message a été supprimé</p></ion-badge>
       <ion-badge *ngIf="message.archive==true && message.utilisateur != userId" text-wrap slot="start" style="color:black;background-color:#E0E0E0"><p>Ce message a été supprimé</p></ion-badge>
@@ -32,14 +30,7 @@
     </ion-radio-group>
   </div>
 
-  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="scrollToBottom()">
-      <ion-icon name="arrow-down"></ion-icon>
-    </ion-fab-button>
-  </ion-fab> -->
-
  </ion-content>
- 
  <ion-toolbar style="background-color: #C0C0C0;" [ngClass]="duree>=0.3?'delete':'nodelete'">
   <ion-buttons style="background-color: #C0C0C0;">
     <ion-grid style="background-color: #C0C0C0; color:black">
@@ -93,12 +84,10 @@
       </ion-row>
     </ion-grid>
   </ion-buttons>
-  
 </ion-toolbar>
+
  <ion-footer>
-   
   <ion-toolbar>
-    
     <ion-input autofocus="true" (keyup.enter)="envoyerMessage()" [(ngModel)]="messageText" placeholder="Votre message"></ion-input>
     <ion-buttons slot="end">
       <ion-button  (click)="envoyerMessage()">

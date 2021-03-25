@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { ProposerPage } from './proposer.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { ProposerPageRoutingModule } from './Proposer-routing.module';
+import { ProposerPageRoutingModule } from './proposer-routing.module';
 import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({

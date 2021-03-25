@@ -38,7 +38,7 @@ export class MotdepasseoubliePage implements OnInit {
   resetEmail(){
     //console.log(typeof(this.email))
     var that = this;
-    console.log(this.email)
+    //(this.email)
     if(this.email!="" && this.email != undefined){
 
       this.afAuth.sendPasswordResetEmail(this.email).then(

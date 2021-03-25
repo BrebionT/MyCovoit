@@ -6,8 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { TabsPage } from './tabs.page';
-import { MessagerieModalComponent } from '../messagerie-modal/messagerie-modal.component';
-import { ProfilModalComponent } from '../profil-modal/profil-modal.component';
 import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
@@ -21,7 +19,6 @@ import { NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA
   ],
-  declarations: [TabsPage, MessagerieModalComponent, ProfilModalComponent],
-  entryComponents: [MessagerieModalComponent, ProfilModalComponent]
+  declarations: [TabsPage],
 })
 export class TabsPageModule {}

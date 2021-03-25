@@ -70,6 +70,7 @@
     "typescript": "~3.9.5"
   },
   "description": "An Ionic project",
+  "start":"ionic serve --port=8080",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},

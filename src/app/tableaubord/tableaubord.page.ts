@@ -52,7 +52,7 @@ export class TableaubordPage implements OnInit{
   ionViewWillEnter(){
     //console.log("enter")
     //this.utilisateurs = this.firestore.collection('utilisateurs').valueChanges();
-    console.log('entrer tableaubord')
+    //('entrer tableaubord')
     this.liste_dates = [];
     this.trajet_a_venir = [];
     this.utilisateurs=null;
@@ -72,7 +72,7 @@ export class TableaubordPage implements OnInit{
   }
 
   ionViewWillLeave(){
-    console.log("quitter tableaubord")
+    //("quitter tableaubord")
     this.liste_dates = [];
     this.trajet_a_venir = [];
     this.utilisateurs=null;
@@ -168,9 +168,9 @@ export class TableaubordPage implements OnInit{
                     if(newDate>=this.today){
                       that.trajetprevus=true;
                      // this.trajet_a_venir.push([value2, value3]);
-                      console.log(this.liste_dates_id)
+                      //console.log(this.liste_dates_id)
                       var inclus = this.liste_dates_id.includes(value3['tra_id'])
-                      console.log(inclus)
+                      //console.log(inclus)
                       if(inclus==false){
                         this.liste_dates_id.push(value3['tra_id']);
                         this.liste_dates.push({date:newDate, trajet:value3, role:value2['uti_tra_role']});

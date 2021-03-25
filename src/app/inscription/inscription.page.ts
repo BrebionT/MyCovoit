@@ -23,18 +23,15 @@ import { Router } from '@angular/router';
 export class InscriptionPage {
   
 
-dataUser = {
+dataUser = { // Objet comportant les informations de l'utilisateur
   email: '',
   password: '',
   password2: '',
   code:''
 };
 
-passwordType: string = 'password';
-passwordIcon: string = 'eye-off';
-
-connected: boolean;
-
+passwordType: string = 'password'; // Variable du type du champ pour le mot de passe ( visible ou non)
+passwordIcon: string = 'eye-off'; // Nom de l'icon pour l'affichage du mot de passe
 
   constructor(
     private router: Router,
@@ -44,20 +41,9 @@ connected: boolean;
     public firestore: AngularFirestore
   ) {
 
-
-    this.afAuth.authState.subscribe(auth => {
-      if (!auth) {
-        //console.log('non connecté');
-        this.connected = false;
-      } else {
-        //console.log('connecté: ' + auth.uid);
-        this.connected = true;
-      }
-    });
-
 }
 
-  async errorMail(messages) {
+  async errorMail(messages) { //Fonction qui affiche un message
     const toast = await this.toastController.create({
       message: messages,
       duration: 2000,
@@ -66,37 +52,33 @@ connected: boolean;
     toast.present();
   }
 
-  hideShowPassword() {
+  hideShowPassword() { //Fonction qui change le type du champ mot de passe et donc l'affichage des caractères et change l'icone
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
 }
   
-  signUp() {
-    if(this.dataUser.password == this.dataUser.password2){
-      if(this.dataUser.email!="" && this.dataUser.password!=""){
-        let chiffre = /\d/.test(this.dataUser.password);
-        //console.log(chiffre);
-        let majuscule = /[A-Z]/.test(this.dataUser.password);
-        //console.log(majuscule);
-        let minuscule = /[a-z]/.test(this.dataUser.password);
-        //console.log(minuscule);
-        const valide = chiffre && majuscule && minuscule;
+  signUp() { // Fonction de connexion
+    if(this.dataUser.password == this.dataUser.password2){ // Les deux champs du mot de passe sont identiques
+      if(this.dataUser.email!="" && this.dataUser.password!=""){ // Ils ne sont pas vides
+        let chiffre = /\d/.test(this.dataUser.password); // Est-ce qu'il contient un chiffre ?
+        let majuscule = /[A-Z]/.test(this.dataUser.password); // Est-ce qu'il contient une majuscule ?
+        let minuscule = /[a-z]/.test(this.dataUser.password); // Est-ce qu'il contient une minuscule ?
+        const valide = chiffre && majuscule && minuscule; // Soit 3 vrai sinon faux
         if (valide) {
-          this.afAuth.createUserWithEmailAndPassword(this.dataUser.email, this.dataUser.password).then(auth =>{
-            this.dataUser = {
-              email: '',
-              password: '',
-              password2: '',
-              code:''
-            };
-            this.afAuth.signInWithEmailAndPassword(this.dataUser.email, this.dataUser.password)
+          this.afAuth.createUserWithEmailAndPassword(this.dataUser.email, this.dataUser.password).then(auth =>{ //On crée un utilisateur avec un email et mot de passe
+            this.afAuth.signInWithEmailAndPassword(this.dataUser.email, this.dataUser.password) //On se connecte
             .then(auth => {
-              this.connected=true;
+              this.dataUser = {
+                email: '',
+                password: '',
+                password2: '',
+                code:''
+              };
+              this.router.navigateByUrl('/infos-perso'); // On se dirige vers infos-perso
             });
-            this.router.navigateByUrl('/infos-perso');
+            
           })
           .catch(err => {
-            //console.log(err.message);
             if(err.message.substring(0,27)=="Password should be at least"){
               this.errorMail("Le mot de passe doit contenir au moins 8 caractères");
             }
