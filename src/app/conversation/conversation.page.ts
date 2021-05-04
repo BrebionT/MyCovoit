@@ -13,7 +13,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
   templateUrl: './conversation.page.html',
   styleUrls: ['./conversation.page.scss'],
 })
-export class ConversationPage implements OnInit{
+export class ConversationPage{
   
   @ViewChild(IonContent) content: IonContent; //On déclare la vue pour le scroll
 
@@ -77,83 +77,47 @@ export class ConversationPage implements OnInit{
         //On récupère tous les messages
         this.getMessages(this.userId,this.destId);
         
+
         setTimeout(() => {
           this.content.scrollToBottom(300);
        }, 500);
         
       }
     });
-  }
+  }  
 
-  ionViewWillLeave(){
-  }
-
-  ionPageDidLoad()
-  {
-     
-  }
-  back(){
-    console.log("back")
-  }
-
-  
-  ngOnInit() {
-    var that = this;
-    const db = this.firestore;
-    that.messagesView = [];
-    db.collection("messages").get().toPromise().then((snapshot)=>{
-      snapshot.docs.forEach(doc =>{
-        //console.log(doc.id, doc.data()['utilisateur']) //     doc.data()['utilisateur']
-
-        var value = doc.data();
-
-        if((value['utilisateur']==this.userId && value['destinataire']==this.destId) || (value['destinataire']==this.userId && value['utilisateur']==this.destId)){
-        }
-      });
-    })
-  }
-
+  // Fonction qui trie les messages par date
   trierMessage(messages){
     messages.sort(function(a,b){
       return b.date-a.date;
     })
   }
 
-
+  // Fonction qui détecte le moment où on commence à presser le message.
   pressDown(){
     this.startPress = Date.now();
-    //console.log('press')
   }
 
+  // Fonction qui détecte le moment où on lache la pression du message + on calcule la durée
   pressUp(){
-    var that = this;
     this.endPress = Date.now();
-    //console.log('up')
-
     this.duree = (this.endPress - this.startPress)/1000;
-    
-    /* if(this.duree>0.5){
-      setTimeout(() => {
-        this.content.scrollToBottom(300);
-     }, 30);
-    } */
   }
 
+
+  // Les mêmes fonctions mais pour les messages du destinataire
   pressDown2(){
     this.startPress2 = Date.now();
-    //console.log('press')
   }
 
   pressUp2(){
-    var that = this;
     this.endPress2 = Date.now();
-    //console.log('up')
-
     this.duree2 = (this.endPress2 - this.startPress2)/1000;
-
   }
 
   
+  // Fonction qui récupère les messages.
+
   getMessages(userId,destId) {
 
     var that = this;
@@ -162,17 +126,25 @@ export class ConversationPage implements OnInit{
     this.messagesSelect.ref.where("utilisateur", "in", [destId, userId]);
     this.messagesSelect.ref.orderBy('date')
     .onSnapshot(function(querySnapshot) {
+
+      // On initialise la liste qui va stocker les messages.
       that.messagesView=[]
 
       var db = that.firestore;
+
+
+      // On s'occupe de messages_vu : ça permet de voir s'il existe un message à voir ou vu ( pour notification par exemple )
+
+      // Messages_vu : est-ce que j'ai reçu une notification ?
       var docRef = db.collection("messages_vu").doc(that.destId+that.userId);
 
       docRef.ref.get().then((doc) => {
           if (doc.exists) {
-              //console.log("Document data:", doc.data());
               db.collection("messages_vu").doc(that.destId+that.userId).update({
-                vu:true
+                vu:true // On modifie la valeur, même si elle est déjà à true afin de dire qu'on a vu le message.
               })
+
+              // Ajout et suppression d'un message_vu afin d'actualiser la BDD pour que les utilisateurs n'aient plus la notification.
               db.collection("messages_vu").doc(that.destId+that.userId+"test").set({
                 id: that.destId+that.userId+"test",
                 utilisateur: "that.destId",
@@ -185,9 +157,7 @@ export class ConversationPage implements OnInit{
               })
               db.collection("messages_vu").doc(that.destId+that.userId+"test").delete()
               
-          } else {
-              // doc.data() n'est pas défini
-              //console.log("No such document!");
+          } else { // Il n'a pas eu de message échangé entre les utilisateurs.
               db.collection("messages_vu").doc(that.destId+that.userId).set({
                 id: that.destId+that.userId,
                 utilisateur: that.destId,
@@ -200,12 +170,13 @@ export class ConversationPage implements OnInit{
               });
           }
       }).catch((error) => {
-          //console.log("Error getting document:", error);
+          console.log("Error :", error);
       });
 
         querySnapshot.forEach(function(doc) {
 
             if((doc.data()['utilisateur']== destId && doc.data()['destinataire']== userId) || (doc.data()['utilisateur']== userId && doc.data()['destinataire']== destId)){
+              // On ajoute à la liste les messages.  
               that.messagesView.push(doc.data())
             }
             
@@ -213,10 +184,7 @@ export class ConversationPage implements OnInit{
     })
   }
 
-  presentPopover(message){
-    //console.log(message.id)
-  }
-
+  // On récupère les informations du destinataire
   getDest(destId){
     var that = this;
     this.utilisateurs.subscribe(user =>{
@@ -229,15 +197,14 @@ export class ConversationPage implements OnInit{
     })
   }
 
+  // On récupère l'url de l'image dans la BDD
   getImagesStorage(image: any) {
-    //console.log(image)
     this.afSG.ref('users/'+image).getDownloadURL().subscribe(imgUrl => {
-      //console.log(imgUrl);
       this.images= imgUrl;
     });
-    //console.log(this.images)
   }
 
+  // Fonction pour envoyer un message
   envoyerMessage(){
     var date_envoie = new Date();
     var message = this.messageText.trim()
@@ -258,7 +225,6 @@ export class ConversationPage implements OnInit{
 
       docRef.ref.get().then((doc) => {
           if (doc.exists) {
-              //console.log("Document data:", doc.data());
               this.firestore.collection("messages_vu").doc(this.userId+this.destId).update({
                 message: message,
                 date: date_envoie,
@@ -267,8 +233,6 @@ export class ConversationPage implements OnInit{
               
               
           } else {
-              // doc.data() n'est pas défini
-              //console.log("No such document!");
               db.collection("messages_vu").doc(this.userId+this.destId).set({
                 id: this.userId+this.destId,
                 utilisateur: this.userId,
@@ -282,7 +246,7 @@ export class ConversationPage implements OnInit{
               
           }
       }).catch((error) => {
-          //console.log("Error getting document:", error);
+          console.log("Error :", error);
       });
 
       var docRef2 = db.collection("messages_vu").doc(this.destId+this.userId);
@@ -310,7 +274,7 @@ export class ConversationPage implements OnInit{
               });
           }
       }).catch((error) => {
-          //console.log("Error getting document:", error);
+          console.log("Error :", error);
       });
 
       
@@ -324,8 +288,8 @@ export class ConversationPage implements OnInit{
     
   }
 
+  // Fonction qui récupère les messages sélectionnés
   getTrail(value){
-    //console.log(value)
     if(this.selected.includes(value)==false){
       this.selected.push(value)
     }else{
@@ -340,10 +304,10 @@ export class ConversationPage implements OnInit{
     }
     this.selected.sort();
     this.selected2.sort()
-    //console.log(this.selected)
     
   }
 
+  // Fonction qui remet les variables vide
   retour(){
     var that = this;
     this.duree=0;
@@ -363,6 +327,8 @@ export class ConversationPage implements OnInit{
    }, 1000);
   }
 
+
+  // Fonction qui "supprime" le message -> On l'archive en récupérant son id.
   supprimerMessage(sel){
     var that = this;
     this.firestore.collection("messages").get().toPromise().then((snapshot)=>{
@@ -376,21 +342,16 @@ export class ConversationPage implements OnInit{
     })
   }
 
+  // Fonction qui parcours la liste des messages à supprimer et on les surprime.
   supprimer(selected){
-    //console.log('selected : ',selected)
-    //console.log('select length : ',selected.length)
     for(var i=0;i<selected.length;i++){
-      //console.log(i)
       var sel = selected[i];
-      //console.log(selected[i])
       this.supprimerMessage(sel)
-      
     }
     
     this.duree=0;
-    
     this.selected=[];
-    var that = this;
+
     setTimeout(() => {
       this.content.scrollToBottom(300);
    }, 1000);
@@ -410,20 +371,15 @@ export class ConversationPage implements OnInit{
   }
 
   supprimer2(selected){
-    //console.log('selected : ',selected)
-    //console.log('select length : ',selected.length)
     for(var i=0;i<selected.length;i++){
-      //console.log(i)
       var sel = selected[i];
-      //console.log(selected[i])
       this.supprimerMessage2(sel)
       
     }
     
     this.duree2=0;
-    
     this.selected2=[];
-    var that = this;
+
     setTimeout(() => {
       this.content.scrollToBottom(300);
    }, 1000);

@@ -99,6 +99,10 @@ export class RechercherPage {
     this.datemax.setDate(this.datemax.getDate()+360);
     this.datemax = this.formatDate(this.datemax)
 
+
+    this.uti_tras = this.firestore.collection("utilisateur_trajet").valueChanges();
+    this.utilisateurs = this.firestore.collection("utilisateurs").valueChanges();
+
     // Est-ce qu'on est connecté ?
     this.afAuth.authState.subscribe(auth => {
       if (!auth) {

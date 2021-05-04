@@ -16,7 +16,7 @@
   <div class="stream">
     <ion-radio-group (ionChange)="getTrail($event.detail.value)">
       <div *ngFor="let message of messagesView">
-    <ion-item lines="none" *ngIf="(message.archiveDest==false && message.utilisateur != userId) || message.utilisateur == userId || message.destinatire == userId">
+      <ion-item lines="none" *ngIf="(message.archiveDest==false && message.utilisateur != userId) || message.utilisateur == userId || message.destinatire == userId">
       <ion-checkbox *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length>15" class='' [ngClass]="duree2>=0.3?'delete':'nodelete'" slot="start" [value]="message.id"></ion-checkbox><ion-badge (mousedown)="pressDown2()" (mouseup)="pressUp2()" style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length>15"><p color="primary">{{ message.message }}</p><ion-note color="primary">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge>
       <ion-checkbox *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length<=15" class='' [ngClass]="duree2>=0.3?'delete':'nodelete'" slot="start" [value]="message.id"></ion-checkbox><ion-badge (mousedown)="pressDown2()" (mouseup)="pressUp2()" style="text-align: right; margin:5px 0px" text-wrap slot="start" color="light" *ngIf="message.archiveDest==false && message.archive==false && message.utilisateur != userId && message.message.length<=15"><p color="primary">{{ message.message }}<ion-note color="primary"> {{message.date * 1000 | date:'H:mm'}}</ion-note></p></ion-badge>
       <ion-badge (mousedown)="pressDown()" (mouseup)="pressUp()" style="text-align: left; width:auto; height:auto; max-width: 300px; margin:5px 0px" text-wrap slot="end" color="primary" *ngIf="message.archive==false && message.utilisateur == userId && message.message.length>15"><p>{{ message.message }}</p><ion-note color="light">{{message.date * 1000 | date:'H:mm'}}</ion-note></ion-badge><ion-checkbox *ngIf="message.archive==false && message.utilisateur == userId && message.message.length>15" [class]='' [ngClass]="duree>=0.3?'delete':'nodelete'" slot="end" [value]="message.id"></ion-checkbox>
@@ -31,7 +31,7 @@
   </div>
 
  </ion-content>
- <ion-toolbar style="background-color: #C0C0C0;" [ngClass]="duree>=0.3?'delete':'nodelete'">
+ <ion-toolbar style="background-color: #C0C0C0;" [ngClass]="duree>=0.3?'delete':'nodelete'"> <!--  Est ce que la durée du clic est de 0.3s ? Si oui on met la class delete, sinon nodelete  -->
   <ion-buttons style="background-color: #C0C0C0;">
     <ion-grid style="background-color: #C0C0C0; color:black">
       <ion-row>
